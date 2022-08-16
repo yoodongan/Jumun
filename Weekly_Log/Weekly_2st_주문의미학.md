@@ -119,6 +119,12 @@
 
 ## 개발 결과물 공유
 
+초안 ERD
+![image](https://user-images.githubusercontent.com/53210680/184819347-e8d59b35-9806-430f-91b8-017718639341.png)
+
+개선 ERD
+<img width="978" alt="image" src="https://user-images.githubusercontent.com/53210680/184819454-0d43493d-ef5b-4aeb-a6df-170e0ea72910.png">
+
 Github Repository URL: 
 https://github.com/likelion-backendschool/Jumunui_Mihak
 
