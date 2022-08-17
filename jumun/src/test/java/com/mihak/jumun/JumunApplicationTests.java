@@ -9,5 +9,9 @@ class JumunApplicationTests {
 	@Test
 	void contextLoads() {
 	}
+	@Test
+	void choice_menu() {
+
+	}
 
 }
