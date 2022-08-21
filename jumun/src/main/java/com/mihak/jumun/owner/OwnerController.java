@@ -2,6 +2,7 @@ package com.mihak.jumun.owner;
 
 import com.mihak.jumun.owner.dto.form.SignupFormDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,15 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin")
+@Slf4j
 public class OwnerController {
 
     private final OwnerService ownerService;
-
-    @GetMapping("/")
-    @ResponseBody
-    private String root() {
-        return "login success";
-    }
 
     @GetMapping("/login")
     private String login() {
@@ -29,7 +25,7 @@ public class OwnerController {
 
     @GetMapping("/new")
     private String signupForm(Model model) {
-        model.addAttribute("signupForm", new SignupFormDto());
+        model.addAttribute("signupFormDto", new SignupFormDto());
         return "signup_form";
     }
 

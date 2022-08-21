@@ -5,7 +5,7 @@
             <h4>회원가입</h4>
         </div>
     </div>
-    <form th:action="@{/admin/new}" th:object="${signupForm}" method="post">
+    <form th:action="@{/admin/new}" th:object="${signupFormDto}" method="post">
         <div th:if="${#fields.hasGlobalErrors()}">
             <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
         </div>
@@ -46,19 +46,15 @@
         </div>
         <div class="mb-3">
             <label for="agree" class="form-label">약관 사항</label>
-<!--            <input type="text" th:field="*{agree}" th:errorclass="field-error" class="form-control">-->
-<!--            <div th:if="${#fields.hasErrors('agree')}" th:errorclass="field-error" th:errors="*{agree}">-->
-<!--                약관 사항 오류-->
-<!--            </div>-->
-            <div class="form-group">
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="option1" name="option1" class="custom-control-input" value="true" th:field="*{agree}">
-                    <label class="custom-control-label" for="option1">동의</label>
-                </div>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="option2" name="option2" class="custom-control-input" value="false" th:field="*{agree}">
-                    <label class="custom-control-label" for="option2">비동의</label>
+                <div class="form-group">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="option1" name="option1" class="custom-control-input" value="true" th:field="*{agree}">
+                        <label class="custom-control-label" for="option1">동의</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="option2" name="option2" class="custom-control-input" value="false" th:field="*{agree}">
+                        <label class="custom-control-label" for="option2">비동의</label>
+                    </div>
                 </div>
             </div>
         <button type="submit" class="float-end btn btn-info btn-sm my-2">회원가입</button>

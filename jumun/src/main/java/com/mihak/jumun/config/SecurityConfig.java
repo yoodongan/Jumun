@@ -27,7 +27,7 @@ public class SecurityConfig {
         httpSecurity
                 .formLogin()
                 .loginPage("/admin/login")
-                .defaultSuccessUrl("/admin")
+                .successHandler(new LoginAuthHandler())
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"))

@@ -9,16 +9,16 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 public class SignupFormDto {
 
-    @NotEmpty
+    @NotEmpty(message = "관리자님의 아이디는 필수항목입니다.")
     private String loginId;
-    @NotEmpty
+    @NotEmpty(message = "관리자님의 비밀번호는 필수항목입니다.")
     private String password1;
-    @NotEmpty
+    @NotEmpty(message = "관리자님의 비밀번호 확인은 필수항목입니다.")
     private String password2;
-    @NotEmpty
+    @NotEmpty(message = "관리자님의 이름는 필수항목입니다.")
     private String name;
-    @NotEmpty
+    @NotEmpty(message = "관리자님의 전화번호는 필수항목입니다.")
     private String phoneNumber;
-    @NotEmpty
+    @NotEmpty(message = "약관 동의는 필수항목입니다.")
     private String agree;
 }
