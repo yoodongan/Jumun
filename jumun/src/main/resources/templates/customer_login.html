@@ -1,9 +1,5 @@
-<!doctype html>
 <!-- 관련 Namespace 선언 및 layout: decorate 추가 -->
-<html  lang="ko"
-        xmlns:th="http://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{layout}">
+<html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
     <div class="my-3 border-bottom">
         <div>
@@ -11,7 +7,6 @@
         </div>
     </div>
     <form th:action="@{/customer}" th:object="${customerCreateForm}" method="post">
-        <div th:replace="form_errors :: formErrorsFragment"></div>
         <div class="mb-3">
             <label for="nickname" class="form-label">닉네임 입력</label>
             <input type="text" th:field="*{nickname}" class="form-control" placeholder="닉네임을 입력해주세요.">
@@ -19,14 +14,5 @@
         <button type="submit" class="btn btn-primary">완료</button>
     </form>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script>
-    $(document).ready(function () {
-        let message = "[[${msg}]]";
-        if (message != "") {
-            alert(message);
-        }else {
-        }
-    })
-</script>
+
 </html>
