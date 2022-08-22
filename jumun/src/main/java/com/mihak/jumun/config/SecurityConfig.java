@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -28,8 +29,17 @@ public class SecurityConfig {
                 .formLogin()
                 .loginPage("/admin/login")
                 .successHandler(new LoginAuthHandler())
+
+                .and()
+                .rememberMe()
+                .key("key")
+                .tokenValiditySeconds(86400 * 30) // 1달
+                .rememberMeParameter("remember-me")
+//                .userDetailsService(userDetailsService)
+
                 .and()
                 .logout()
+                .deleteCookies("JSESSIONID")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"))
                 .logoutSuccessUrl("/admin/login")
                 .invalidateHttpSession(true);
