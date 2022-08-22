@@ -1,7 +1,7 @@
 package com.mihak.jumun.customer;
 
 
-import com.mihak.jumun.entity.Customer;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -9,8 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/customer")
@@ -38,7 +36,8 @@ public class CustomerController {
             customerService.create(customerCreateForm.getNickname());
         }catch(DataIntegrityViolationException e) { //이미 DB에 동일한 닉네임이 있다면 오류 발생
             e.printStackTrace();
-            bindingResult.reject("signupFailed", "이미 등록된 닉네임입니다.");
+            /*reject로는 먹지 않고, rejectValue에 field값을 명시해줘야 먹힌다.*/
+            bindingResult.rejectValue("nickname","signupFailed", "이미 등록된 닉네임입니다.");
             return "customer_login";
         }catch(Exception e) {
             e.printStackTrace();
