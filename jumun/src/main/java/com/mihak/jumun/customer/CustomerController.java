@@ -3,6 +3,7 @@ package com.mihak.jumun.customer;
 
 import com.mihak.jumun.entity.Customer;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,11 +28,24 @@ public class CustomerController {
 
     /*확인버튼을 눌렀을 때 닉네임 중복을 체크*/
     @PostMapping("")
-    private String signup(@Valid CustomerCreateForm customerCreateForm) {
+    private String signup(@Valid CustomerCreateForm customerCreateForm, BindingResult bindingResult) {
 
-//        Customer customerInfo = this.customerService.signup();
-//        model.addAttribute("customerInfo", customerInfo);
-        customerService.create(customerCreateForm.getNickname());
+        if (bindingResult.hasErrors()) {
+            return "customer_login";
+        }
+
+        try {
+            customerService.create(customerCreateForm.getNickname());
+        }catch(DataIntegrityViolationException e) { //이미 DB에 동일한 닉네임이 있다면 오류 발생
+            e.printStackTrace();
+            bindingResult.reject("signupFailed", "이미 등록된 닉네임입니다.");
+            return "customer_login";
+        }catch(Exception e) {
+            e.printStackTrace();
+            bindingResult.reject("signupFailed", e.getMessage());
+            return "customer_login";
+        }
+
         return "redirect:/menu";
     }
 }
