@@ -2,6 +2,7 @@ package com.mihak.jumun.customer;
 
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.UnsupportedEncodingException;
 
 
 @Controller
@@ -26,6 +29,22 @@ public class CustomerController {
         return "customer_login";
     }
 
+    /*모든 요청에 대해 쿠키 여부를 묻는다.*/
+    @RequestMapping("")
+    public String checkCookie(HttpServletRequest request, @CookieValue(name = "customerLogin", required = true) Long customerLogin){
+        /*만약 쿠키가 존재한다면 리다이렉트*/
+        Cookie[] cookies = request.getCookies();
+
+        if(cookies != null) {
+            for(Cookie cookie : cookies) {
+                /*여기 코드에서 항상 false인 이유가 뭘까....*/
+//                if(customerLogin.equals(cookie.getName())) {
+                if(customerLogin != null ){
+                    return "redirect:/menu";                }
+            }
+        }
+        return "customer_login";
+    }
     /*확인버튼을 눌렀을 때 닉네임 중복을 체크*/
     @PostMapping("")
     private String signup(@Valid CustomerCreateForm customerCreateForm, BindingResult bindingResult, HttpServletResponse response) {
