@@ -52,7 +52,7 @@ public class CustomerController {
             bindingResult.reject("signupFailed", e.getMessage());
             return "customer_login";
         }
-        CustomerLogin setCookie = new CustomerLogin(String.valueOf(customerCreateForm.getNickname()));
+        CustomerLogin setCookie = new CustomerLogin();
         setCookie.createCookie(response);
 
         return "redirect:/menu";
