@@ -1,6 +1,8 @@
 package com.mihak.jumun.customer;
 
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,7 +28,7 @@ public class CustomerController {
 
     /*확인버튼을 눌렀을 때 닉네임 중복을 체크*/
     @PostMapping("")
-    private String signup(@Valid CustomerCreateForm customerCreateForm, BindingResult bindingResult) {
+    private String signup(@Valid CustomerCreateForm customerCreateForm, BindingResult bindingResult, HttpServletResponse response) {
 
         if (bindingResult.hasErrors()) {
             return "customer_login";
@@ -44,6 +46,8 @@ public class CustomerController {
             bindingResult.reject("signupFailed", e.getMessage());
             return "customer_login";
         }
+        CustomerLogin setCookie = new CustomerLogin(String.valueOf(customerCreateForm.getNickname()));
+        setCookie.createCookie(response);
 
         return "redirect:/menu";
     }

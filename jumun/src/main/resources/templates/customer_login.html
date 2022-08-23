@@ -10,7 +10,10 @@
         <div class="mb-3">
             <label for="nickname" class="form-label">닉네임 입력</label>
             <input type="text" th:field="*{nickname}" class="form-control" placeholder="닉네임을 입력해주세요.">
-            <label class="alert alert-primary " role="alert" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">닉네임이 중복되었습니다.</label>
+            <!--<label class="alert alert-danger " role="alert" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">닉네임이 중복되었습니다.</label>-->
+            <div th:fragment="formErrorsFragment" class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+                <div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary">완료</button>
     </form>
