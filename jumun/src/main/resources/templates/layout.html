@@ -1,8 +1,5 @@
 <!doctype html>
-<!-- layout 관련 namespace 추가 선언 -->
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ko">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,9 +11,9 @@
             color: #dc3545;
         }
     </style>
-    <script th:src="@{/bootstrap.min.js}"></script>
 </head>
 <body>
 <th:block layout:fragment="content"></th:block>
+<script th:src="@{/bootstrap.min.js}"></script>
 </body>
 </html>
