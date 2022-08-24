@@ -16,11 +16,4 @@ public class CustomerCreateForm {
     /*Notblank 문자열일 경우 null, "", " "가 입력되었을 때 예외를 발생, NotNull은?*/
     private String nickname;
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
 }
