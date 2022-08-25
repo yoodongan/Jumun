@@ -1,9 +1,16 @@
 package com.mihak.jumun.entity;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
-public class Restaurant {
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,7 +18,10 @@ public class Restaurant {
     private Long id;
 
     private String name;
-    private String address;
+    @Embedded
+    private Address address;
+
+    private String serialNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "OWNER_ID")
