@@ -1,0 +1,62 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+    <form th:action="@{/admin/store/new}" th:object="${createFormDto}" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        <div class="mb-3">
+            <label for="username"  class="form-label">매장명 </label>
+            <input type="text" name="name" id="name" th:field="*{name}"  class="form-control">
+        </div>
+        <div class="mb-3">
+            <input type="text" th:field="*{zipCode}" placeholder="우편번호">
+            <input type="button" onclick="postalCodeService()" value="우편번호 찾기"><br>
+        </div>
+        <div class="mb-3">
+            <input type="text" th:field="*{streetAdr}" placeholder="주소"><br>
+        </div>
+        <div class="mb-3">
+            <input type="text" th:field="*{detailAdr}" placeholder="상세주소">
+        </div>
+        <button type="submit" class="float-end btn btn-info btn-sm my-2">생성</button>
+    </form>
+</div>
+</html>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    function postalCodeService() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                var addr = '';
+                var extraAddr = '';
+
+                if (data.userSelectedType === 'R') {
+                    addr = data.roadAddress;
+                } else {
+                    addr = data.jibunAddress;
+                }
+
+                if(data.userSelectedType === 'R'){
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    document.getElementById("detailAdr").value = extraAddr;
+
+                } else {
+                    document.getElementById("detailAdr").value = '';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('zipCode').value = data.zonecode;
+                document.getElementById("streetAdr").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("detailAdr").focus();
+            }
+        }).open();
+    }
+</script>

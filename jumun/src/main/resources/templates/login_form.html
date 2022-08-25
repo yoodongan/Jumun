@@ -1,0 +1,30 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+    <form th:action="@{/admin/login}" method="post">
+        <div class="mb-3">
+            <label for="username" class="form-label">사용자ID</label>
+            <input type="text" name="username" id="username" th:value="${session.ownerId}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">비밀번호</label>
+            <input type="password" name="password" id="password" class="form-control">
+        </div>
+        <div th:if="${param.error}">
+            <div class="field-error">
+                사용자ID 또는 비밀번호를 확인해 주세요.
+            </div>
+        </div>
+<!--        <div>-->
+<!--            <input type="checkbox" id="remember-id" name="remember-id"> 아이디 저장(구현안됨) </input>-->
+<!--        </div>-->
+        <div>
+            <input type="checkbox" name="remember-me"> 자동 로그인 </input>
+        </div>
+        <button type="submit" class="float-end btn btn-info btn-sm my-2">로그인</button>
+    </form>
+<!--    <ul>-->
+<!--        <li>아이디 찾기</li>-->
+<!--        <li>비밀번호 찾기</li>-->
+<!--    </ul>-->
+</div>
+</html>
