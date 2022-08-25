@@ -15,6 +15,6 @@ public class SalesManagement {
     private int totalPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "RESTAURANT_ID")
-    private Restaurant restaurant;
+    @JoinColumn(name = "STORE_ID")
+    private Store store;
 }
