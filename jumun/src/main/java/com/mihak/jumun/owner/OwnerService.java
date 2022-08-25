@@ -1,12 +1,14 @@
 package com.mihak.jumun.owner;
 
 import com.mihak.jumun.entity.Owner;
+import com.mihak.jumun.exception.AdminNotFoundException;
 import com.mihak.jumun.owner.dto.form.SignupFormDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +28,15 @@ public class OwnerService {
                 .build();
 
         return ownerRepository.save(owner);
+    }
+
+    public Owner findByOwnerId(String ownerId) {
+        Optional<Owner> findOwner = ownerRepository.findByloginId(ownerId);
+
+        if (findOwner.isEmpty()) {
+            throw new AdminNotFoundException("관리자를 찾을 수 없습니다.");
+        }
+
+        return findOwner.get();
     }
 }
