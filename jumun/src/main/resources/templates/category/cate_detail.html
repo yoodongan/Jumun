@@ -1,0 +1,18 @@
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://thymeleaf.org"
+        layout:decorate="~{layout}">
+<body>
+<div layout:fragment="content" class="container my-3">
+    <a th:href="@{|/category/modify/${id}|}">
+    <div th:text="${cate.id}"></div>
+    <div th:text="${cate.name}"></div>
+    </a>
+    <a class="d" th:href="@{|/category/delete/${cate.id}|}">삭제하기</a>
+    <a th:href="@{/category/list}">목록으로</a>
+</div>
+</body>
+<script>
+    $(".d").click(function (){alert('클릭')});
+</script>
+</html>
