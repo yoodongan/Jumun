@@ -22,9 +22,8 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Category findById(int id) {
-        return categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("no %d category not found,".formatted(id)));
+    public Optional<Category> findById(int id) {
+        return categoryRepository.findById(id);
     }
 
     public void modify(Category cate , String name){

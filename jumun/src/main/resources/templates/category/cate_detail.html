@@ -8,7 +8,7 @@
     <div th:text="${cate.id}"></div>
     <div th:text="${cate.name}"></div>
     </a>
-    <a class="d" th:href="@{|/category/delete/${cate.id}|}">삭제하기</a>
+    <a onclick="if (!(confirm('정말 삭제하시겠습니까 ?'))) return false;" th:href="@{|/category/delete/${cate.id}|}">삭제하기</a>
     <a th:href="@{/category/list}">목록으로</a>
 </div>
 </body>

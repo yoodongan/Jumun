@@ -8,7 +8,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import com.mihak.jumun.entity.Category;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -51,16 +55,18 @@ public class CategoryController {
         return "category/cate_list";
     }
     @GetMapping("/detail/{id}")
-    public String showDetail(Model model , @PathVariable int id){
-        Category cate = categoryService.findById(id);
-
-        model.addAttribute("cate",cate);
+    public String showDetail(Model model , @PathVariable int id, HttpServletResponse res) throws Exception {
+        Optional<Category> cate = categoryService.findById(id);
+        if(!(cate.isPresent())) {
+            return "redirect:/category/list";
+        }
+        model.addAttribute("cate",cate.get());
         return "category/cate_detail";
     }
 
     @GetMapping("/modify/{id}")
     public String modify(CategoryForm categoryForm,Model model , @PathVariable int id){
-        Category cate = categoryService.findById(id);
+        Category cate = categoryService.findById(id).get();
 
         categoryForm.setName(cate.getName());
         return "category/cate_modify";
@@ -68,7 +74,7 @@ public class CategoryController {
 
     @PostMapping("/modify/{id}")
     public String modify(@Valid CategoryForm categoryForm,BindingResult bindingResult ,Model model , @PathVariable int id){
-        Category newcate = categoryService.findById(id);
+        Category newcate = categoryService.findById(id).get();
 
         Optional<Category> cate = categoryService.findByName(categoryForm.getName());
         if(bindingResult.hasErrors()){
@@ -85,7 +91,9 @@ public class CategoryController {
 
     @GetMapping("/delete/{id}")
     public String delete( @PathVariable("id") int id) {
-        Category delCate = categoryService.findById(id);
+
+        Category delCate = categoryService.findById(id).get();
+
 
         categoryService.remove(delCate);
 
