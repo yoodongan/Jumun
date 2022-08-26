@@ -19,19 +19,18 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/category")
 public class CategoryController {
 
     private final CategoryService categoryService;
 
 
 
-    @GetMapping("/create")
+    @GetMapping("/category/create")
     public String create(@ModelAttribute CategoryForm categoryForm){
         return "category/create_cate";
     }
 
-    @PostMapping("/create")
+    @PostMapping("/category/create")
     public String createCate(Model model , @Valid CategoryForm categoryForm, BindingResult bindingResult) {
         Optional<Category> cate = categoryService.findByName(categoryForm.getName());
         if(bindingResult.hasErrors()){
@@ -47,14 +46,14 @@ public class CategoryController {
         return "redirect:/category/list";
     }
 
-    @GetMapping("/list")
+    @GetMapping("/category/list")
     public String showCate(Model model){
         List<Category> categoryList = categoryService.findAll();
         model.addAttribute("list" , categoryList);
 
-        return "category/cate_list";
+        return "/category/cate_list";
     }
-    @GetMapping("/detail/{id}")
+    @GetMapping("/category/detail/{id}")
     public String showDetail(Model model , @PathVariable int id, HttpServletResponse res) throws Exception {
         Optional<Category> cate = categoryService.findById(id);
         if(!(cate.isPresent())) {
@@ -64,7 +63,7 @@ public class CategoryController {
         return "category/cate_detail";
     }
 
-    @GetMapping("/modify/{id}")
+    @GetMapping("/category/modify/{id}")
     public String modify(CategoryForm categoryForm,Model model , @PathVariable int id){
         Category cate = categoryService.findById(id).get();
 
@@ -72,7 +71,7 @@ public class CategoryController {
         return "category/cate_modify";
     }
 
-    @PostMapping("/modify/{id}")
+    @PostMapping("/category/modify/{id}")
     public String modify(@Valid CategoryForm categoryForm,BindingResult bindingResult ,Model model , @PathVariable int id){
         Category newcate = categoryService.findById(id).get();
 
@@ -89,7 +88,7 @@ public class CategoryController {
         return "redirect:/category/detail/%d".formatted(id);
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/category/delete/{id}")
     public String delete( @PathVariable("id") int id) {
 
         Category delCate = categoryService.findById(id).get();
