@@ -21,6 +21,7 @@ public class Store {
     @Embedded
     private Address address;
 
+    @Column(unique = true)
     private String serialNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
