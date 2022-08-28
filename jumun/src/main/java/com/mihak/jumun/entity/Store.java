@@ -29,18 +29,12 @@ public class Store {
     @JoinColumn(name = "OWNER_ID")
     private Owner owner;
 
-    // an.
+    // 새롭게 추가한 내용.
     @OneToMany(mappedBy = "store")     // 음식점 url 식별번호로 해당 음식점 메뉴들을 조회할 수 있다.
+    @JoinColumn(name = "MENU_ID")
     private List<Menu> menus = new ArrayList<>();
 
     public void addMenu(Menu menu) {
         menus.add(menu);
-    }
-
-    public static Store createStore(String name, Address address) {  // 음식점 생성
-        Store store = new Store();
-        store.setName(name);
-        store.setAddress(address);
-        return store;
     }
 }
