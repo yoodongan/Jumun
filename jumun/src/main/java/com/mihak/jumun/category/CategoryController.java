@@ -1,19 +1,15 @@
 package com.mihak.jumun.category;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import com.mihak.jumun.entity.Category;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.security.Principal;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +18,6 @@ import java.util.Optional;
 public class CategoryController {
 
     private final CategoryService categoryService;
-
-
 
     @GetMapping("/category/create")
     public String create(@ModelAttribute CategoryForm categoryForm){
@@ -41,11 +35,9 @@ public class CategoryController {
             return "category/create_cate";
         }
 
-
         categoryService.create(categoryForm);
         return "redirect:/category/list";
     }
-
     @GetMapping("/category/list")
     public String showCate(Model model){
         List<Category> categoryList = categoryService.findAll();
@@ -100,5 +92,5 @@ public class CategoryController {
     }
 
 
-
 }
+
