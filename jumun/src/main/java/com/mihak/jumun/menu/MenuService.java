@@ -13,14 +13,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MenuService {
 
     private final MenuRepository menuRepository;
     private final CategoryRepository categoryRepository;
 
-    @Transactional
     public Long saveMenu(MenuForm menuForm) {
         Optional<Category> oCategory = categoryRepository.findById(menuForm.getCategoryId());
         Category category = oCategory.get();
@@ -33,5 +31,8 @@ public class MenuService {
         return menuRepository.findById(id);
     }
 
+    public Optional<Menu> findByName(String name) {
+        return menuRepository.findByName(name);
+    }
 
 }

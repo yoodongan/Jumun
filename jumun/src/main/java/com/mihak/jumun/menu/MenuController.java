@@ -6,6 +6,7 @@ import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.menu.form.MenuForm;
 import com.mihak.jumun.store.StoreRepository;
+import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -22,10 +23,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MenuController {
 
-    private final MenuRepository menuRepository;
     private final MenuService menuService;
     private final CategoryService categoryService;
-    private final StoreRepository storeRepository;
+    private final StoreService storeService;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/menu")
@@ -44,12 +44,12 @@ public class MenuController {
             return "menu/create_menu";
         }
         // 메뉴명 중복 체크.
-        Optional<Menu> oMenu = menuRepository.findByName(menuForm.getName());
+        Optional<Menu> oMenu = menuService.findByName(menuForm.getName());
         if(oMenu.isPresent()) {
             result.rejectValue("name","duplicatedMenu", "이미 똑같은 메뉴가 있습니다.");
             return "menu/create_menu";
         }
-        Store store = storeRepository.findByserialNumber(storeSN);
+        Store store = storeService.findBySerialNumber(storeSN);
         menuForm.setStore(store);
         menuService.saveMenu(menuForm);
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
