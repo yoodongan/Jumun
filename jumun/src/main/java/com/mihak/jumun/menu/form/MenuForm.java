@@ -1,13 +1,15 @@
 package com.mihak.jumun.menu.form;
 import com.mihak.jumun.entity.Store;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.Lob;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
+@Setter
 public class MenuForm {
 
     @NotNull(message = "카테고리를 선택해주세요.")
