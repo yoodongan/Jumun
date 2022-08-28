@@ -5,7 +5,9 @@ import com.mihak.jumun.entity.Category;
 import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.menu.form.MenuForm;
+import com.mihak.jumun.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,37 +20,39 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/store")
 public class MenuController {
 
-    private final MenuService menuService;
     private final MenuRepository menuRepository;
+    private final MenuService menuService;
     private final CategoryService categoryService;
     private final StoreRepository storeRepository;
 
-    @GetMapping("/menu/{id}")
-    public String menuForm(@PathVariable int id, Model model) {
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{storeSN}/admin/store/menu")
+    public String menuForm(@PathVariable String storeSN, Model model) {
         List<Category> categoryList = categoryService.findAll();
         model.addAttribute("categoryList", categoryList);
-
-        MenuForm menuForm = new MenuForm();
-        Optional<Store> oStore = storeRepository.findById((long)id);
-        menuForm.setStore(oStore.get());
-        model.addAttribute("menuForm", menuForm);
+        model.addAttribute("menuForm", new MenuForm());
         return "menu/createMenuForm";
     }
 
-    @PostMapping("/menu/{id}")
-    public String create(@PathVariable("id") int id, @Valid MenuForm menuForm, BindingResult result) {
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{storeSN}/admin/store/menu")
+    public String create(@PathVariable("storeSN") String storeSN, @Valid MenuForm menuForm, BindingResult result) {
+        // 메뉴명 Null 값, 가격 Null 값 예외 체크
         if (result.hasErrors()) {
             return "menu/createMenuForm";
         }
-        menuForm.setStore(storeRepository.findById((long)id).get());
-
-        Category category = categoryService.findById(menuForm.getCategoryId());
-        Menu menu = Menu.createMenu(menuForm.getName(), menuForm.getPrice(), menuForm.getDescription(), menuForm.getImg(), category, menuForm.getStore());
-        menuService.save(1L, 1, menu);  // 임시로 일단 1 넣어주기.
-        return "redirect:/admin/store/menu/1";
+        // 메뉴명 중복 체크.
+        Optional<Menu> oMenu = menuRepository.findByName(menuForm.getName());
+        if(oMenu.isPresent()) {
+            result.rejectValue("name","duplicatedMenu", "이미 똑같은 메뉴가 있습니다.");
+            return "menu/createMenuForm";
+        }
+        Store store = storeRepository.findByserialNumber(storeSN);
+        menuForm.setStore(store);
+        menuService.saveMenu(menuForm);
+        return "redirect:/admin/store/menu/list";  // 메뉴 리스트 뷰 보여주기.
     }
 
 

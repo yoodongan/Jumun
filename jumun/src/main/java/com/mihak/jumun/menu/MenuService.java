@@ -4,6 +4,8 @@ import com.mihak.jumun.category.CategoryRepository;
 import com.mihak.jumun.entity.Category;
 import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.entity.Store;
+import com.mihak.jumun.menu.form.MenuForm;
+import com.mihak.jumun.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,26 +19,19 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
     private final CategoryRepository categoryRepository;
-    private final StoreRepository storeRepository;
 
     @Transactional
-    public Long save(Long storeId, int categoryId, Menu menu) {
-//        validateDuplicatedMenu(storeId, menu);
-        Optional<Store> store = storeRepository.findById(storeId);
-        Optional<Category> category = categoryRepository.findById(categoryId);
-        Menu newMenu = Menu.createMenu(menu.getName(), menu.getPrice(), menu.getDescription(), menu.getImage(), menu.getCategory(), menu.getStore());
+    public Long saveMenu(MenuForm menuForm) {
+        Optional<Category> oCategory = categoryRepository.findById(menuForm.getCategoryId());
+        Category category = oCategory.get();
+        Menu newMenu = Menu.createMenu(menuForm.getName(), menuForm.getPrice(), menuForm.getDescription(), menuForm.getImg(), category, menuForm.getStore());
         menuRepository.save(newMenu);
-        return menu.getId();
+        return newMenu.getId();
     }
 
-//    private void validateDuplicatedMenu(Long storeId, Menu menu) {   // 해당 음식점 안에서의 메뉴 중복 검사. (음식점이 다르다면 메뉴 중복 가능)
-//        Optional<Store> store = storeRepository.findById(storeId);
-//
-//        List<Menu> findMenus = store.get().getMenus();
-//        if (findMenus.contains(menu)) {
-//            throw new IllegalStateException("메뉴가 이미 존재합니다!");
-//        }
-//    }
+    public Optional<Menu> findById(Integer id) {
+        return menuRepository.findById(id);
+    }
 
 
 }
