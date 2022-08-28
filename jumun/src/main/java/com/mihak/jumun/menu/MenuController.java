@@ -33,7 +33,7 @@ public class MenuController {
         List<Category> categoryList = categoryService.findAll();
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("menuForm", new MenuForm());
-        return "menu/createMenuForm";
+        return "menu/create_menu";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -41,19 +41,28 @@ public class MenuController {
     public String create(@PathVariable("storeSN") String storeSN, @Valid MenuForm menuForm, BindingResult result) {
         // 메뉴명 Null 값, 가격 Null 값 예외 체크
         if (result.hasErrors()) {
-            return "menu/createMenuForm";
+            return "menu/create_menu";
         }
         // 메뉴명 중복 체크.
         Optional<Menu> oMenu = menuRepository.findByName(menuForm.getName());
         if(oMenu.isPresent()) {
             result.rejectValue("name","duplicatedMenu", "이미 똑같은 메뉴가 있습니다.");
-            return "menu/createMenuForm";
+            return "menu/create_menu";
         }
         Store store = storeRepository.findByserialNumber(storeSN);
         menuForm.setStore(store);
         menuService.saveMenu(menuForm);
-        return "redirect:/admin/store/menu/list";  // 메뉴 리스트 뷰 보여주기.
+        return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
     }
+
+    // 추가적으로 구현해야 함.
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{storeSN}/admin/store/menuList")
+    public String menuList(@PathVariable String storeSN, Model model) {
+
+        return "menu/menu_list";
+    }
+
 
 
 
