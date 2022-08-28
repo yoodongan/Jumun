@@ -23,6 +23,7 @@ public class Store {
     @Embedded
     private Address address;
 
+    @Column(unique = true)
     private String serialNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,7 +32,6 @@ public class Store {
 
     // 새롭게 추가한 내용.
     @OneToMany(mappedBy = "store")     // 음식점 url 식별번호로 해당 음식점 메뉴들을 조회할 수 있다.
-    @JoinColumn(name = "MENU_ID")
     private List<Menu> menus = new ArrayList<>();
 
     public void addMenu(Menu menu) {
