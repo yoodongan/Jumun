@@ -12,8 +12,9 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class MenuForm {
 
+    /*동안님께서 Integer로 해주셨었는데 엔티티의 id값은 Long타입이라 바꿔줬어요!!*/
     @NotNull(message = "카테고리를 선택해주세요.")
-    private Integer categoryId;
+    private Long categoryId;
 
     @NotEmpty(message = "메뉴명을 입력해주세요.")
     private String name;
@@ -22,7 +23,7 @@ public class MenuForm {
     private Integer price;
 
     @Nullable  // 일단 null 허용하게 두고 추후 수정.
-    private String img;   // 이미지 url
+    private String imgUrl;   // 이미지 url
 
     @Lob @Nullable
     private String description;

@@ -6,13 +6,16 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.util.IOUtils;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 @Service
@@ -50,6 +53,18 @@ public class S3Service {
 
     public String upload(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
+
+        /*No content length specified for stream data.*/
+//        ObjectMetadata objMeta = new ObjectMetadata();
+//
+//        byte[] bytes = IOUtils.toByteArray(targetIS);
+//        objMeta.setContentLength(bytes.length);
+//
+//        ByteArrayInputStream byteArrayIs = new ByteArrayInputStream(bytes);
+//
+//        PutObjectRequest putObjReq = new PutObjectRequest(bucketName, key, byteArrayIs, objMeta);
+//        s3client.putObject(putObjReq);
+
 
         //업로드를 하기 위해 사용되는 함수
         s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)

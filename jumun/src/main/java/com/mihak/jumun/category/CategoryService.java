@@ -22,7 +22,8 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Optional<Category> findById(int id) {
+    /*타입문제 해결을 위한 타입 int -> long 변경*/
+    public Optional<Category> findById(long id) {
         return categoryRepository.findById(id);
     }
 

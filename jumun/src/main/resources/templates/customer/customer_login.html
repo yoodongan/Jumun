@@ -6,7 +6,7 @@
             <h4>Customer 로그인</h4>
         </div>
     </div>
-    <form th:action="@{/customer}" th:object="${customerCreateForm}" method="post">
+    <form th:action="@{/templates/customer}" th:object="${customerCreateForm}" method="post">
         <div class="mb-3">
             <label for="nickname" class="form-label">닉네임 입력</label>
             <input type="text" th:field="*{nickname}" class="form-control" placeholder="닉네임을 입력해주세요.">

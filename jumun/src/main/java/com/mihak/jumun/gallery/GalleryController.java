@@ -29,7 +29,7 @@ public class GalleryController {
 
 
 
-        galleryService.savePost(galleryDto);
+//        galleryService.savePost(galleryDto);
 
         return "redirect:/gallery";
     }

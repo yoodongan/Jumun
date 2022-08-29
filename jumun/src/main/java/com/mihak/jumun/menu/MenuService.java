@@ -22,7 +22,7 @@ public class MenuService {
     public Long saveMenu(MenuForm menuForm) {
         Optional<Category> oCategory = categoryRepository.findById(menuForm.getCategoryId());
         Category category = oCategory.get();
-        Menu newMenu = Menu.createMenu(menuForm.getName(), menuForm.getPrice(), menuForm.getDescription(), menuForm.getImg(), category, menuForm.getStore());
+        Menu newMenu = Menu.createMenu(menuForm.getName(), menuForm.getPrice(), menuForm.getDescription(), menuForm.getImgUrl(), category, menuForm.getStore());
         menuRepository.save(newMenu);
         return newMenu.getId();
     }
