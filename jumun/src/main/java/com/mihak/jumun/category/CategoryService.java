@@ -1,9 +1,11 @@
 package com.mihak.jumun.category;
 
+import com.mihak.jumun.category.form.CategoryForm;
 import com.mihak.jumun.entity.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +14,7 @@ import java.util.Optional;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
-    public void create(CategoryForm categoryForm) {
+    public void create(@Valid CategoryForm categoryForm) {
         Category newCate = new Category();
         newCate.setName(categoryForm.getName());
         categoryRepository.save(newCate);

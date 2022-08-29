@@ -4,12 +4,12 @@
         layout:decorate="~{layout}">
 <body>
 <div layout:fragment="content" class="container my-3">
-    <a th:href="@{|/category/modify/${id}|}">
+    <a th:href="@{|/${storeSN}/category/modify/${id}|}">
     <div th:text="${cate.id}"></div>
     <div th:text="${cate.name}"></div>
     </a>
-    <a onclick="if (!(confirm('정말 삭제하시겠습니까 ?'))) return false;" th:href="@{|/category/delete/${cate.id}|}">삭제하기</a>
-    <a th:href="@{/category/list}">목록으로</a>
+    <a onclick="if (!(confirm('정말 삭제하시겠습니까 ?'))) return false;" th:href="@{|/${storeSN}/category/delete/${id}|}">삭제하기</a>
+    <a th:href="@{|/${storeSN}/category/list|}">목록으로</a>
 </div>
 </body>
 <script>
