@@ -2,6 +2,7 @@ package com.mihak.jumun;
 
 import com.mihak.jumun.customer.CustomerLogin;
 import com.mihak.jumun.customer.CustomerRepository;
+import com.mihak.jumun.entity.Category;
 import com.mihak.jumun.entity.Customer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,10 @@ class JumunApplicationTests {
 		c1.setNickname("castlehyeon");
 		c1.setVisitedAt(LocalDateTime.now());
 		this.customerRepository.save(c1);  // 첫번째 질문 저장
+
+		Category cate1 = new Category();
+		cate1.setName("test1");
+
 	}
 
 }
