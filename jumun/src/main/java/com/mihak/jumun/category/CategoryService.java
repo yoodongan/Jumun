@@ -14,7 +14,7 @@ import java.util.Optional;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
-    public void create(@Valid CategoryForm categoryForm) {
+    public void create(CategoryForm categoryForm) {
         Category newCate = new Category();
         newCate.setName(categoryForm.getName());
         categoryRepository.save(newCate);
