@@ -23,17 +23,9 @@ public class CustomerMenuController {
     private final StoreService storeService;
     private final CategoryService categoryService;
 
+    /*이 부분은 동안님 코드 참고해야겠다.*/
     @GetMapping("/{storeSN}/menu")
-    public String menuView(Model model) {
-//        Optional<Store> storeName = storeService.findBySerialNumber();
-        //고객은 시리얼넘버를 어디서 뽑아야하는거지??
-        //고객은 스토어를 어떻게 찾아가야하는거지?
-
-        //쿠키는 사용자입장에서 요청할 때마다 url에 같이 담아서 주기로 했던거 같은데?
-
-        //뷰파일은 공유할 수 있겠지만 컨트롤러는 나눠야겠는데??
-
-
+    public String menuView(@PathVariable String storeSN, Model model) {
 
         List<Category> categoryList = categoryService.findAll();
         List<Menu> menuList = menuService.findAll();
@@ -43,8 +35,13 @@ public class CustomerMenuController {
         model.addAttribute("categoryList", categoryList);
         return "customer/customer_menu";
     }
+
+    /*상세보기부터 작성해보 */
     @GetMapping("/{storeSN}/menu/detail/{id}")
-    public String menuDetail(Model model){
+    public String menuDetail(@PathVariable String storeSN, @PathVariable long id, Model model){
+        Optional<Menu> menuDetail = menuService.findById(id);
+
+        model.addAttribute("menuDetail",menuDetail.get());
         return "customer/customer_menu_detail";
     }
 }

@@ -28,7 +28,7 @@ public class MenuService {
         return newMenu.getId();
     }
 
-    public Optional<Menu> findById(Integer id) {
+    public Optional<Menu> findById(long id) {
         return menuRepository.findById(id);
     }
 
