@@ -7,6 +7,7 @@ import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.menu.form.MenuForm;
 import com.mihak.jumun.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -33,6 +34,10 @@ public class MenuService {
 
     public Optional<Menu> findByName(String name) {
         return menuRepository.findByName(name);
+    }
+
+    public List<Menu> findAll() {
+        return menuRepository.findAll();
     }
 
 }
