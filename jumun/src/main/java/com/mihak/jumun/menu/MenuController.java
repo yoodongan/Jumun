@@ -92,7 +92,7 @@ public class MenuController {
     public String modifyMenu(@PathVariable("storeSN") String storeSN, @PathVariable Long menuId, @Valid MenuForm menuForm, BindingResult result) {
         // 메뉴명 Null 값, 가격 Null 값 예외 체크
         if (result.hasErrors()) {
-            return "menu/create_menu";
+            return "menu/modify_menu";
         }
         // 메뉴명 중복 체크.
         Optional<Menu> oMenu = menuService.findByName(menuForm.getName());
