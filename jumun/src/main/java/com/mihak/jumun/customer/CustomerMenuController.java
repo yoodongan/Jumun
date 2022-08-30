@@ -27,12 +27,12 @@ public class CustomerMenuController {
     @GetMapping("/{storeSN}/menu")
     public String menuView(@PathVariable String storeSN, Model model) {
 
-        List<Category> categoryList = categoryService.findAll();
+//        List<Category> categoryList = categoryService.findAll();
         List<Menu> menuList = menuService.findAll();
 
 //        model.addAttribute("storeName", storeName.get());
         model.addAttribute("list" , menuList);
-        model.addAttribute("categoryList", categoryList);
+//        model.addAttribute("categoryList", categoryList);
         return "customer/customer_menu";
     }
 
