@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public class MenuForm {
 
     @NotNull(message = "카테고리를 선택해주세요.")
-    private Integer categoryId;
+    private Long categoryId;
 
     @NotEmpty(message = "메뉴명을 입력해주세요.")
     private String name;
@@ -22,11 +22,20 @@ public class MenuForm {
     private Integer price;
 
     @Nullable  // 일단 null 허용하게 두고 추후 수정.
-    private String img;   // 이미지 url
+    private String imgUrl;   // 이미지 url
 
     @Lob @Nullable
     private String description;
 
     private Store store;
+
+    public void setMenuInfo(Long categoryId, String menuName, int price, String imgUrl, String description, Store store) {
+        this.categoryId = categoryId;
+        this.name = menuName;
+        this.price = price;
+        this.imgUrl = imgUrl;
+        this.description = description;
+        this.store = store;
+    }
 
 }
