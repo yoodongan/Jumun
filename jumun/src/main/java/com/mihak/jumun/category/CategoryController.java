@@ -60,7 +60,7 @@ public class CategoryController {
         return "/category/cate_list";
     }
     @GetMapping("/{storeSN}/category/detail/{id}")
-    public String showDetail(Model model , @PathVariable long id, HttpServletResponse res , @PathVariable String storeSN) throws Exception {
+    public String showDetail(Model model , @PathVariable Long id, HttpServletResponse res , @PathVariable String storeSN) throws Exception {
         Optional<Category> cate = categoryService.findById(id);
         if(!(cate.isPresent())) {
             return "redirect:/%s/category/list".formatted(storeSN);
@@ -71,7 +71,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{storeSN}/category/modify/{id}")
-    public String modify(CategoryForm categoryForm,Model model , @PathVariable long id,@PathVariable String storeSN){
+    public String modify(CategoryForm categoryForm,Model model , @PathVariable Long id,@PathVariable String storeSN){
         Category cate = categoryService.findById(id).get();
 
         categoryForm.setName(cate.getName());
@@ -79,7 +79,7 @@ public class CategoryController {
     }
 
     @PostMapping("/{storeSN}/category/modify/{id}")
-    public String modify(@PathVariable String storeSN, @Valid CategoryForm categoryForm,BindingResult bindingResult ,Model model , @PathVariable long id){
+    public String modify(@PathVariable String storeSN, @Valid CategoryForm categoryForm,BindingResult bindingResult ,Model model , @PathVariable Long id){
         Category newcate = categoryService.findById(id).get();
 
         Optional<Category> cate = categoryService.findByName(categoryForm.getName());
@@ -96,7 +96,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{storeSN}/category/delete/{id}")
-    public String delete( @PathVariable("id") long id, @PathVariable String storeSN) {
+    public String delete( @PathVariable("id") Long id, @PathVariable String storeSN) {
 
         Category delCate = categoryService.findById(id).get();
         StoreCategory sc = scService.findByCategory(delCate);
