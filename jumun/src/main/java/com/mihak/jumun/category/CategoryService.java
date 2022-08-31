@@ -1,9 +1,11 @@
 package com.mihak.jumun.category;
 
+import com.mihak.jumun.category.form.CategoryForm;
 import com.mihak.jumun.entity.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
