@@ -21,6 +21,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
+
     private final OwnerSecurityService ownerSecurityService;
 
     @Bean
