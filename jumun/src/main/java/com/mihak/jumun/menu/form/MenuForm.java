@@ -30,4 +30,13 @@ public class MenuForm {
 
     private Store store;
 
+    public void setMenuInfo(Long categoryId, String menuName, int price, String imgUrl, String description, Store store) {
+        this.categoryId = categoryId;
+        this.name = menuName;
+        this.price = price;
+        this.imgUrl = imgUrl;
+        this.description = description;
+        this.store = store;
+    }
+
 }
