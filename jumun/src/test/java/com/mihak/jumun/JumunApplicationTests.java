@@ -1,6 +1,5 @@
 package com.mihak.jumun;
 
-import com.mihak.jumun.customer.CustomerLogin;
 import com.mihak.jumun.customer.CustomerRepository;
 import com.mihak.jumun.entity.Customer;
 import org.junit.jupiter.api.Test;
