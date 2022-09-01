@@ -46,7 +46,7 @@ public class CategoryController {
         return "/category/cate_list";
     }
     @GetMapping("/category/detail/{id}")
-    public String showDetail(Model model , @PathVariable int id, HttpServletResponse res) throws Exception {
+    public String showDetail(Model model , @PathVariable Long id, HttpServletResponse res) throws Exception {
         Optional<Category> cate = categoryService.findById(id);
         if(!(cate.isPresent())) {
             return "redirect:/category/list";
@@ -56,7 +56,7 @@ public class CategoryController {
     }
 
     @GetMapping("/category/modify/{id}")
-    public String modify(CategoryForm categoryForm,Model model , @PathVariable int id){
+    public String modify(CategoryForm categoryForm,Model model , @PathVariable Long id){
         Category cate = categoryService.findById(id).get();
 
         categoryForm.setName(cate.getName());
@@ -64,7 +64,7 @@ public class CategoryController {
     }
 
     @PostMapping("/category/modify/{id}")
-    public String modify(@Valid CategoryForm categoryForm,BindingResult bindingResult ,Model model , @PathVariable int id){
+    public String modify(@Valid CategoryForm categoryForm,BindingResult bindingResult ,Model model , @PathVariable Long id){
         Category newcate = categoryService.findById(id).get();
 
         Optional<Category> cate = categoryService.findByName(categoryForm.getName());
@@ -81,7 +81,7 @@ public class CategoryController {
     }
 
     @GetMapping("/category/delete/{id}")
-    public String delete( @PathVariable("id") int id) {
+    public String delete( @PathVariable("id") Long id) {
 
         Category delCate = categoryService.findById(id).get();
 
