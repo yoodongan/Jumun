@@ -1,11 +1,9 @@
-package com.mihak.jumun.customer;
+package com.mihak.jumun.customer.dto;
 
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 @Getter
