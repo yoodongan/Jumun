@@ -3,6 +3,7 @@ package com.mihak.jumun.menu;
 import com.mihak.jumun.category.CategoryRepository;
 import com.mihak.jumun.entity.Category;
 import com.mihak.jumun.entity.Menu;
+import com.mihak.jumun.exception.MenuNotFoundException;
 import com.mihak.jumun.menu.form.MenuForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,10 @@ public class MenuService {
         return newMenu.getId();
     }
 
-    public Optional<Menu> findById(Long id) {
-        return menuRepository.findById(id);
+    public Menu findById(Long id) {
+        Optional<Menu> findMenu =  menuRepository.findById(id);
+        if(!(findMenu.isPresent())) throw new MenuNotFoundException("수정할 메뉴가 없습니다!");
+        return findMenu.get();
     }
 
     public Optional<Menu> findByName(String name) {

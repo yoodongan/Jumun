@@ -75,13 +75,12 @@ public class MenuController {
         List<Category> categoryList = categoryService.findAll();
         model.addAttribute("categoryList", categoryList);
 
-        Optional<Menu> findMenu = menuService.findById(menuId);
-        if(!(findMenu.isPresent())) throw new MenuNotFoundException("수정할 메뉴가 없습니다!");
-        MenuForm menuForm = new MenuForm();
-        Menu menu = findMenu.get();
-        Category category = menu.getCategory();
+        Menu findMenu = menuService.findById(menuId);
 
-        menuForm.setMenuInfo(category.getId(), menu.getName(), menu.getPrice(), menu.getImgUrl(), menu.getDescription(), menu.getStore());
+        MenuForm menuForm = new MenuForm();
+        Category category = findMenu.getCategory();
+
+        menuForm.setMenuInfo(category.getId(), findMenu.getName(), findMenu.getPrice(), findMenu.getImgUrl(), findMenu.getDescription(), findMenu.getStore());
 
         model.addAttribute("menuForm", menuForm);
         return "menu/modify_menu";
@@ -111,7 +110,7 @@ public class MenuController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/menu/delete/{menuId}")
     public String deleteMenu(@PathVariable("storeSN") String storeSN, @PathVariable Long menuId) {
-        Menu menu = menuService.findById(menuId).get();
+        Menu menu = menuService.findById(menuId);
         Store store = menu.getStore();
         menuService.remove(menu);
 
