@@ -1,9 +1,0 @@
-<html layout:decorate="~{layout}">
-<div layout:fragment="content" class="container my-3">
-
-
-<h1>고객 메뉴판 페이지 입니다.</h1>
-    <div th:each="l : ${list}">
-        <a th:href="@{|/category/detail/${l.id}|}"><h1 th:text="${l.name}"></h1></a>
-    </div>
-</html>
