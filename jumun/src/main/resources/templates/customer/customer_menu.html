@@ -1,11 +1,45 @@
-<html layout:decorate="~{layout}">
-<div layout:fragment="content" class="container my-3">
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/menu_list.css}">
+    <title>관리자 메뉴 페이지</title>
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <h2>고객 메뉴판</h2>
+    <div class="admin-menu">
+        <ul th:each="category : ${categoryList}" class="list-group list-group-horizontal">
+            <li th:text="${category.name}" class="list-group-item">카테고리명</li>
+        </ul>
+    </div>
 
+    <div class="row row-cols-1 row-cols-sm-2 g-3">
+        <div th:each="menu : ${menuList}" class="col">
+            <div class="card" style=" cursor: pointer;" th:onclick="|location.href='@{|/{storeSN}/menu/detail/${menu.id}|}'|">
+                <!-- 메뉴칸 자체에 링크를 걸기. -->
 
-<h1>고객 메뉴판 페이지 입니다.</h1>
-    <!--<h1 th:text="${store}">매장 이름</h1>-->
-    <div th:each="l : ${list}">
-        <a th:href="@{|/menu/detail/${l.id}|}"><h1 th:text="${l.name}"></h1></a>
+                <!-- S3 img -->
+                <img th:src= "@{${menu.imgUrl}}" class="card-img-top" alt="card-grid-image">
+                <div class="card-body">
+                    <div class="menu-info-top">
+                        <h5 th:text="${menu.name}" class="card-title">떡볶이(메뉴명)</h5>
+                        <h5 th:text="${menu.price} +'원'" class="card-title">1500원(가격)</h5>
+                    </div>
+                    <p th:text="${menu.description}" class="card-text">메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.</p>
+                </div>
+                </a>
+            </div>
+        </div>
+
     </div>
 </div>
+</body>
 </html>

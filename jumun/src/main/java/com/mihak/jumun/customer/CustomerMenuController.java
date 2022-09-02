@@ -23,24 +23,25 @@ public class CustomerMenuController {
     private final StoreService storeService;
     private final CategoryService categoryService;
 
-    /*이 부분은 동안님 코드 참고해야겠다.*/
+
     @GetMapping("/{storeSN}/menu")
     public String menuView(@PathVariable String storeSN, Model model) {
 
         List<Category> categoryList = categoryService.findAll();
-        List<Menu> menuList = menuService.findAll();
-
-//        model.addAttribute("storeName", storeName.get());
-        model.addAttribute("list" , menuList);
         model.addAttribute("categoryList", categoryList);
+        List<Menu> menuList = menuService.findAll();
+        model.addAttribute("menuList" , menuList);
+        model.addAttribute("storeSN", storeSN);
+
         return "customer/customer_menu";
     }
 
-    /*상세보기부터 작성해보 */
     @GetMapping("/{storeSN}/menu/detail/{id}")
     public String menuDetail(@PathVariable String storeSN, @PathVariable long id, Model model){
+        List<Category> categoryList = categoryService.findAll();
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("storeSN", storeSN);
         Optional<Menu> menuDetail = menuService.findById(id);
-
         model.addAttribute("menuDetail",menuDetail.get());
         return "customer/customer_menu_detail";
     }
