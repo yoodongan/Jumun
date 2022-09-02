@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -37,6 +38,10 @@ public class Menu extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
+
+    // 메뉴에서 중간테이블 조회
+    @OneToMany(mappedBy = "menu")
+    private List<MenuMenuOption> mmo;
 
     public void addCategory(Category category) {
         this.setCategory(category);

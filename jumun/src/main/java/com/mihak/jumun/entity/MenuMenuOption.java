@@ -17,4 +17,7 @@ public class MenuMenuOption {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MENUOPTION_ID")
     private MenuOption menuOption;
+
+    @Column
+    private int menuOptionCount;     // 메뉴마다 옵션 수량이 표시될수도, 안될수도 있다.
 }

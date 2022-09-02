@@ -1,7 +1,10 @@
 package com.mihak.jumun.menuOption;
 
 import com.mihak.jumun.entity.MenuOption;
+import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.exception.MenuOptionNotFoundException;
+import com.mihak.jumun.menuOption.form.MenuOptionFormDto;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +24,16 @@ public class MenuOptionService {
         }
         return menuOption.get();
     }
+
+    public MenuOption createMenuOption(MenuOptionFormDto menuOptionFormDto, Store store) {
+        MenuOption menuOption = MenuOption.builder()
+                .name(menuOptionFormDto.getName())
+                .price(menuOptionFormDto.getPrice())
+                .build();
+        menuOption.setStore(store);
+        menuOptionRepository.save(menuOption);
+        return menuOption;
+    }
+
 
 }

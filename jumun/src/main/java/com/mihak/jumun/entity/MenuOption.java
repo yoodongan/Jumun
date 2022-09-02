@@ -1,8 +1,15 @@
 package com.mihak.jumun.entity;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MenuOption {
 
     @Id
@@ -11,7 +18,7 @@ public class MenuOption {
     private Long id;
 
     private String name;
-    private String price;
+    private int price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STORE_ID")
