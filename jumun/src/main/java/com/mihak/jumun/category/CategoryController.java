@@ -64,8 +64,12 @@ public class CategoryController {
     public String showDetail(Model model , @PathVariable Long id, HttpServletResponse res) throws Exception {
 =======
     @GetMapping("/{storeSN}/category/detail/{id}")
+<<<<<<< HEAD
     public String showDetail(Model model , @PathVariable int id, HttpServletResponse res , @PathVariable String storeSN) throws Exception {
 >>>>>>> 7c9177b (StoreCategory 엔티티 CRUD구현)
+=======
+    public String showDetail(Model model , @PathVariable Long id, HttpServletResponse res , @PathVariable String storeSN) throws Exception {
+>>>>>>> 9e33f5e (Fix : PathVariable 타입 수정(#22))
         Optional<Category> cate = categoryService.findById(id);
         if(!(cate.isPresent())) {
             return "redirect:/%s/category/list".formatted(storeSN);
@@ -80,8 +84,12 @@ public class CategoryController {
     public String modify(CategoryForm categoryForm,Model model , @PathVariable Long id){
 =======
     @GetMapping("/{storeSN}/category/modify/{id}")
+<<<<<<< HEAD
     public String modify(CategoryForm categoryForm,Model model , @PathVariable int id,@PathVariable String storeSN){
 >>>>>>> 7c9177b (StoreCategory 엔티티 CRUD구현)
+=======
+    public String modify(CategoryForm categoryForm,Model model , @PathVariable Long id,@PathVariable String storeSN){
+>>>>>>> 9e33f5e (Fix : PathVariable 타입 수정(#22))
         Category cate = categoryService.findById(id).get();
 
         categoryForm.setName(cate.getName());
@@ -93,8 +101,12 @@ public class CategoryController {
     public String modify(@Valid CategoryForm categoryForm,BindingResult bindingResult ,Model model , @PathVariable Long id){
 =======
     @PostMapping("/{storeSN}/category/modify/{id}")
+<<<<<<< HEAD
     public String modify(@PathVariable String storeSN, @Valid CategoryForm categoryForm,BindingResult bindingResult ,Model model , @PathVariable int id){
 >>>>>>> 7c9177b (StoreCategory 엔티티 CRUD구현)
+=======
+    public String modify(@PathVariable String storeSN, @Valid CategoryForm categoryForm,BindingResult bindingResult ,Model model , @PathVariable Long id){
+>>>>>>> 9e33f5e (Fix : PathVariable 타입 수정(#22))
         Category newcate = categoryService.findById(id).get();
 
         Optional<Category> cate = categoryService.findByName(categoryForm.getName());
@@ -115,8 +127,12 @@ public class CategoryController {
     public String delete( @PathVariable("id") Long id) {
 =======
     @GetMapping("/{storeSN}/category/delete/{id}")
+<<<<<<< HEAD
     public String delete( @PathVariable("id") int id, @PathVariable String storeSN) {
 >>>>>>> 7c9177b (StoreCategory 엔티티 CRUD구현)
+=======
+    public String delete( @PathVariable("id") Long id, @PathVariable String storeSN) {
+>>>>>>> 9e33f5e (Fix : PathVariable 타입 수정(#22))
 
         Category delCate = categoryService.findById(id).get();
         StoreCategory sc = scService.findByCategory(delCate);
