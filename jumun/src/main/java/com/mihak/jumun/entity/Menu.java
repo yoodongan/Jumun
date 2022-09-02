@@ -1,6 +1,5 @@
 package com.mihak.jumun.entity;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.lang.Nullable;
@@ -39,13 +38,6 @@ public class Menu extends BaseEntity {
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 
-    /*이미지 업로드를 위한 빌더 추가*/
-//    @Builder
-//    public Menu(String imgUrl) {
-//        this.imgUrl = imgUrl;
-//    }
-
-
     public void addCategory(Category category) {
         this.setCategory(category);
         // 추후 수정. 카테고리에서 메뉴 조회할 일이 필요하다면 양방향 매핑 설정해야 함.
@@ -71,9 +63,18 @@ public class Menu extends BaseEntity {
 
         /* 옵션 추가 해야 함 */
 
-        /* S3처리 후 리턴된 이미지url 저장*/
+        /* 이미지 추가해야 함. 일단 첨부파일로 구현하고, 추후 s3에서 이미지 url 로 넣어줄 예정 */
         menu.setImgUrl(imgUrl);
 
         return menu;
+    }
+
+    public void changeInfo(Category category, String name, Integer price, String imgUrl, String description, Store store) {
+        this.category = category;
+        this.name = name;
+        this.price = price;
+        this.imgUrl = imgUrl;
+        this.description = description;
+        this.store = store;
     }
 }
