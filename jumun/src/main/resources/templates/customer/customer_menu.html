@@ -3,8 +3,9 @@
 
 
 <h1>고객 메뉴판 페이지 입니다.</h1>
+    <!--<h1 th:text="${store}">매장 이름</h1>-->
     <div th:each="l : ${list}">
-        <a th:href="@{|/category/detail/${l.id}|}"><h1 th:text="${l.name}"></h1></a>
+        <a th:href="@{|/menu/detail/${l.id}|}"><h1 th:text="${l.name}"></h1></a>
     </div>
 </div>
 </html>
