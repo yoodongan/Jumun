@@ -37,7 +37,7 @@ public class CustomerMenuController {
     }
 
     @GetMapping("/{storeSN}/menu/detail/{id}")
-    public String menuDetail(@PathVariable String storeSN, @PathVariable long id, Model model){
+    public String menuDetail(@PathVariable String storeSN, @PathVariable Long id, Model model){
         List<Category> categoryList = categoryService.findAll();
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("storeSN", storeSN);

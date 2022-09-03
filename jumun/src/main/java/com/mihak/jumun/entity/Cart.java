@@ -1,9 +1,18 @@
 package com.mihak.jumun.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class Cart extends BaseEntity {
 
     @Id
@@ -11,7 +20,7 @@ public class Cart extends BaseEntity {
     @Column(name = "CART_ID")
     private Long id;
 
-    private String name;
+    private String userNickName;
     private int count;
     private boolean isOrdered;
 

@@ -24,17 +24,22 @@
         </div>
         <!-- 이미지 폼 추가해야 함 -->
         <div class="mb-3">
+<<<<<<< HEAD
             <label for="imageUrl"> 메뉴이미지 </label>
             <!-- <input type="file" name="image" accept="image/png, image/jpeg"/> -->
 <!--            <img src="" class="img-thumbnail" alt="img-thumbnail">-->
             <input type="file" name="file">
+=======
+            <label for="image"> 메뉴이미지 </label>
+            <input type="file" name="image" accept="image/png, image/jpeg"/>
+>>>>>>> origin
         </div>
 
         <div class="mb-3">
             <label for="description" class="form-label">메뉴 설명</label>
             <textarea th:field="*{description}" class="form-control" rows="6" placeholder="메뉴 상세 설명입니다."></textarea>
         </div>
-        <input type="submit" value="메뉴 등록" class="btn btn-primary my-2">
+        <input onclick="if ( !confirm('메뉴를 등록하시겠습니까?') ) return false;" type="submit" value="메뉴 등록" class="btn btn-primary my-2">
     </form>
 </div>
 </html>
