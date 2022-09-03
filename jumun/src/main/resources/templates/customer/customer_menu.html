@@ -14,31 +14,32 @@
     </style>
 </head>
 <body>
-    <h2>관리자 메뉴판</h2>
+    <h2>고객 메뉴판</h2>
     <div class="admin-menu">
-    <ul th:each="category : ${categoryList}" class="list-group list-group-horizontal">
-        <li th:text="${category.name}" class="list-group-item">카테고리명</li>
-    </ul>
+        <ul th:each="category : ${categoryList}" class="list-group list-group-horizontal">
+            <li th:text="${category.name}" class="list-group-item">카테고리명</li>
+        </ul>
     </div>
 
     <div class="row row-cols-1 row-cols-sm-2 g-3">
         <div th:each="menu : ${menuList}" class="col">
-            <div class="card">
-                <img src="http://img4.tmon.kr/cdn3/deals/2021/07/15/4500036162/original_4500036162_front_f8dfd_1626343427production.jpg" class="card-img-top" alt="card-grid-image">
+            <div class="card" style=" cursor: pointer;" th:onclick="|location.href='@{|/{storeSN}/menu/detail/${menu.id}|}'|">
+                <!-- 메뉴칸 자체에 링크를 걸기. -->
+
+                <!-- S3 img -->
+                <img th:src= "@{${menu.imgUrl}}" class="card-img-top" alt="card-grid-image">
                 <div class="card-body">
                     <div class="menu-info-top">
                         <h5 th:text="${menu.name}" class="card-title">떡볶이(메뉴명)</h5>
                         <h5 th:text="${menu.price} +'원'" class="card-title">1500원(가격)</h5>
                     </div>
                     <p th:text="${menu.description}" class="card-text">메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.</p>
-                    <div class="menu-info-button">
-                        <a onclick="if ( !confirm('메뉴를 수정하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/admin/store/menu/modify/${menu.id}|}" class="btn btn-primary">메뉴수정</a>
-                        <a onclick="if ( !confirm('메뉴를 삭제하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/admin/store/menu/delete/${menu.id}|}" class="btn btn-danger">메뉴삭제</a>
-                    </div>
                 </div>
+                </a>
             </div>
         </div>
 
     </div>
+</div>
 </body>
 </html>
