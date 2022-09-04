@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,6 +40,15 @@ public class MenuOptionController {
         MenuOption menuOption = menuOptionService.createMenuOption(menuOptionFormDto, store);
 
         return "redirect:/%s/admin/store/option".formatted(storeSN);   // 스토어 관리 페이지로 이동하면 좋을 것 같다.
+    }
+
+    /* 옵션 관리 */
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("{storeSN}/admin/store/optionList")
+    public String manageOption(Model model) {
+        List<MenuOption> menuOptions = menuOptionService.findAll();
+        model.addAttribute("menuOptions", menuOptions);
+        return "option/option_list";
     }
 
 }

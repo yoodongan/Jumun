@@ -3,6 +3,7 @@ package com.mihak.jumun.menu;
 import com.mihak.jumun.category.CategoryRepository;
 import com.mihak.jumun.entity.Category;
 import com.mihak.jumun.entity.Menu;
+import com.mihak.jumun.entity.MenuMenuOption;
 import com.mihak.jumun.exception.MenuNotFoundException;
 import com.mihak.jumun.menu.form.MenuForm;
 import lombok.RequiredArgsConstructor;
@@ -52,4 +53,13 @@ public class MenuService {
         menu.changeInfo(category, menuForm.getName(), menuForm.getPrice(), menuForm.getImgUrl(), menuForm.getDescription(), menuForm.getStore());
         menuRepository.save(menu);
     }
+
+    // 메뉴에 옵션 추가 기능.
+    public void addMenuOptions(Menu menu, MenuMenuOption... menuMenuOptions) {
+        Menu findMenu = menuRepository.findById(menu.getId()).get();
+        for (MenuMenuOption menuMenuOption : menuMenuOptions) {
+            findMenu.addMenuMenuOption(menuMenuOption);
+        }
+    }
+
 }

@@ -3,6 +3,7 @@ package com.mihak.jumun.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,4 +24,8 @@ public class MenuOption {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STORE_ID")
     private Store store;
+
+    @OneToMany(mappedBy = "menuOption")
+    private List<MenuMenuOption> menuMenuOptions;
+
 }
