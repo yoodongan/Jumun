@@ -3,15 +3,15 @@
 
     <h1 th:text="${store.name}">매장 이름</h1>
     <div class="card">
-        <div class="p-3 btn-outline-primary" th:onclick="|location.href='@{|/${store.serialNumber}/admin/store/menu|}'|">
+        <button type="button" class="p-3 btn btn-outline-secondary" th:onclick="|location.href='@{|/${store.serialNumber}/admin/store/menu|}'|">
             메뉴 관리 페이지
-        </div>
-        <div class="p-3 btn-outline-primary" th:onclick="|location.href='@{|/${store.serialNumber}/admin/store/order|}'|">
+        </button>
+        <button type="button" class="p-3 btn btn-outline-secondary" th:onclick="|location.href='@{|/${store.serialNumber}/admin/store/order|}'|">
             주문 관리 페이지
-        </div>
-        <div class="p-3 btn-outline-primary" th:onclick="|location.href='@{|/${store.serialNumber}/admin/store/management|}'|">
+        </button>
+        <button type="button" class="p-3 btn btn-outline-secondary" th:onclick="|location.href='@{|/${store.serialNumber}/admin/store/management|}'|">
             매장 관리 페이지
-        </div>
+        </button>
     </div>
 </div>
 </html>
