@@ -41,8 +41,8 @@ public class CustomerMenuController {
         List<Category> categoryList = categoryService.findAll();
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("storeSN", storeSN);
-        Optional<Menu> menuDetail = menuService.findById(id);
-        model.addAttribute("menuDetail",menuDetail.get());
+        Menu menuDetail = menuService.findById(id);
+        model.addAttribute("menuDetail",menuDetail);
         return "customer/customer_menu_detail";
     }
 }
