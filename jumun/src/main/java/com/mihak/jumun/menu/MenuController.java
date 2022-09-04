@@ -4,7 +4,6 @@ import com.mihak.jumun.category.CategoryService;
 import com.mihak.jumun.entity.Category;
 import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.entity.Store;
-import com.mihak.jumun.exception.MenuNotFoundException;
 import com.mihak.jumun.menu.form.MenuForm;
 import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -116,7 +115,5 @@ public class MenuController {
 
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
     }
-
-
 
 }

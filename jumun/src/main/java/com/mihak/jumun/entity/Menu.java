@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -41,7 +42,7 @@ public class Menu extends BaseEntity {
 
     // 메뉴에서 중간테이블 조회
     @OneToMany(mappedBy = "menu")
-    private List<MenuMenuOption> mmo;
+    private List<MenuMenuOption> menuMenuOptions = new ArrayList<>();
 
     public void addCategory(Category category) {
         this.setCategory(category);
@@ -52,6 +53,12 @@ public class Menu extends BaseEntity {
     public void addStore(Store store) {   // restaurant 엔티티와 menu 엔티티 연관관계 맺어줌.
         this.setStore(store);
         store.addMenu(this);
+    }
+
+    // 메뉴 - 중간테이블(메뉴_메뉴옵션) 연관관계 맺어주기.
+    public void addMenuMenuOption(MenuMenuOption menuMenuOption) {
+        menuMenuOptions.add(menuMenuOption);
+        menuMenuOption.setMenu(this);
     }
 
     // 메뉴 생성 메서드
@@ -65,8 +72,6 @@ public class Menu extends BaseEntity {
         menu.setPrice(price);
         menu.addCategory(category);
         menu.addStore(store);
-
-        /* 옵션 추가 해야 함 */
 
         /* 이미지 추가해야 함. 일단 첨부파일로 구현하고, 추후 s3에서 이미지 url 로 넣어줄 예정 */
         menu.setImgUrl(imgUrl);
