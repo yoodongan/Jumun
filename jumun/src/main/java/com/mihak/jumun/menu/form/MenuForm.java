@@ -21,8 +21,8 @@ public class MenuForm {
     @NotNull(message = "가격을 입력해주세요.")
     private Integer price;
 
-    @Nullable  // 일단 null 허용하게 두고 추후 수정.
-    private String imgUrl;   // 이미지 url
+    @Nullable
+    private String imgUrl;
 
     @Lob @Nullable
     private String description;

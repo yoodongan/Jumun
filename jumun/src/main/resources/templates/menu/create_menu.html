@@ -5,7 +5,6 @@
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
-
         <div class="mb-3">
             <label class="form-label">카테고리</label>
             <select th:field="*{categoryId}" class="form-select">
