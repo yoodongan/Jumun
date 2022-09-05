@@ -1,6 +1,5 @@
 package com.mihak.jumun.menuOption.form;
 
-import com.mihak.jumun.entity.Store;
 import lombok.Getter;
 import lombok.Setter;
 

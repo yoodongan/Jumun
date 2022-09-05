@@ -3,6 +3,7 @@ package com.mihak.jumun.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,6 +27,6 @@ public class MenuOption {
     private Store store;
 
     @OneToMany(mappedBy = "menuOption")
-    private List<MenuMenuOption> menuMenuOptions;
+    private List<MenuMenuOption> menuMenuOptions = new ArrayList<>();
 
 }

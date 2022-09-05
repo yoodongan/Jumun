@@ -23,15 +23,14 @@ public class MenuOptionController {
     private final StoreService storeService;
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("{storeSN}/admin/store/option")
+    @GetMapping("/{storeSN}/admin/store/option")
     public String createMenuOptionForm(@PathVariable String storeSN, Model model) {
-        MenuOptionFormDto menuOptionFormDto = new MenuOptionFormDto();
-        model.addAttribute("optionForm", menuOptionFormDto);
+        model.addAttribute("optionForm", new MenuOptionFormDto());
         return "option/create_option";
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("{storeSN}/admin/store/option")
+    @PostMapping("/{storeSN}/admin/store/option")
     public String createMenuOption(@PathVariable String storeSN, @Valid MenuOptionFormDto menuOptionFormDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "option/create_option";
@@ -44,7 +43,7 @@ public class MenuOptionController {
 
     /* 옵션 관리 */
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("{storeSN}/admin/store/optionList")
+    @GetMapping("/{storeSN}/admin/store/optionList")
     public String manageOption(Model model) {
         List<MenuOption> menuOptions = menuOptionService.findAll();
         model.addAttribute("menuOptions", menuOptions);
