@@ -110,6 +110,10 @@
 개선 ERD
 <img width="978" alt="image" src="https://user-images.githubusercontent.com/53210680/184819454-0d43493d-ef5b-4aeb-a6df-170e0ea72910.png">
 
+개선 ERD(0906 중간테이블인 메뉴메뉴옵션테이블 삭제, 메뉴&옵션그룹&옵션 간의 다대다관계)
+<img width="712" alt="image" src="https://user-images.githubusercontent.com/53210680/188460892-f4c791e2-0a60-4686-a3fc-4a04dae3c3c7.png">
+
+
 Github Repository URL: 
 https://github.com/likelion-backendschool/Jumunui_Mihak
 
