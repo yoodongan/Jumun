@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/option_list.css}">
+    <title>관리자 옵션 관리 페이지</title>
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+<h2>옵션 수정 페이지</h2>
+
+<div class="list-group" th:each="menuOption : ${menuOptions}">
+    <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1" th:text="${menuOption.name}">옵션명</h5>
+            <button type="button" class="btn btn-success">메뉴추가</button>
+        </div>
+        <div class="option-bottom">
+            <small th:text="${menuOption.price} +'원'">옵션가격</small>
+            <div class="option-bottom_button">
+                <button type="button" class="btn btn-primary">옵션수정</button>
+                <button type="button" class="btn btn-danger">옵션삭제</button>
+            </div>
+        </div>
+    </a>
+</div>
+</body>
+</html>

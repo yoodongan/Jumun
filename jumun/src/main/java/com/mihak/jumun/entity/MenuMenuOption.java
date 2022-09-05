@@ -1,8 +1,13 @@
 package com.mihak.jumun.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 public class MenuMenuOption {
 
     @Id
@@ -17,4 +22,7 @@ public class MenuMenuOption {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MENUOPTION_ID")
     private MenuOption menuOption;
+
+    @Column
+    private int menuOptionCount;     // 메뉴마다 옵션 수량이 표시될수도, 안될수도 있다.
 }

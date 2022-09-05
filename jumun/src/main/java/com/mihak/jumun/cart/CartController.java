@@ -27,7 +27,7 @@ public class CartController {
 
         HttpSession session = request.getSession(true);
         String userNickname = session.getAttribute(customerKey).toString();
-        Menu menu = menuService.findById(menuId).get();
+        Menu menu = menuService.findById(menuId);
 
         Cart cart = cartService.saveCart(cartForm, userNickname, menu);
 
