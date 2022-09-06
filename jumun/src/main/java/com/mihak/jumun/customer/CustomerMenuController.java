@@ -1,10 +1,9 @@
 package com.mihak.jumun.customer;
 
 import com.mihak.jumun.category.CategoryService;
-import com.mihak.jumun.entity.Category;
-import com.mihak.jumun.entity.Menu;
-import com.mihak.jumun.entity.Store;
+import com.mihak.jumun.entity.*;
 import com.mihak.jumun.menu.MenuService;
+import com.mihak.jumun.menuOption.MenuOptionService;
 import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,6 +21,7 @@ public class CustomerMenuController {
     private final MenuService menuService;
     private final StoreService storeService;
     private final CategoryService categoryService;
+    private final MenuOptionService menuOptionService;
 
 
     @GetMapping("/{storeSN}/menu")
@@ -43,6 +43,10 @@ public class CustomerMenuController {
         model.addAttribute("storeSN", storeSN);
         Menu menuDetail = menuService.findById(id);
         model.addAttribute("menuDetail",menuDetail);
+        //MenuOption menuOption = menuOptionService.findByMenuId(id);
+        /*일단 메뉴옵션 있는거 리스트로 뽑아볼까*/
+        List<MenuOption> menuOptionList = menuOptionService.findAll();
+        model.addAttribute("menuOption", menuOptionList);
         return "customer/customer_menu_detail";
     }
 }
