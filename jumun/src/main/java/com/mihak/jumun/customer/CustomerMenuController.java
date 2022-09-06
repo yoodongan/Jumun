@@ -3,17 +3,15 @@ package com.mihak.jumun.customer;
 import com.mihak.jumun.category.CategoryService;
 import com.mihak.jumun.entity.*;
 import com.mihak.jumun.menu.MenuService;
-import com.mihak.jumun.menuOption.MenuOptionService;
+import com.mihak.jumun.menuAndOption.MenuOptionService;
 import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor

@@ -12,16 +12,16 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartMenuOption {
+public class CartAndOption {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CART_MENUOPTION_ID")
+    @Column(name = "CART_OPTIONS_ID")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MENUOPTION_ID")
-    private MenuOption menuOption;
+    @JoinColumn(name = "OPTIONS_ID")
+    private Option options;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CART_ID")

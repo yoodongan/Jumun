@@ -2,7 +2,7 @@ package com.mihak.jumun.cart;
 
 import com.mihak.jumun.cart.dto.CartDto;
 import com.mihak.jumun.cart.dto.CartForm;
-import com.mihak.jumun.cartMenuOption.CartMenuOptionService;
+import com.mihak.jumun.cartAndOption.CartAndOptionService;
 import com.mihak.jumun.entity.Cart;
 import com.mihak.jumun.entity.Menu;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.List;
 public class CartService {
 
     private final CartRepository cartRepository;
-    private final CartMenuOptionService cartMenuOptionService;
+    private final CartAndOptionService cartMenuOptionService;
 
     public Cart saveCart(CartForm cartForm, String userNickName, Menu menu) {
         Cart cart = Cart.builder().

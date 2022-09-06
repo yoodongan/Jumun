@@ -1,15 +1,11 @@
 package com.mihak.jumun.cart.dto;
 
-import com.mihak.jumun.entity.MenuOption;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.mihak.jumun.entity.Option;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
-@Builder
-@AllArgsConstructor
 public class CartForm {
 
     private String name;
@@ -17,7 +13,7 @@ public class CartForm {
     private String description;
     private int price;
 
-    private List<MenuOption> options;
+    private List<Option> options;
     private List<Long> checkOptionIds;
     private int count;
 }

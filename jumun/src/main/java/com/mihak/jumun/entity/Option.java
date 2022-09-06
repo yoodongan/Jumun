@@ -1,19 +1,23 @@
 package com.mihak.jumun.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
-public class Category extends BaseEntity {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "Options")
+public class Option {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CATEGORY_ID")
+    @Column(name = "OPTIONS_ID")
     private Long id;
 
     private String name;
+    private int price;
 }

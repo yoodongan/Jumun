@@ -2,7 +2,7 @@ package com.mihak.jumun.cart;
 
 import com.mihak.jumun.cart.dto.CartDto;
 import com.mihak.jumun.cart.dto.CartForm;
-import com.mihak.jumun.cartMenuOption.CartMenuOptionService;
+import com.mihak.jumun.cartAndOption.CartAndOptionService;
 import com.mihak.jumun.entity.Cart;
 import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.menu.MenuService;
@@ -21,7 +21,7 @@ public class CartController {
 
     private final CartService cartService;
     private final MenuService menuService;
-    private final CartMenuOptionService cartMenuOptionService;
+    private final CartAndOptionService cartAndOptionService;
 
     @GetMapping("{storeSN}/cart")
     public String showCart(@PathVariable String storeSN, Model model,
@@ -46,7 +46,7 @@ public class CartController {
 
         Cart cart = cartService.saveCart(cartForm, userNickname, menu);
 
-        cartMenuOptionService.saveOptions(cart, cartForm.getCheckOptionIds());
+        cartAndOptionService.saveOptions(cart, cartForm.getCheckOptionIds());
 
         return "redirect:/" + storeSN + "/menu";
     }
