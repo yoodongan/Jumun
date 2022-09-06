@@ -1,8 +1,8 @@
-package com.mihak.jumun.menuOption;
+package com.mihak.jumun.option;
 
-import com.mihak.jumun.entity.MenuOption;
+import com.mihak.jumun.entity.Option;
 import com.mihak.jumun.entity.Store;
-import com.mihak.jumun.menuOption.form.MenuOptionFormDto;
+import com.mihak.jumun.option.form.OptionFormDto;
 import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,25 +18,25 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class MenuOptionController {
-    private final MenuOptionService menuOptionService;
+public class OptionController {
+    private final OptionService optionService;
     private final StoreService storeService;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/option")
-    public String createMenuOptionForm(@PathVariable String storeSN, Model model) {
-        model.addAttribute("optionForm", new MenuOptionFormDto());
+    public String createOptionForm(@PathVariable String storeSN, Model model) {
+        model.addAttribute("optionForm", new OptionFormDto());
         return "option/create_option";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{storeSN}/admin/store/option")
-    public String createMenuOption(@PathVariable String storeSN, @Valid MenuOptionFormDto menuOptionFormDto, BindingResult bindingResult) {
+    public String createOption(@PathVariable String storeSN, @Valid OptionFormDto optionFormDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "option/create_option";
         }
         Store store = storeService.findBySerialNumber(storeSN);
-        MenuOption menuOption = menuOptionService.createMenuOption(menuOptionFormDto, store);
+        Option option = optionService.createOption(optionFormDto, store);
 
         return "redirect:/%s/admin/store/option".formatted(storeSN);   // 스토어 관리 페이지로 이동하면 좋을 것 같다.
     }
@@ -44,9 +44,9 @@ public class MenuOptionController {
     /* 옵션 관리 */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/optionList")
-    public String manageOption(Model model) {
-        List<MenuOption> menuOptions = menuOptionService.findAll();
-        model.addAttribute("menuOptions", menuOptions);
+    public String manageOption(@PathVariable String storeSN, Model model) {
+        List<Option> options = optionService.findAll();
+        model.addAttribute("menuOptions", options);
         return "option/option_list";
     }
 

@@ -2,7 +2,6 @@ package com.mihak.jumun.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -42,7 +41,7 @@ public class Menu extends BaseEntity {
 
     // 메뉴에서 중간테이블 조회
     @OneToMany(mappedBy = "menu")
-    private List<MenuMenuOption> menuMenuOptions = new ArrayList<>();
+    private List<MenuOption> menuOptions = new ArrayList<>();
 
     public void addCategory(Category category) {
         this.setCategory(category);
@@ -56,9 +55,9 @@ public class Menu extends BaseEntity {
     }
 
     // 메뉴 - 중간테이블(메뉴_메뉴옵션) 연관관계 맺어주기.
-    public void addMenuMenuOption(MenuMenuOption menuMenuOption) {
-        menuMenuOptions.add(menuMenuOption);
-        menuMenuOption.setMenu(this);
+    public void addMenuMenuOption(MenuOption menuOption) {
+        menuOptions.add(menuOption);
+        menuOption.setMenu(this);
     }
 
     // 메뉴 생성 메서드

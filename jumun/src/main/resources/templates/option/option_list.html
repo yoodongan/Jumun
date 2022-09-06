@@ -16,14 +16,14 @@
 <body>
 <h2>옵션 수정 페이지</h2>
 
-<div class="list-group" th:each="menuOption : ${menuOptions}">
+<div class="list-group" th:each="option : ${options}">
     <a href="#" class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1" th:text="${menuOption.name}">옵션명</h5>
+            <h5 class="mb-1" th:text="${option.name}">옵션명</h5>
             <button type="button" class="btn btn-success">메뉴추가</button>
         </div>
         <div class="option-bottom">
-            <small th:text="${menuOption.price} +'원'">옵션가격</small>
+            <small th:text="${option.price} +'원'">옵션가격</small>
             <div class="option-bottom_button">
                 <button type="button" class="btn btn-primary">옵션수정</button>
                 <button type="button" class="btn btn-danger">옵션삭제</button>
