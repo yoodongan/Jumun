@@ -28,4 +28,8 @@ public class CartAndOptionService {
             cartAndOptionRepository.save(cartAndOption);
         }
     }
+
+    public List<Option> getMenuOptionsByCart(Cart cart) {
+        return null;
+    }
 }

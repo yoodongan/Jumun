@@ -1,7 +1,7 @@
 package com.mihak.jumun.cart.dto;
 
 import com.mihak.jumun.entity.Menu;
-import com.mihak.jumun.entity.MenuOption;
+import com.mihak.jumun.entity.Option;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,5 +15,5 @@ public class CartDto {
     private Long id;
     private Menu menu;
     private int count;
-    private List<MenuOption> menuOptions;
+    private List<Option> menuOptions;
 }

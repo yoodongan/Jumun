@@ -3,7 +3,7 @@ package com.mihak.jumun.customer;
 import com.mihak.jumun.category.CategoryService;
 import com.mihak.jumun.entity.*;
 import com.mihak.jumun.menu.MenuService;
-import com.mihak.jumun.menuAndOption.MenuOptionService;
+import com.mihak.jumun.option.OptionService;
 import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ public class CustomerMenuController {
     private final MenuService menuService;
     private final StoreService storeService;
     private final CategoryService categoryService;
-    private final MenuOptionService menuOptionService;
+    private final OptionService optionService;
 
 
     @GetMapping("/{storeSN}/menu")
@@ -43,7 +43,7 @@ public class CustomerMenuController {
         model.addAttribute("menuDetail",menuDetail);
         //MenuOption menuOption = menuOptionService.findByMenuId(id);
         /*일단 메뉴옵션 있는거 리스트로 뽑아볼까*/
-        List<MenuOption> menuOptionList = menuOptionService.findAll();
+        List<Option> menuOptionList = optionService.findAll();
         model.addAttribute("menuOption", menuOptionList);
         return "customer/customer_menu_detail";
     }
