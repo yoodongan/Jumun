@@ -1,7 +1,7 @@
-package com.mihak.jumun.cartOption;
+package com.mihak.jumun.cartAndOption;
 
 import com.mihak.jumun.entity.Cart;
-import com.mihak.jumun.entity.CartOption;
+import com.mihak.jumun.entity.CartAndOption;
 import com.mihak.jumun.entity.Option;
 import com.mihak.jumun.option.OptionService;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +11,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CartOptionService {
+public class CartAndOptionService {
 
-    private final CartOptionRepository cartOptionRepository;
+    private final CartAndOptionRepository cartAndOptionRepository;
     private final OptionService optionService;
 
     public void saveOptions(Cart cart, List<Long> optionIds) {
@@ -21,11 +21,11 @@ public class CartOptionService {
         for (Long optionId : optionIds) {
             Option option = optionService.findById(optionId);
 
-            CartOption cartOption = CartOption.builder()
+            CartAndOption cartAndOption = CartAndOption.builder()
                     .cart(cart)
                     .option(option)
                     .build();
-            cartOptionRepository.save(cartOption);
+            cartAndOptionRepository.save(cartAndOption);
         }
     }
 }

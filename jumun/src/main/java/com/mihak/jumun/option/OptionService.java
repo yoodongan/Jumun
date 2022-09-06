@@ -30,7 +30,6 @@ public class OptionService {
                 .name(optionFormDto.getName())
                 .price(optionFormDto.getPrice())
                 .build();
-        option.setStore(store);
         optionRepository.save(option);
         return option;
     }

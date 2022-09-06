@@ -41,7 +41,7 @@ public class Menu extends BaseEntity {
 
     // 메뉴에서 중간테이블 조회
     @OneToMany(mappedBy = "menu")
-    private List<MenuOption> menuOptions = new ArrayList<>();
+    private List<MenuAndOptionGroup> menuAndOptionGroups = new ArrayList<>();
 
     public void addCategory(Category category) {
         this.setCategory(category);
@@ -55,9 +55,9 @@ public class Menu extends BaseEntity {
     }
 
     // 메뉴 - 중간테이블(메뉴_메뉴옵션) 연관관계 맺어주기.
-    public void addMenuMenuOption(MenuOption menuOption) {
-        menuOptions.add(menuOption);
-        menuOption.setMenu(this);
+    public void addMenuMenuOption(MenuAndOptionGroup menuAndOptionGroup) {
+        menuAndOptionGroups.add(menuAndOptionGroup);
+        menuAndOptionGroup.setMenu(this);
     }
 
     // 메뉴 생성 메서드

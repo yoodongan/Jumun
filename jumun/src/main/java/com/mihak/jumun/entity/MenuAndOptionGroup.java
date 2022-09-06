@@ -8,11 +8,11 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-public class MenuOption {
+public class MenuAndOptionGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MENU_OPTION_ID")
+    @Column(name = "MENU_OPTIONGROUP_ID")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -20,6 +20,6 @@ public class MenuOption {
     private Menu menu;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "OPTION_ID")
-    private Option option;
+    @JoinColumn(name = "OPTIONGROUP_ID")
+    private OptionGroup optionGroup;
 }
