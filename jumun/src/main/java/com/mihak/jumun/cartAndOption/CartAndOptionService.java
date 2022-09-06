@@ -23,7 +23,7 @@ public class CartAndOptionService {
 
             CartAndOption cartAndOption = CartAndOption.builder()
                     .cart(cart)
-                    .option(option)
+                    .options(option)
                     .build();
             cartAndOptionRepository.save(cartAndOption);
         }

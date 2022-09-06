@@ -14,12 +14,12 @@ public class CartAndOption {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CART_OPTION_ID")
+    @Column(name = "CART_OPTIONS_ID")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "OPTION_ID")
-    private Option option;
+    @JoinColumn(name = "OPTIONS_ID")
+    private Option options;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CART_ID")
