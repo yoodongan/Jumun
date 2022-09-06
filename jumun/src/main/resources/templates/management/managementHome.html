@@ -1,0 +1,14 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+
+    <div class="card">
+        <div class="card-body" th:onclick="|location.href='@{|/${storeSN}/admin/store/order/list|}'|">
+            주문 내역 관리
+        </div>
+        <div class="card-body" >
+            매출 관리
+        </div>
+
+    </div>
+</div>
+</html>
