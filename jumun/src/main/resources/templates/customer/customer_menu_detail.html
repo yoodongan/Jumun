@@ -1,25 +1,35 @@
-<html layout:decorate="~{layout}">
-<div layout:fragment="content" class="container">
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Launch demo modal
-    </button>
-    <div class="modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/menu_list.css}">
+    <title>관리자 메뉴 페이지</title>
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+<div class="row row-cols-1 row-cols-sm-2 g-3">
+    <div th:each="menu : ${menuDetail}" class="col">
+            <img th:src= "@{${menuDetail.imgUrl}}" class="card-img-top" alt="card-grid-image">
+            <div class="card-body">
+                <div class="menu-info-top">
+                    <h5 th:text="${menuDetail.category.getName()}" class="card-title">카테고리</h5><br>
+                    <h5 th:text="${menuDetail.name}" class="card-title">떡볶이(메뉴명)</h5>
+                    <h5 th:text="${menuDetail.price} +'원'" class="card-title">1500원(가격)</h5>
+                </div>
+                <p th:text="${menuDetail.description}" class="card-text">메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.</p>
+                <div th:each="menuoption : ${menuOption}" class="col">
+                    <p th:text="${menuOption.name}" class="card-text"></p>
+                    <p th:text="${menuOption.price}" class="card-text"></p>
+                </div>
             </div>
-            <div class="modal-body">
-                <p>메뉴판 내용(메뉴제목, 메뉴설명, 메뉴이미지)</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">뒤로가기</button>
-                <button type="button" class="btn btn-primary">장바구니 담기</button>
-            </div>
-        </div>
     </div>
 </div>
-</div>
+</body>
 </html>
