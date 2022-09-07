@@ -101,9 +101,8 @@ public class MenuController {
         // 메뉴명 중복 체크.
         Store store = storeService.findBySerialNumber(storeSN);
         menuForm.setStore(store);
-        boolean isMenuDifferentId = menuService.findByName(menuForm.getName(), menuId);  // 메뉴 중 이름이 같은게 하나라도 있으면 반환된다.
-        boolean isMenuDuplicated = menuService.isMenuDuplicated(menuForm.getName(), menuForm.getStore());
-        if (isMenuDuplicated && isMenuDifferentId) {
+        boolean isMenuDuplicatedAndDifferentId = menuService.isMenuDuplicatedAndDifferentId(menuForm.getName(), menuForm.getStore(), menuId);
+        if (isMenuDuplicatedAndDifferentId) {
             result.rejectValue("name", "duplicatedMenu", "이미 똑같은 메뉴가 있습니다.");
             return "menu/modify_menu";
         }

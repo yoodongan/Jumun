@@ -36,14 +36,6 @@ public class MenuService {
         return findMenu.get();
     }
 
-    public boolean findByName(String name, Long menuId) {
-        List<Menu> menu = menuRepository.findByName(name);
-        if (menu == null) return false;
-        for(Menu m : menu) {
-            if(m.getId() != menuId) return true;
-        }
-        return false;
-    }
 
     public void remove(Menu menu) {
         menuRepository.delete(menu);
@@ -77,5 +69,11 @@ public class MenuService {
         if(menu.isPresent()) return true;  // 중복된 메뉴가 있다.
         else return false;
 
+    }
+
+    public boolean isMenuDuplicatedAndDifferentId(String name, Store store, Long menuId) {
+        Optional<Menu> menu = menuRepository.findByNameAndIdNot(name, menuId);
+        if(menu.isPresent() && isMenuDuplicated(name, store)) return true;
+        else return false;
     }
 }
