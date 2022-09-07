@@ -24,7 +24,7 @@ public class CartController {
     private final MenuService menuService;
     private final CartAndOptionService cartAndOptionService;
 
-    @GetMapping("{storeSN}/cart")
+    @GetMapping("/{storeSN}/cart")
     public String showCart(@PathVariable String storeSN, Model model,
                            HttpServletRequest request, @CookieValue("customerLogin") String customerKey) {
 
@@ -37,7 +37,7 @@ public class CartController {
         return "cart/cart_list";
     }
 
-    @PostMapping("{storeSN}/menu/{menuId}")
+    @PostMapping("/{storeSN}/menu/{menuId}")
     public String saveCart(@PathVariable String storeSN,
                            @PathVariable Long menuId, @ModelAttribute CartForm cartForm,
                            HttpServletRequest request, @CookieValue("customerLogin") String customerKey) {
@@ -52,13 +52,19 @@ public class CartController {
         return "redirect:/" + storeSN + "/menu";
     }
 
-    @GetMapping("{storeSN}/cart/detail/{cartId}")
+    @GetMapping("/{storeSN}/cart/detail/{cartId}")
     public String getCartDetail(@PathVariable String storeSN, @PathVariable Long cartId,
                             Model model, HttpServletRequest request,
                             @CookieValue("customerLogin") String customerKey) {
         CartDetailDto cartDetailDto = cartService.getCartDetailDtoById(cartId);
         model.addAttribute("cartDetailDto", cartDetailDto);
         return "cart/cart_detail";
+    }
+
+    @GetMapping("/{storeSN}/cart/delete/{cartId}")
+    public String deleteCart(@PathVariable String storeSN, @PathVariable Long cartId) {
+        cartService.deleteCartById(cartId);
+        return "redirect:/" + storeSN + "/cart";
     }
 
 
