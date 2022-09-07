@@ -6,6 +6,7 @@ import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.menu.form.MenuForm;
 import com.mihak.jumun.store.StoreService;
+import com.mihak.jumun.storeCategory.SCService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -25,16 +26,19 @@ public class MenuController {
     private final MenuService menuService;
     private final CategoryService categoryService;
     private final StoreService storeService;
+    private final SCService scService;
 
+    /* 메뉴 생성폼 */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/menu")
     public String menuForm(@PathVariable String storeSN, Model model) {
-        List<Category> categoryList = categoryService.findAll();
+        Store store = storeService.findBySerialNumber(storeSN);
+        List<Category> categoryList = scService.findAllbyStoreId(store.getId());
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("menuForm", new MenuForm());
         return "menu/create_menu";
     }
-
+    /* 메뉴 생성 */
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{storeSN}/admin/store/menu")
     public String create(@PathVariable("storeSN") String storeSN, @Valid MenuForm menuForm, BindingResult result) {
@@ -43,13 +47,15 @@ public class MenuController {
             return "menu/create_menu";
         }
         // 메뉴명 중복 체크.
-        Optional<Menu> oMenu = menuService.findByName(menuForm.getName());
-        if (oMenu.isPresent()) {
+        Store store = storeService.findBySerialNumber(storeSN);
+        menuForm.setStore(store);
+        // 여기다가 중복 로직 추가.
+        boolean isMenuDuplicated = menuService.isMenuDuplicated(menuForm.getName(), menuForm.getStore());
+        if (isMenuDuplicated) {
             result.rejectValue("name", "duplicatedMenu", "이미 똑같은 메뉴가 있습니다.");
             return "menu/create_menu";
         }
-        Store store = storeService.findBySerialNumber(storeSN);
-        menuForm.setStore(store);
+
         menuService.saveMenu(menuForm);
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
     }
@@ -58,9 +64,10 @@ public class MenuController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/menuList")
     public String menuList(@PathVariable String storeSN, Model model) {
-        List<Category> categoryList = categoryService.findAll();
+        Store store = storeService.findBySerialNumber(storeSN);
+        List<Category> categoryList = scService.findAllbyStoreId(store.getId());
         model.addAttribute("categoryList", categoryList);
-        List<Menu> menuList = menuService.findAll();
+        List<Menu> menuList = menuService.findAllByStore(storeSN);  // 이것도 수정해야 함.
         model.addAttribute("menuList", menuList);
         model.addAttribute("storeSN", storeSN);
 
@@ -71,11 +78,10 @@ public class MenuController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/menu/modify/{menuId}")
     public String modifyMenuForm(@PathVariable String storeSN, @PathVariable Long menuId, Model model) {
-        List<Category> categoryList = categoryService.findAll();
+        Store store = storeService.findBySerialNumber(storeSN);
+        List<Category> categoryList = scService.findAllbyStoreId(store.getId());
         model.addAttribute("categoryList", categoryList);
-
         Menu findMenu = menuService.findById(menuId);
-
         MenuForm menuForm = new MenuForm();
         Category category = findMenu.getCategory();
 
@@ -93,13 +99,15 @@ public class MenuController {
             return "menu/modify_menu";
         }
         // 메뉴명 중복 체크.
-        Optional<Menu> oMenu = menuService.findByName(menuForm.getName());
-        if (oMenu.isPresent() && oMenu.get().getId() != menuId) {
-            result.rejectValue("name", "duplicatedMenu", "똑같은 메뉴명이 이미 존재합니다!");
-            return "menu/modify_menu";
-        }
         Store store = storeService.findBySerialNumber(storeSN);
         menuForm.setStore(store);
+        boolean isMenuDifferentId = menuService.findByName(menuForm.getName(), menuId);  // 메뉴 중 이름이 같은게 하나라도 있으면 반환된다.
+        boolean isMenuDuplicated = menuService.isMenuDuplicated(menuForm.getName(), menuForm.getStore());
+        if (isMenuDuplicated && isMenuDifferentId) {
+            result.rejectValue("name", "duplicatedMenu", "이미 똑같은 메뉴가 있습니다.");
+            return "menu/modify_menu";
+        }
+
         menuService.changeMenu(menuId, menuForm);
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
 
