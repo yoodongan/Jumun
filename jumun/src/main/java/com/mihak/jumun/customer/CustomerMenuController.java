@@ -5,6 +5,7 @@ import com.mihak.jumun.entity.*;
 import com.mihak.jumun.menu.MenuService;
 import com.mihak.jumun.option.OptionService;
 import com.mihak.jumun.store.StoreService;
+import com.mihak.jumun.storeCategory.SCService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,16 +19,16 @@ import java.util.List;
 public class CustomerMenuController {
     private final MenuService menuService;
     private final StoreService storeService;
-    private final CategoryService categoryService;
     private final OptionService optionService;
+    private final SCService scService;
 
 
     @GetMapping("/{storeSN}/menu")
     public String menuView(@PathVariable String storeSN, Model model) {
-
-        List<Category> categoryList = categoryService.findAll();
+        Store store = storeService.findBySerialNumber(storeSN);
+        List<Category> categoryList = scService.findAllbyStoreId(store.getId());
         model.addAttribute("categoryList", categoryList);
-        List<Menu> menuList = menuService.findAll();
+        List<Menu> menuList = menuService.findAllByStore(storeSN);
         model.addAttribute("menuList" , menuList);
         model.addAttribute("storeSN", storeSN);
 
@@ -36,7 +37,8 @@ public class CustomerMenuController {
 
     @GetMapping("/{storeSN}/menu/detail/{id}")
     public String menuDetail(@PathVariable String storeSN, @PathVariable Long id, Model model){
-        List<Category> categoryList = categoryService.findAll();
+        Store store = storeService.findBySerialNumber(storeSN);
+        List<Category> categoryList = scService.findAllbyStoreId(store.getId());
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("storeSN", storeSN);
         Menu menuDetail = menuService.findById(id);
