@@ -4,6 +4,7 @@ import com.mihak.jumun.category.CategoryService;
 import com.mihak.jumun.entity.Category;
 import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.entity.Store;
+import com.mihak.jumun.gallery.S3Service;
 import com.mihak.jumun.menu.form.MenuForm;
 import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +28,8 @@ public class MenuController {
     private final MenuService menuService;
     private final CategoryService categoryService;
     private final StoreService storeService;
+    /*S3 처리*/
+    private final S3Service s3Service;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/menu")
@@ -37,7 +42,7 @@ public class MenuController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{storeSN}/admin/store/menu")
-    public String create(@PathVariable("storeSN") String storeSN, @Valid MenuForm menuForm, BindingResult result) {
+    public String create(@PathVariable("storeSN") String storeSN, @Valid MenuForm menuForm, BindingResult result, MultipartFile file) throws IOException {
         // 메뉴명 Null 값, 가격 Null 값 예외 체크
         if (result.hasErrors()) {
             return "menu/create_menu";
@@ -49,6 +54,11 @@ public class MenuController {
             return "menu/create_menu";
         }
         Store store = storeService.findBySerialNumber(storeSN);
+        /*S3 컨트롤러 부분*/
+        String imgPath = s3Service.upload(file);
+
+        /*menuForm의 변수에 S3처리 후 리턴된 Url을 넣어주는 코드*/
+        menuForm.setImgUrl(imgPath);
         menuForm.setStore(store);
         menuService.saveMenu(menuForm);
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
