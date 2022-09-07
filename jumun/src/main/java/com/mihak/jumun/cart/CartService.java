@@ -7,6 +7,7 @@ import com.mihak.jumun.cartAndOption.CartAndOptionService;
 import com.mihak.jumun.entity.Cart;
 import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.exception.CartNotFoundException;
+import com.mihak.jumun.option.OptionService;
 import com.mihak.jumun.optionGroup.OptionGroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,7 @@ import java.util.Optional;
 public class CartService {
 
     private final CartRepository cartRepository;
-    private final CartAndOptionService cartMenuOptionService;
-    private final OptionGroupService optionGroupService;
+    private final OptionService optionService;
 
     public Cart saveCart(CartForm cartForm, String userNickName, Menu menu) {
         Cart cart = Cart.builder().
@@ -44,7 +44,7 @@ public class CartService {
                     .id(cart.getId())
                     .menu(cart.getMenu())
                     .count(cart.getCount())
-                    .Options(cartMenuOptionService.getOptionsByCart(cart))
+                    .Options(optionService.getOptionsByCart(cart))
                     .build();
             cartDtoList.add(cartDto);
         }
@@ -65,7 +65,7 @@ public class CartService {
                 .imgUrl(menu.getImgUrl())
                 .description(menu.getDescription())
                 .price(menu.getPrice())
-                .checkOptions(cartMenuOptionService.getOptionsByCart(cart))
+                .checkOptions(optionService.getOptionsByCart(cart))
                 .count(cart.getCount())
                 .build();
 

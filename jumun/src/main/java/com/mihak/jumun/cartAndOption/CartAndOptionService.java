@@ -15,7 +15,6 @@ import java.util.List;
 public class CartAndOptionService {
 
     private final CartAndOptionRepository cartAndOptionRepository;
-    private final OptionService optionService;
 
     public void saveOptions(Cart cart, List<Option> options) {
 
@@ -28,14 +27,7 @@ public class CartAndOptionService {
         }
     }
 
-    public List<Option> getOptionsByCart(Cart cart) {
-        List<CartAndOption> cartAndOptions = cartAndOptionRepository.findByCart(cart);
-        List<Option> options = new ArrayList<>();
-
-        for (CartAndOption cartAndOption : cartAndOptions) {
-            Option option = cartAndOption.getOptions();
-            options.add(option);
-        }
-        return options;
+    public List<CartAndOption> getOptionsByCart(Cart cart) {
+        return cartAndOptionRepository.findByCart(cart);
     }
 }

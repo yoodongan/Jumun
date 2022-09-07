@@ -53,9 +53,9 @@ public class CartController {
     }
 
     @GetMapping("{storeSN}/cart/detail/{cartId}")
-    public String getDetail(@PathVariable String storeSN, @PathVariable Long cartId,
-                             Model model, HttpServletRequest request,
-                             @CookieValue("customerLogin") String customerKey) {
+    public String getCartDetail(@PathVariable String storeSN, @PathVariable Long cartId,
+                            Model model, HttpServletRequest request,
+                            @CookieValue("customerLogin") String customerKey) {
         CartDetailDto cartDetailDto = cartService.getCartDetailDtoById(cartId);
         model.addAttribute("cartDetailDto", cartDetailDto);
         return "cart/cart_detail";
