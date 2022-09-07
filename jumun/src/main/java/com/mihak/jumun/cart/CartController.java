@@ -1,5 +1,6 @@
 package com.mihak.jumun.cart;
 
+import com.mihak.jumun.cart.dto.CartDetailDto;
 import com.mihak.jumun.cart.dto.CartDto;
 import com.mihak.jumun.cart.dto.CartForm;
 import com.mihak.jumun.cartAndOption.CartAndOptionService;
@@ -32,6 +33,7 @@ public class CartController {
 
         List<CartDto> cartDtoList = cartService.getCartByUserNickName(userNickname, false);
         model.addAttribute("cartList", cartDtoList);
+        model.addAttribute("storeSN", storeSN);
         return "cart/cart_list";
     }
 
@@ -45,11 +47,20 @@ public class CartController {
         Menu menu = menuService.findById(menuId);
 
         Cart cart = cartService.saveCart(cartForm, userNickname, menu);
-
-        cartAndOptionService.saveOptions(cart, cartForm.getCheckOptionIds());
+        cartAndOptionService.saveOptions(cart, cartForm.getCheckOptions());
 
         return "redirect:/" + storeSN + "/menu";
     }
+
+    @GetMapping("{storeSN}/cart/detail/{cartId}")
+    public String getDetail(@PathVariable String storeSN, @PathVariable Long cartId,
+                             Model model, HttpServletRequest request,
+                             @CookieValue("customerLogin") String customerKey) {
+        CartDetailDto cartDetailDto = cartService.getCartDetailDtoById(cartId);
+        model.addAttribute("cartDetailDto", cartDetailDto);
+        return "cart/cart_detail";
+    }
+
 
 //    @GetMapping("{storeSN}/menu/modify/{cartId}")
 //    public String modifyCart(@PathVariable String storeSN, @PathVariable String cartId,

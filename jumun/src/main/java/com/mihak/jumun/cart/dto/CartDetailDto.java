@@ -13,14 +13,13 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartForm {
+public class CartDetailDto {
 
     private String name;
     private String imgUrl;
     private String description;
     private int price;
 
-    private List<OptionGroup> optionGroups;
     private List<Option> checkOptions;
     private int count;
 }
