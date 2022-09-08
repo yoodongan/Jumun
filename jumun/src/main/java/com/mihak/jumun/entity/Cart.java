@@ -32,8 +32,15 @@ public class Cart extends BaseEntity {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartAndOption> cartAndOptions = new ArrayList<>();
 
+    public void updateCartAndOptions(List<CartAndOption> cartAndOptions) {
+        for (CartAndOption cartAndOption : cartAndOptions) {
+            this.cartAndOptions.add(cartAndOption);
+        }
+    }
+
     public void modifyCart(int count, List<CartAndOption> cartAndOptions) {
         this.count = count;
-        this.cartAndOptions = cartAndOptions;
+        this.cartAndOptions = new ArrayList<>();
+        updateCartAndOptions(cartAndOptions);
     }
 }

@@ -5,6 +5,7 @@ import com.mihak.jumun.cart.dto.CartDto;
 import com.mihak.jumun.cart.dto.CartFormDto;
 import com.mihak.jumun.cartAndOption.CartAndOptionService;
 import com.mihak.jumun.entity.Cart;
+import com.mihak.jumun.entity.CartAndOption;
 import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.menu.MenuService;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +48,8 @@ public class CartController {
         Menu menu = menuService.findById(menuId);
 
         Cart cart = cartService.saveCart(cartFormDto, userNickname, menu);
-        cartAndOptionService.saveOptions(cart, cartFormDto.getCheckOptions());
-
+        List<CartAndOption> cartAndOptions = cartAndOptionService.saveOptions(cart, cartFormDto.getCheckOptions());
+        cart.updateCartAndOptions(cartAndOptions);
         return "redirect:/" + storeSN + "/menu";
     }
 
@@ -66,7 +67,6 @@ public class CartController {
         cartService.deleteCartById(cartId);
         return "redirect:/" + storeSN + "/cart";
     }
-
 
     @GetMapping("{storeSN}/cart/modify/{cartId}")
     public String getCartModifyForm(@PathVariable String storeSN, @PathVariable Long cartId,
