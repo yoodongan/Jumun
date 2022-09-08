@@ -56,7 +56,6 @@ public class MenuController {
         Store store = storeService.findBySerialNumber(storeSN);
         /*S3 컨트롤러 부분*/
         String imgPath = s3Service.upload(file);
-
         /*menuForm의 변수에 S3처리 후 리턴된 Url을 넣어주는 코드*/
         menuForm.setImgUrl(imgPath);
         menuForm.setStore(store);
