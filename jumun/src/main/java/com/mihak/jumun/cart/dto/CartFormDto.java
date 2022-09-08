@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartForm {
+public class CartFormDto {
 
     private String name;
     private String imgUrl;
@@ -21,6 +21,13 @@ public class CartForm {
     private int price;
 
     private List<OptionGroup> optionGroups;
+
     private List<Option> checkOptions;
     private int count;
 }
+// 메뉴상세보기 - 페이지
+// 메뉴 - name, imgurl, description, price, optionGroups
+// optionGroups
+// option1 2 3
+
+//

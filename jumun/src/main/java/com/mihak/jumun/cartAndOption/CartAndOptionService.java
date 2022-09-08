@@ -16,7 +16,13 @@ public class CartAndOptionService {
 
     private final CartAndOptionRepository cartAndOptionRepository;
 
-    public void saveOptions(Cart cart, List<Option> options) {
+    public List<CartAndOption> saveOptions(Cart cart, List<Option> options) {
+
+        List<CartAndOption> cartAndOptions = new ArrayList<>();
+
+        if (options == null) {
+            return cartAndOptions;
+        }
 
         for (Option option : options) {
             CartAndOption cartAndOption = CartAndOption.builder()
@@ -24,10 +30,16 @@ public class CartAndOptionService {
                     .options(option)
                     .build();
             cartAndOptionRepository.save(cartAndOption);
+            cartAndOptions.add(cartAndOption);
         }
+        return cartAndOptions;
     }
 
     public List<CartAndOption> getOptionsByCart(Cart cart) {
         return cartAndOptionRepository.findByCart(cart);
+    }
+
+    public void deleteByCart(Cart cart) {
+        cartAndOptionRepository.deleteAllByCart(cart);
     }
 }

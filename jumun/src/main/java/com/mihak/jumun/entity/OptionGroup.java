@@ -3,6 +3,8 @@ package com.mihak.jumun.entity;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,4 +17,7 @@ public class OptionGroup {
 
     private String name;
     private boolean isMultiple;
+
+    @OneToMany(mappedBy = "optionGroup", cascade = CascadeType.ALL)
+    private List<OptionAndOptionGroup> optionAndOptionGroups = new ArrayList<>();
 }

@@ -1,8 +1,11 @@
 package com.mihak.jumun.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 public class OptionAndOptionGroup {
 
     @Id
