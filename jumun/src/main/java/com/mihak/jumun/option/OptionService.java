@@ -29,6 +29,7 @@ public class OptionService {
         Option option = Option.builder()
                 .name(optionFormDto.getName())
                 .price(optionFormDto.getPrice())
+                .store(store)
                 .build();
         optionRepository.save(option);
         return option;
@@ -38,4 +39,7 @@ public class OptionService {
         return optionRepository.findAll();
     }
 
+    public List<Option> findAllByStore(Store store) {
+        return optionRepository.findAllByStore(store);
+    }
 }

@@ -20,4 +20,8 @@ public class Option {
 
     private String name;
     private int price;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "STORE_ID")
+    private Store store;
 }

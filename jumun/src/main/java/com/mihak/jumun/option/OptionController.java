@@ -36,7 +36,7 @@ public class OptionController {
             return "option/create_option";
         }
         Store store = storeService.findBySerialNumber(storeSN);
-        Option option = optionService.createOption(optionFormDto, store);
+        optionService.createOption(optionFormDto, store);
 
         return "redirect:/%s/admin/store/option".formatted(storeSN);   // 스토어 관리 페이지로 이동하면 좋을 것 같다.
     }
@@ -45,8 +45,10 @@ public class OptionController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/optionList")
     public String manageOption(@PathVariable String storeSN, Model model) {
-        List<Option> options = optionService.findAll();
-        model.addAttribute("menuOptions", options);
+        Store store = storeService.findBySerialNumber(storeSN);
+        List<Option> options = optionService.findAllByStore(store);
+        model.addAttribute("storeSN", storeSN);
+        model.addAttribute("options", options);
         return "option/option_list";
     }
 
