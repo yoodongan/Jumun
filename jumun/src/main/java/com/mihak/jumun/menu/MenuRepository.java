@@ -10,6 +10,11 @@ import java.util.Optional;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
-    Optional<Menu> findByName(String name);
+    List<Menu> findByName(String name);
 
+    List<Menu> findByStore(Store store);
+
+    Optional<Menu> findByNameAndStore(String name, Store store);
+
+    Optional<Menu> findByNameAndIdNot(String name, Long menuId);
 }

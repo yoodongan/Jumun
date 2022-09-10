@@ -1,27 +1,37 @@
 package com.mihak.jumun.cart;
 
+import com.mihak.jumun.cart.dto.CartDetailDto;
 import com.mihak.jumun.cart.dto.CartDto;
-import com.mihak.jumun.cart.dto.CartForm;
+import com.mihak.jumun.cart.dto.CartFormDto;
 import com.mihak.jumun.cartAndOption.CartAndOptionService;
 import com.mihak.jumun.entity.Cart;
+import com.mihak.jumun.entity.CartAndOption;
 import com.mihak.jumun.entity.Menu;
+import com.mihak.jumun.entity.Option;
+import com.mihak.jumun.exception.CartNotFoundException;
+import com.mihak.jumun.option.OptionService;
+import com.mihak.jumun.optionGroup.OptionGroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
 
     private final CartRepository cartRepository;
-    private final CartAndOptionService cartMenuOptionService;
+    private final OptionService optionService;
+    private final OptionGroupService optionGroupService;
+    private final CartAndOptionService cartAndOptionService;
 
-    public Cart saveCart(CartForm cartForm, String userNickName, Menu menu) {
+    public Cart saveCart(CartFormDto cartFormDto, String userNickName, Menu menu) {
         Cart cart = Cart.builder().
                 userNickName(userNickName)
-                .count(cartForm.getCount())
+                .count(cartFormDto.getCount())
                 .isOrdered(false)
                 .menu(menu)
                 .build();
@@ -39,23 +49,61 @@ public class CartService {
                     .id(cart.getId())
                     .menu(cart.getMenu())
                     .count(cart.getCount())
-                    .menuOptions(cartMenuOptionService.getMenuOptionsByCart(cart))
+                    .Options(optionService.getOptionsByCart(cart))
                     .build();
             cartDtoList.add(cartDto);
         }
         return cartDtoList;
     }
 
-//    public CartForm getCartFormById(Long id) {
-//        Optional<Cart> findCart = cartRepository.findById(id);
-//
-//        if (findCart.isEmpty()) {
-//            throw new CartNotFoundException("해당 장바구니는 존재하지 않습니다.");
-//        }
-//
-//        Cart cart = findCart.get();
-//        CartForm cartForm = CartForm.builder()
-//                .name(cart.getN)
-//                .build();
-//    }
+    public CartDetailDto getCartDetailDtoById(Long id) {
+        Optional<Cart> findCart = cartRepository.findById(id);
+
+        if (findCart.isEmpty()) {
+            throw new CartNotFoundException("해당 장바구니는 존재하지 않습니다.");
+        }
+
+        Cart cart = findCart.get();
+        Menu menu = cart.getMenu();
+        CartDetailDto cartDetailDto = CartDetailDto.builder()
+                .name(menu.getName())
+                .imgUrl(menu.getImgUrl())
+                .description(menu.getDescription())
+                .price(menu.getPrice())
+                .checkOptions(optionService.getOptionsByCart(cart))
+                .count(cart.getCount())
+                .build();
+
+        return cartDetailDto;
+    }
+
+    public CartFormDto getCartFormById(Long id) {
+        Cart cart = cartRepository.findById(id).orElseThrow(() -> new CartNotFoundException("해당 장바구니는 존재하지 않습니다."));
+        Menu menu = cart.getMenu();
+
+        CartFormDto cartFormDto = CartFormDto.builder()
+                .name(menu.getName())
+                .imgUrl(menu.getImgUrl())
+                .description(menu.getDescription())
+                .price(menu.getPrice())
+                .optionGroups(optionGroupService.getOptionGroupByMenu(menu))
+                .checkOptions(optionService.getOptionsByCart(cart))
+                .build();
+
+        return cartFormDto;
+    }
+
+    public void deleteCartById(Long id) {
+        cartRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void modifyCart(Long cartId, CartFormDto cartFormDto) {
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new CartNotFoundException("해당 장바구니는 존재하지 않습니다."));
+
+        cartAndOptionService.deleteByCart(cart);
+        List<Option> checkOptions = cartFormDto.getCheckOptions();
+        List<CartAndOption> cartAndOptions = cartAndOptionService.saveOptions(cart, checkOptions);
+        cart.modifyCart(cartFormDto.getCount(), cartAndOptions);
+    }
 }

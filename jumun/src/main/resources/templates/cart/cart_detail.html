@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/cart_list.css}">
+    <title>장바구니 페이지</title>
+</head>
+<body>
+<h2>장바구니 details</h2>
+<div>
+    <img th:src="${cartDetailDto.imgUrl}" class="card-img-top" alt="card-grid-image">
+    <h3>장바구니 속성</h3>
+    <hr/>
+    <h5 th:text="${cartDetailDto.name}" class="card-title">메뉴명</h5>
+    <h5 th:text="${cartDetailDto.description}" class="card-title">상세보기</h5>
+    <h5 th:text="${cartDetailDto.price} +'원'" class="card-title">가격</h5>
+    <h5 th:text="${cartDetailDto.count} +'개'" class="card-title">갯수</h5>
+    <br/>
+    <h3>선택한 옵션</h3>
+    <hr/>
+    <div th:each="checkOption : ${cartDetailDto.checkOptions}" class="col">
+        <h5 th:text="${checkOption.name}" class="card-title">옵션명</h5>
+    </div>
+</div>
+</body>
+</html>
