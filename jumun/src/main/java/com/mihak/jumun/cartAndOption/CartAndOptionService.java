@@ -7,6 +7,7 @@ import com.mihak.jumun.option.OptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,22 +15,31 @@ import java.util.List;
 public class CartAndOptionService {
 
     private final CartAndOptionRepository cartAndOptionRepository;
-    private final OptionService optionService;
 
-    public void saveOptions(Cart cart, List<Long> optionIds) {
+    public List<CartAndOption> saveOptions(Cart cart, List<Option> options) {
 
-        for (Long optionId : optionIds) {
-            Option option = optionService.findById(optionId);
+        List<CartAndOption> cartAndOptions = new ArrayList<>();
 
+        if (options == null) {
+            return cartAndOptions;
+        }
+
+        for (Option option : options) {
             CartAndOption cartAndOption = CartAndOption.builder()
                     .cart(cart)
                     .options(option)
                     .build();
             cartAndOptionRepository.save(cartAndOption);
+            cartAndOptions.add(cartAndOption);
         }
+        return cartAndOptions;
     }
 
-    public List<Option> getMenuOptionsByCart(Cart cart) {
-        return null;
+    public List<CartAndOption> getOptionsByCart(Cart cart) {
+        return cartAndOptionRepository.findByCart(cart);
+    }
+
+    public void deleteByCart(Cart cart) {
+        cartAndOptionRepository.deleteAllByCart(cart);
     }
 }

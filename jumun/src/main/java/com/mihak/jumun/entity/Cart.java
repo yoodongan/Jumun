@@ -6,7 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -27,4 +28,19 @@ public class Cart extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MENU_ID")
     private Menu menu;
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    private List<CartAndOption> cartAndOptions = new ArrayList<>();
+
+    public void updateCartAndOptions(List<CartAndOption> cartAndOptions) {
+        for (CartAndOption cartAndOption : cartAndOptions) {
+            this.cartAndOptions.add(cartAndOption);
+        }
+    }
+
+    public void modifyCart(int count, List<CartAndOption> cartAndOptions) {
+        this.count = count;
+        this.cartAndOptions = new ArrayList<>();
+        updateCartAndOptions(cartAndOptions);
+    }
 }
