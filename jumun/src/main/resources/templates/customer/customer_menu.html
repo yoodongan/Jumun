@@ -23,7 +23,7 @@
 
     <div class="row row-cols-1 row-cols-sm-2 g-3">
         <div th:each="menu : ${menuList}" class="col">
-            <div class="card" style=" cursor: pointer;" th:onclick="|location.href='@{|/{storeSN}/menu/detail/${menu.id}|}'|">
+            <div class="card" style=" cursor: pointer;" th:onclick="|location.href='@{|/${storeSN}/menu/${menu.id}/option|}'|">
                 <!-- 메뉴칸 자체에 링크를 걸기. -->
 
                 <!-- S3 img -->

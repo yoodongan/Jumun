@@ -32,8 +32,6 @@ public class CustomerController {
     @GetMapping("/{storeSN}/customer")
     public String signup(@PathVariable String storeSN, Model model) {
         model.addAttribute("customerCreateForm", new CustomerCreateForm());
-//        CustomerLogin cookiecheck = new CustomerLogin(null);
-//        cookiecheck.checkCookie(request);
         return "customer/customer_login";
     }
 
