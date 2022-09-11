@@ -4,6 +4,7 @@ import com.mihak.jumun.cart.dto.CartDetailDto;
 import com.mihak.jumun.cart.dto.CartDto;
 import com.mihak.jumun.cart.dto.CartFormDto;
 import com.mihak.jumun.cartAndOption.CartAndOptionService;
+import com.mihak.jumun.customer.form.CustomerMenuForm;
 import com.mihak.jumun.entity.Cart;
 import com.mihak.jumun.entity.CartAndOption;
 import com.mihak.jumun.entity.Menu;
@@ -105,5 +106,16 @@ public class CartService {
         List<Option> checkOptions = cartFormDto.getCheckOptions();
         List<CartAndOption> cartAndOptions = cartAndOptionService.saveOptions(cart, checkOptions);
         cart.modifyCart(cartFormDto.getCount(), cartAndOptions);
+    }
+
+    public Cart addToCart(CustomerMenuForm customerMenuForm, String userNickname, Menu menu) {
+        Cart cart = Cart.builder().
+                userNickName(userNickname)
+                .count(customerMenuForm.getCount())
+                .isOrdered(false)
+                .menu(menu)
+                .build();
+
+        return cartRepository.save(cart);
     }
 }
