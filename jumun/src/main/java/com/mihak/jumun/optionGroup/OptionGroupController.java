@@ -9,6 +9,7 @@ import com.mihak.jumun.optionGroup.form.OptionGroupDetailDto;
 import com.mihak.jumun.optionGroup.form.OptionGroupFormDto;
 import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class OptionGroupController {
     private final StoreService storeService;
     private final OptionGroupService optionGroupService;
@@ -59,12 +61,12 @@ public class OptionGroupController {
     @GetMapping("/{storeSN}/admin/store/optionGroupDetail/{optionGroupId}")
     public String optionGroupDetail(@PathVariable String storeSN,
                                     @PathVariable Long optionGroupId,
-                                    @ModelAttribute OptionGroupDetailDto optionGroupDetailDto,
                                     Model model) throws Exception {
         Store store = storeService.findBySerialNumber(storeSN);
         OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, store);
         model.addAttribute("optionGroupName", optionGroup.getName());
         model.addAttribute("optionGroupId", optionGroupId);
+        model.addAttribute("OptionGroupDetailDto", new OptionGroupDetailDto());
         // 해당 스토어 옵션들 드롭다운
         List<Option> options = optionService.findAllByStore(store);
         model.addAttribute("options", options);
@@ -75,12 +77,12 @@ public class OptionGroupController {
 
         return "optionGroup/optionGroup_detail";
     }
-
+    // 옵션 그룹 상세페이지에서 옵션 추가하기.
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{storeSN}/admin/store/optionGroupDetail/{optionGroupId}")
     public String addOptionToOptionGroup(@PathVariable String storeSN,
                                     @PathVariable Long optionGroupId,
-                                    OptionGroupDetailDto optionGroupDetailDto,
+                                    @ModelAttribute OptionGroupDetailDto optionGroupDetailDto,
                                     @RequestParam Long optionId
                                     ) throws Exception {
         Store store = storeService.findBySerialNumber(storeSN);
