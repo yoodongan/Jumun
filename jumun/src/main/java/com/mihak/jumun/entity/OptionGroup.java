@@ -4,8 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,4 +27,6 @@ public class OptionGroup {
     @JoinColumn(name = "STORE_ID")
     private Store store;
 
+    @OneToMany(mappedBy = "optionGroup", cascade = CascadeType.ALL)
+    private List<OptionAndOptionGroup> optionAndOptionGroups = new ArrayList<>();
 }

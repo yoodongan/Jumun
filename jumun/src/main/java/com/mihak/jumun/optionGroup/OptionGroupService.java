@@ -1,15 +1,13 @@
 package com.mihak.jumun.optionGroup;
-
-import com.mihak.jumun.entity.Option;
-import com.mihak.jumun.entity.OptionAndOptionGroup;
-import com.mihak.jumun.entity.OptionGroup;
-import com.mihak.jumun.entity.Store;
+import com.mihak.jumun.entity.*;
 import com.mihak.jumun.exception.OptionGroupNotFoundException;
+import com.mihak.jumun.menuAndOptionGroup.MenuAndOptionGroupService;
 import com.mihak.jumun.optionAndOptionGroup.OptionAndOptionGroupService;
 import com.mihak.jumun.optionGroup.form.OptionGroupFormDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +15,20 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OptionGroupService {
     private final OptionGroupRepository optionGroupRepository;
+    private final MenuAndOptionGroupService menuAndOptionGroupService;
     private final OptionAndOptionGroupService optionAndOptionGroupService;
+
+    public List<OptionGroup> getOptionGroupByMenu(Menu menu) {
+        List<MenuAndOptionGroup> menuAndOptionGroupByMenu = menuAndOptionGroupService.getMenuAndOptionGroupByMenu(menu);
+        List<OptionGroup> optionGroups = new ArrayList<>();
+
+        for (MenuAndOptionGroup menuAndOptionGroup : menuAndOptionGroupByMenu) {
+            OptionGroup optionGroup = menuAndOptionGroup.getOptionGroup();
+            optionGroups.add(optionGroup);
+        }
+        return optionGroups;
+
+    }
 
     public void createOptionGroup(OptionGroupFormDto optionGroupFormDto) {
         OptionGroup optionGroup = OptionGroup.builder()
@@ -43,5 +54,4 @@ public class OptionGroupService {
     public List<Option> findAllByOptionGroup(OptionGroup optionGroup) {
         return optionAndOptionGroupService.findAllByOptionGroup(optionGroup);
     }
-
 }
