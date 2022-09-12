@@ -43,7 +43,7 @@ public class OptionGroupService {
         return optionGroupRepository.findAllByStore(store);
     }
 
-    public OptionGroup findByIdAndStore(Long optionGroupId, Store store) throws Exception {
+    public OptionGroup findByIdAndStore(Long optionGroupId, Store store) {
         Optional<OptionGroup> optionGroup = optionGroupRepository.findByIdAndStore(optionGroupId, store);
         if(optionGroup.isPresent()) return optionGroup.get();
         else throw new OptionGroupNotFoundException("옵션그룹이 없습니다");

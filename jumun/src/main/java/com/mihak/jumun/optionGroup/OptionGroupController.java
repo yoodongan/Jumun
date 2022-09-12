@@ -21,7 +21,6 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class OptionGroupController {
     private final StoreService storeService;
     private final OptionGroupService optionGroupService;
@@ -82,9 +81,8 @@ public class OptionGroupController {
     @PostMapping("/{storeSN}/admin/store/optionGroupDetail/{optionGroupId}")
     public String addOptionToOptionGroup(@PathVariable String storeSN,
                                     @PathVariable Long optionGroupId,
-                                    @ModelAttribute OptionGroupDetailDto optionGroupDetailDto,
-                                    @RequestParam Long optionId
-                                    ) throws Exception {
+                                    @ModelAttribute OptionGroupDetailDto optionGroupDetailDto
+                                    ) {
         Store store = storeService.findBySerialNumber(storeSN);
         OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, store);
         Option option = optionService.findById(optionGroupDetailDto.getOptionId());
