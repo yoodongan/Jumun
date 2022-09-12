@@ -1,5 +1,4 @@
 package com.mihak.jumun.menuAndOptionGroup;
-
 import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.entity.MenuAndOptionGroup;
 import lombok.RequiredArgsConstructor;

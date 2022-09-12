@@ -1,11 +1,15 @@
 package com.mihak.jumun.entity;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class OptionAndOptionGroup {
 
     @Id
@@ -15,7 +19,7 @@ public class OptionAndOptionGroup {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "OPTIONS_ID")
-    private Option options;
+    private Option option;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "OPTIONGROUP_ID")
