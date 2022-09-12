@@ -11,16 +11,14 @@
 <div>
     <h2 th:text="${optionGroupName}">옵션 그룹 상세명</h2>
 </div>
-<div class="mb-3" th:object="${OptionGroupDetailDto}">
+<form th:action th:object="${OptionGroupDetailDto}" method="post">
     <label class="form-label">옵션 선택</label>
     <select th:field="*{optionId}" class="form-select">
         <option value="">==옵션 선택==</option>
         <option th:each="option : ${options}" th:value="${option.id}" th:text="${option.name}">카테고리옵션</option>
     </select>
-</div>
-<a th:href="@{|/${storeSN}/admin/store/optionGroupDetail/${optionGroupId}|}">
-    <button type="button" class="btn btn-primary">옵션 추가</button>
-</a>
+    <input onclick="if ( !confirm('옵션을 추가하시겠습니까?') ) return false;" type="submit" value="옵션 추가" class="btn btn-primary my-2">
+</form>
 
 <div th:each="option : ${optionList}" class="list-group mt-3">
     <div href="#" class="list-group-item list-group-item-action option-group" aria-current="true">
