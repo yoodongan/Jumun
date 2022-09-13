@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/menu_list.css}">
-    <title>관리자 메뉴 페이지</title>
+    <title>고객 주문 상세페이지</title>
     <style>
         .field-error {
             border-color: #dc3545;
@@ -49,6 +49,7 @@
     </script>
 </head>
 <body>
+<h2>고객 메뉴판</h2>
 <form th:action th:object="${customerMenuForm}" method="post">
             <img th:src= "*{imgUrl}" class="card-img-top" alt="card-grid-image">
             <div style="color: silver;">
@@ -69,16 +70,16 @@
                     <!-- 중복가능여부를 판단하는 로직-->
                     <div th:if="${optionGroup.isMultiple}">
                         <div th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}">
-                            <input type = "checkbox" th:id="${optionAndOptionGroup.options.getId()}"
-                                   th:value="${optionAndOptionGroup.options}" >
-                            <label th:for="${optionAndOptionGroup.options.Id}" th:text="${optionAndOptionGroup.options.name}">옵션이름</label>
+                            <input type = "checkbox" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
+                                   th:value="${optionAndOptionGroup.option.getId()}" >
+                            <label th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
                         </div>
                     </div>
                     <div th:if="${!optionGroup.isMultiple}">
                         <div th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}" class="form-check form-check-inline">
-                            <input type="radio" th:id="${optionAndOptionGroup.options.getId()}" th:name="${optionAndOptionGroup.optionGroup.id}"
-                                   th:value="${optionAndOptionGroup.options}" class="form-check-input" >
-                            <label th:for="${optionAndOptionGroup.options.Id}" th:text="${optionAndOptionGroup.options.name}" class="form-check-label">옵션이름</label>
+                            <input type="radio" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}" th:name="${optionAndOptionGroup.optionGroup.getId()}"
+                                   th:value="${optionAndOptionGroup.option.getId()}" class="form-check-input" >
+                            <label th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}" class="form-check-label">옵션이름</label>
                         </div>
                     </div>
                     <br/><br/><br/>
@@ -95,7 +96,7 @@
                             </div>
                             <div class="input-group w-auto justify-content-end align-items-center">
                                 <input type="button" value="-" class="button-minus border rounded-circle  icon-shape icon-sm mx-1 " data-field="quantity">
-                                <input type="number" step="1" max="10" value="1" th:name="*{count}" class="quantity-field border-0 text-center w-25" >
+                                <input type="number" step="1" max="10" value="1" th:field="*{count}" class="quantity-field border-0 text-center w-25" >
                                 <input type="button" value="+" class="button-plus border rounded-circle icon-shape icon-sm " data-field="quantity">
                             </div>
                         </div>

@@ -12,10 +12,12 @@ import com.mihak.jumun.storeCategory.SCService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -56,16 +58,16 @@ public class CustomerMenuController {
     @PostMapping("/{storeSN}/menu/{id}/option")
     public String addToCart(@PathVariable("storeSN") String storeSN, @PathVariable Long id, @ModelAttribute CustomerMenuForm customerMenuForm,
                             HttpServletRequest request, @CookieValue("customerLogin") String customerKey){
-//        HttpSession session = request.getSession(true);
-//        String userNickname = session.getAttribute(customerKey).toString();
+        HttpSession session = request.getSession(true);
+        String userNickname = session.getAttribute(customerKey).toString();
         Menu menu = menuService.findById(id);
 
-        /*options를 form에 새로 추가하기*/
+        /*사용자가 입력한 메뉴폼의 내용대로 CartFormDTO내용을 업데이트*/
+//        CartFormDto cartFormDto = customerMenuService.addToForm(customerMenuForm, menu);
 
 
-        Cart cart = cartService.addToCart(customerMenuForm, "hi", menu);
+        Cart cart = cartService.addToCart(customerMenuForm, userNickname, menu);
         List<CartAndOption> cartAndOptions = cartAndOptionService.saveOptions(cart, customerMenuForm.getCheckOptions());
-        cart.updateCartAndOptions(cartAndOptions);
 
         return "redirect:/" + storeSN + "/menu";
     }
