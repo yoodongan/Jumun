@@ -3,11 +3,9 @@ package com.mihak.jumun.cart;
 import com.mihak.jumun.cart.dto.CartDetailDto;
 import com.mihak.jumun.cart.dto.CartDto;
 import com.mihak.jumun.cart.dto.CartFormDto;
+import com.mihak.jumun.cart.dto.CartListDto;
 import com.mihak.jumun.cartAndOption.CartAndOptionService;
-import com.mihak.jumun.entity.Cart;
-import com.mihak.jumun.entity.CartAndOption;
-import com.mihak.jumun.entity.Menu;
-import com.mihak.jumun.entity.Option;
+import com.mihak.jumun.entity.*;
 import com.mihak.jumun.exception.CartNotFoundException;
 import com.mihak.jumun.option.OptionService;
 import com.mihak.jumun.optionGroup.OptionGroupService;
@@ -46,10 +44,10 @@ public class CartService {
 
         for (Cart cart : carts) {
             CartDto cartDto = CartDto.builder()
-                    .id(cart.getId())
+                    .cartId(cart.getId())
                     .menu(cart.getMenu())
                     .count(cart.getCount())
-                    .Options(optionService.getOptionsByCart(cart))
+                    .options(optionService.getOptionsByCart(cart))
                     .build();
             cartDtoList.add(cartDto);
         }
@@ -92,6 +90,33 @@ public class CartService {
                 .build();
 
         return cartFormDto;
+    }
+
+    public CartListDto getCartListBy(String userNickname) {
+
+        List<CartDto> cartDtos = getCartByUserNickName(userNickname, false);
+
+        CartListDto cartListDto = CartListDto.builder()
+                .cartDtos(cartDtos)
+                .orderType(null)
+                .totalPrice(getTotalPrice(cartDtos))
+                .build();
+
+        return cartListDto;
+    }
+
+    private int getTotalPrice(List<CartDto> cartDtos) {
+        int totalPrice = 0;
+
+        for (CartDto cartDto : cartDtos) {
+            int price = cartDto.getMenu().getPrice();
+
+            for (Option option : cartDto.getOptions()) {
+                price += option.getPrice();
+            }
+            totalPrice += (price * cartDto.getCount());
+        }
+        return totalPrice;
     }
 
     public void deleteCartById(Long id) {

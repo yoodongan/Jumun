@@ -8,24 +8,41 @@
     <title>장바구니 페이지</title>
 </head>
 <body>
-<h2>장바구니 페이지</h2>
+<h2 th:text="${storeName}">스토어 명</h2>
 <div class="row row-cols-1 row-cols-sm-2 g-3">
-    <div th:each="cart : ${cartList}" class="col" th:onclick="|location.href='@{|/${storeSN}/cart/detail/${cart.id}|}'|">
+    <div th:each="cart : ${cartListDto.cartDtos}" class="col" th:onclick="|location.href='@{|/${storeSN}/cart/detail/${cart.cartId}|}'|">
         <div class="card" >
             <img th:src="${cart.menu.imgUrl}" class="card-img-top" alt="card-grid-image">
             <div class="card-body">
-                <div class="cart-info-top">
-                    <h5 th:text="${cart.menu.name}" class="card-title">메뉴명</h5>
-                    <h5 th:text="${cart.menu.price} +'원'" class="card-title">가격</h5>
-                    <h5 th:text="${cart.count} +'개'" class="card-title">갯수</h5>
+                <div>
+                    <span th:text="${cart.menu.name}" class="card-title">메뉴명</span>
+                    <span th:text="${cart.menu.price} +'원'" class="card-title">가격</span>
                 </div>
-                <div class="cart-info-button">
-                    <a onclick="if ( !confirm('메뉴를 수정하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/cart/modify/${cart.id}|}" class="btn btn-primary">수정</a>
-                    <a onclick="if ( !confirm('메뉴를 삭제하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/cart/delete/${cart.id}|}" class="btn btn-danger">삭제</a>
+                <ui class="list-group list-group-flush" th:each="option : ${cart.options}">
+                    <li class="list-group-item">
+                        <span th:text="'+ '+ ${option.name}" class="card-title">옵션명</span>
+                        <span th:text="${option.price} +'원'" class="card-title">옵션가격</span>
+                    </li>
+                </ui>
+                <span th:text="${cart.count} +'개'" class="card-title">갯수</span>
+                <div>
+                    <a onclick="if ( !confirm('메뉴를 수정하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/cart/modify/${cart.cartId}|}" class="btn btn-primary">수정</a>
+                    <a onclick="if ( !confirm('메뉴를 삭제하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/cart/delete/${cart.cartId}|}" class="btn btn-danger">삭제</a>
                 </div>
             </div>
         </div>
     </div>
+    <h5 th:text="'총 주문 금액 : '+ ${cartListDto.totalPrice} + '원'" class="card-title">전체 가격</h5>
+
+    <form th:action th:object="${cartListDto}" method="post">
+        <div th:each="type : ${orderTypes}">
+            <div>
+                <input type="radio" th:field="*{orderType}" th:value="${type.name()}" class="form-check-input"/>
+                <label th:for="${#ids.prev('orderType')}" th:text="${type.description}" class="form-check-label"></label>
+            </div>
+        </div>
+        <button type="button" th:href="@{|/${storeSN}/order|}" class="btn btn-primary">주문하기</button>
+    </form>
 </div>
 </body>
 </html>

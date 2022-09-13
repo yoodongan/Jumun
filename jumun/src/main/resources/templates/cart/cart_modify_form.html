@@ -21,6 +21,7 @@
                     <input type = "checkbox" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
                            th:value="${optionAndOptionGroup.option.getId()}" th:checked="${#lists.contains(cartFormDto.checkOptions, optionAndOptionGroup.option)}">
                     <label th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
+                    <span th:text="${optionAndOptionGroup.option.price} +'원'">옵션가격</span>
                 </div>
             </div>
             <div th:if="${!optionGroup.isMultiple}">
@@ -28,6 +29,7 @@
                         <input type="radio" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
                                th:value="${optionAndOptionGroup.option.getId()}" th:checked="${#lists.contains(cartFormDto.checkOptions, optionAndOptionGroup.option)}">
                         <label th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
+                        <span th:text="${optionAndOptionGroup.option.price} +'원'">옵션가격</span>
                     </div>
                 </div>
             <br/><br/><br/>
