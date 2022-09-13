@@ -1,9 +1,6 @@
 package com.mihak.jumun.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 public class Cart extends BaseEntity {
 
     @Id
@@ -33,14 +31,9 @@ public class Cart extends BaseEntity {
     private List<CartAndOption> cartAndOptions = new ArrayList<>();
 
     public void updateCartAndOptions(List<CartAndOption> cartAndOptions) {
+        this.cartAndOptions = new ArrayList<>();
         for (CartAndOption cartAndOption : cartAndOptions) {
             this.cartAndOptions.add(cartAndOption);
         }
-    }
-
-    public void modifyCart(int count, List<CartAndOption> cartAndOptions) {
-        this.count = count;
-        this.cartAndOptions = new ArrayList<>();
-        updateCartAndOptions(cartAndOptions);
     }
 }

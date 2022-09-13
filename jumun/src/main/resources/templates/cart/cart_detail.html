@@ -20,8 +20,14 @@
     <br/>
     <h3>선택한 옵션</h3>
     <hr/>
-    <div th:each="checkOption : ${cartDetailDto.checkOptions}" class="col">
-        <h5 th:text="${checkOption.name}" class="card-title">옵션명</h5>
+
+    <div th:each="optionGroup : ${cartDetailDto.optionGroups}" class="form-check">
+        <h5 th:text="${optionGroup.name}">옵션그룹이름</h5>
+        <hr/>
+        <div th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}">
+            <h5 th:text="${optionAndOptionGroup.option.name}" th:if="${#lists.contains(cartDetailDto.checkOptions, optionAndOptionGroup.option)}"></h5>
+        </div>
+        <br/><br/><br/>
     </div>
 </div>
 </body>

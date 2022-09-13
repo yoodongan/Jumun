@@ -70,6 +70,7 @@ public class CartService {
                 .imgUrl(menu.getImgUrl())
                 .description(menu.getDescription())
                 .price(menu.getPrice())
+                .optionGroups(optionGroupService.getOptionGroupByMenu(menu))
                 .checkOptions(optionService.getOptionsByCart(cart))
                 .count(cart.getCount())
                 .build();
@@ -100,10 +101,11 @@ public class CartService {
     @Transactional
     public void modifyCart(Long cartId, CartFormDto cartFormDto) {
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new CartNotFoundException("해당 장바구니는 존재하지 않습니다."));
+        cart.setCount(cartFormDto.getCount());
 
         cartAndOptionService.deleteByCart(cart);
         List<Option> checkOptions = cartFormDto.getCheckOptions();
         List<CartAndOption> cartAndOptions = cartAndOptionService.saveOptions(cart, checkOptions);
-        cart.modifyCart(cartFormDto.getCount(), cartAndOptions);
+        cart.updateCartAndOptions(cartAndOptions);
     }
 }
