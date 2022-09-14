@@ -42,7 +42,7 @@ public class OptionGroupController {
         }
         optionGroupFormDto.setStore(storeService.findBySerialNumber(storeSN));
         optionGroupService.createOptionGroup(optionGroupFormDto);
-        return "redirect:/%s/admin/store/optionGroup".formatted(storeSN);   // 스토어 관리 페이지로 이동하면 좋을 것 같다.
+        return "redirect:/%s/admin/store/optionGroupList".formatted(storeSN);
     }
 
     /* 옵션 그룹 관리 */
@@ -89,6 +89,42 @@ public class OptionGroupController {
         optionAndOptionGroupService.addOption(optionGroup, option);
 
         return "redirect:/%s/admin/store/optionGroupDetail/%s".formatted(storeSN, optionGroupId);
+    }
+
+    /* 옵션 그룹 수정 */
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{storeSN}/admin/store/optionGroup/modify/{optionGroupId}")
+    public String optionGroupModifyForm(@PathVariable String storeSN, @PathVariable Long optionGroupId, Model model) {
+        Store store = storeService.findBySerialNumber(storeSN);
+        OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, store);
+        OptionGroupFormDto optionGroupFormDto = optionGroupService.getOptionGroupFormDtd(optionGroup);
+        model.addAttribute("optionGroupFormDto", optionGroupFormDto);
+
+        return "optionGroup/optionGroup_modify";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{storeSN}/admin/store/optionGroup/modify/{optionGroupId}")
+    public String optionGroupModify(@PathVariable String storeSN,
+                                    @PathVariable Long optionGroupId,
+                                    @Valid OptionGroupFormDto optionGroupFormDto,
+                                    Model model,
+                                    BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "optionGroup/optionGroup_modify";
+        }
+        optionGroupService.modifyOptionGroup(optionGroupId, optionGroupFormDto);
+
+        return "redirect:/%s/admin/store/optionGroupList".formatted(storeSN, optionGroupId);
+    }
+
+    /* 옵션 그룹 삭제하기 */
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{storeSN}/admin/store/optionGroup/delete/{optionGroupId}")
+    public String deleteOptionGroup(@PathVariable String storeSN,
+                                    @PathVariable Long optionGroupId) {
+        optionGroupService.remove(optionGroupId);
+        return "redirect:/%s/admin/store/optionGroupList".formatted(storeSN, optionGroupId);
     }
 
 }

@@ -54,4 +54,29 @@ public class OptionGroupService {
     public List<Option> findAllByOptionGroup(OptionGroup optionGroup) {
         return optionAndOptionGroupService.findAllByOptionGroup(optionGroup);
     }
+
+    // 옵션그룹 수정
+    public OptionGroupFormDto getOptionGroupFormDtd(OptionGroup optionGroup) {
+        OptionGroupFormDto optionGroupFormDto = OptionGroupFormDto.builder()
+                .name(optionGroup.getName())
+                .isMultiple(optionGroup.isMultiple())
+                .store(optionGroup.getStore())
+                .build();
+        return optionGroupFormDto;
+    }
+
+
+    public void modifyOptionGroup(Long optionGroupId, OptionGroupFormDto optionGroupFormDto) {
+        OptionGroup optionGroup = optionGroupRepository.findById(optionGroupId).get();
+        optionGroup.changeOptionGroup(optionGroupFormDto.getName(), optionGroupFormDto.getIsMultiple());
+        optionGroupRepository.save(optionGroup);
+    }
+
+    // 옵션그룹 삭제
+    public void remove(Long optionGroupId) {
+        optionGroupRepository.deleteById(optionGroupId);
+    }
+
+
+
 }
