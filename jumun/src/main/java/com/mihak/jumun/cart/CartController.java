@@ -6,6 +6,7 @@ import com.mihak.jumun.cart.dto.CartListDto;
 import com.mihak.jumun.cartAndOption.CartAndOptionService;
 import com.mihak.jumun.entity.*;
 import com.mihak.jumun.menu.MenuService;
+import com.mihak.jumun.order.dto.OrderDtoFromCart;
 import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -38,6 +39,7 @@ public class CartController {
         model.addAttribute("cartListDto", cartListDto);
         model.addAttribute("storeName", store.getName());
         model.addAttribute("storeSN", storeSN);
+        model.addAttribute("orderDto", new OrderDtoFromCart());
         return "cart/cart_list";
     }
 

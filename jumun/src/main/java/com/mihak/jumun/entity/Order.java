@@ -1,5 +1,6 @@
 package com.mihak.jumun.entity;
 
+import com.mihak.jumun.order.dto.OrderFormDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,8 +34,14 @@ public class Order extends BaseEntity {
     private LocalDateTime orderedAt;
     private int totalPrice;
     @Lob
-    private String request;
+    private String requests;
 
     private String userNickName;
     private String storeSerialNumber;
+
+    public void setAboutPay(OrderFormDto dto) {
+        this.payType = dto.getPayType();
+        this.requests = dto.getRequests();
+        this.payStatus = PayStatus.CONTINUE;
+    }
 }

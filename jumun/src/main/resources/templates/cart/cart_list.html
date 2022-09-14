@@ -32,16 +32,16 @@
             </div>
         </div>
     </div>
-    <h5 th:text="'총 주문 금액 : '+ ${cartListDto.totalPrice} + '원'" class="card-title">전체 가격</h5>
-
-    <form th:action th:object="${cartListDto}" method="post">
+    <form th:action="@{|/${storeSN}/order|}" th:object="${orderDtoFromCart}" method="post">
+        <h5 th:text="'총 주문 금액 : '+ ${cartListDto.totalPrice} + '원'" class="card-title">전체 가격</h5>
+        <input type="hidden" th:name="totalPrice" th:value="${cartListDto.totalPrice}"/>
         <div th:each="type : ${orderTypes}">
             <div>
                 <input type="radio" th:field="*{orderType}" th:value="${type.name()}" class="form-check-input"/>
                 <label th:for="${#ids.prev('orderType')}" th:text="${type.description}" class="form-check-label"></label>
             </div>
         </div>
-        <button type="button" th:href="@{|/${storeSN}/order|}" class="btn btn-primary">주문하기</button>
+        <button type="submit" class="float-end btn btn-info btn-sm my-2">주문하기</button>
     </form>
 </div>
 </body>
