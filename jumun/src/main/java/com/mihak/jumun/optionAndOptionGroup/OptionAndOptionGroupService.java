@@ -3,6 +3,7 @@ package com.mihak.jumun.optionAndOptionGroup;
 import com.mihak.jumun.entity.Option;
 import com.mihak.jumun.entity.OptionAndOptionGroup;
 import com.mihak.jumun.entity.OptionGroup;
+import com.mihak.jumun.option.OptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.Optional;
 public class OptionAndOptionGroupService {
 
     private final OptionAndOptionGroupRepository optionAndOptionGroupRepository;
+    private final OptionService optionService;
 
     // 옵션 그룹에 옵션 추가, 중간테이블의 정보가 담긴 리스트를 리턴.
     public void addOption(OptionGroup optionGroup, Option option) {
@@ -33,5 +35,10 @@ public class OptionAndOptionGroupService {
             options.add(optionAndOptionGroup.getOption());
         }
         return options;
+    }
+
+    public void remove(Long optionId) {
+        Option option = optionService.findById(optionId);
+        optionAndOptionGroupRepository.deleteAllByOption(option);
     }
 }
