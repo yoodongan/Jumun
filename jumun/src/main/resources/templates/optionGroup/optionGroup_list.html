@@ -16,18 +16,23 @@
 
 </div>
 <div th:each="optionGroup : ${optionGroups}" class="list-group mt-3">
-    <a th:href="@{|/${storeSN}/admin/store/optionGroupDetail/${optionGroup.id}|}">
-        <div href="#" class="list-group-item list-group-item-action option-group" aria-current="true">
+<!--    <a th:href="@{|/${storeSN}/admin/store/optionGroupDetail/${optionGroup.id}|}">-->
+        <div th:onclick="|location.href='@{|/${storeSN}/admin/store/optionGroupDetail/${optionGroup.id}|}'|" href="#" class="list-group-item list-group-item-action option-group" aria-current="true">
 
             <div th:text="${optionGroup.name}">첫 번째 옵션그룹1</div>
-            <div>
-                <button type="button" class="btn btn-primary">수정</button>
-                <button type="button" class="btn btn-danger">삭제</button>
-            </div>
 
         </div>
-    </a>
+        <div clas="button-group">
+            <button type="button" class="btn btn-primary" th:onclick="|location.href='@{|/${storeSN}/admin/store/optionGroup/modify/${optionGroup.id}|}'|">수정</button>
+            <a onclick="if ( !confirm('메뉴를 삭제하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/admin/store/optionGroup/delete/${optionGroup.id}|}" class="btn btn-danger">삭제</a>
+        </div>
+
 </div>
 </body>
 
 </html>
+<script>
+    function deleteOk(){
+        if(!confirm('정말로 삭제하시겠습니까??')) return false;
+    }
+</script>
