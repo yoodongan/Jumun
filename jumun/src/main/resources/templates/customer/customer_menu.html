@@ -5,28 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/menu_list.css}">
-    <title>관리자 메뉴 페이지</title>
+    <title>고객 메뉴 페이지</title>
     <style>
         .field-error {
             border-color: #dc3545;
             color: #dc3545;
         }
     </style>
+    <script th:inline="javascript">
+        <!--만약 다른 categoryId값이 들어온다면 해당 div class 속성에 active 주기 -->
+        /*<![CDATA[*/
+        window.onload = function giveActive() {
+
+            var defaultCategory = document.getElementById("defaultCategory");
+            var categoryIdIsNull = /*[[${categoryId}]]*/;
+
+            <!-- 백틱을 사용한 템플릿 리터럴사용-->
+            let targetId = `category[[${categoryId}]]`;
+
+            var target = document.getElementById(targetId);
+            //새로고침되기 때문에 속성값이 알아서 초기화 된다.
+
+            //넘어온 categoryId값이 null이라면 기본 카테고리 버튼 active
+            if(categoryIdIsNull==null) {
+                defaultCategory.setAttribute('class', 'list-group-item btn btn-primary active');
+            }
+            //클릭된 카테고리만 속성 값 부여
+            target.setAttribute('class', 'list-group-item btn btn-primary active');
+        }
+        /*]]>*/
+    </script>
 </head>
 <body>
     <h2>고객 메뉴판</h2>
-    <div class="admin-menu">
-        <ul th:each="category : ${categoryList}" class="list-group list-group-horizontal">
-            <li th:text="${category.name}" class="list-group-item">카테고리명</li>
-        </ul>
-    </div>
-
+    <!-- 카테고리 바 -->
+    <div th:replace="customer/customer_categorybar :: customer_categorybarFragment"></div>
     <div class="row row-cols-1 row-cols-sm-2 g-3">
-        <div th:each="menu : ${menuList}" class="col">
-            <div class="card" style=" cursor: pointer;" th:onclick="|location.href='@{|/{storeSN}/menu/detail/${menu.id}|}'|">
+        <div th:each="menu : ${menuList}" class="col" >
+            <div th:id="${menu.category.getId()}" style=" cursor: pointer;" th:onclick="|location.href='@{|/${storeSN}/menu/${menu.id}/option|}'|">
                 <!-- 메뉴칸 자체에 링크를 걸기. -->
 
                 <!-- S3 img -->
+                <div class="card">
                 <img th:src= "@{${menu.imgUrl}}" class="card-img-top" alt="card-grid-image">
                 <div class="card-body">
                     <div class="menu-info-top">
@@ -34,6 +54,7 @@
                         <h5 th:text="${menu.price} +'원'" class="card-title">1500원(가격)</h5>
                     </div>
                     <p th:text="${menu.description}" class="card-text">메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.</p>
+                </div>
                 </div>
                 </a>
             </div>

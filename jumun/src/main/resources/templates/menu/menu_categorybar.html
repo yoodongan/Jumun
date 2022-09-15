@@ -1,0 +1,15 @@
+<div th:fragment="menu_categorybarFragment" class="admin-menu">
+  <form th:action method="post">
+    <ul class="list-group list-group-horizontal btn-group">
+      <!-- 기본 카테고리를 링크를 걸어놓고 만들면  -->
+      <li class="list-group-item btn btn-primary" id="defaultCategory" th:onclick="|location.href='@{|/${storeSN}/admin/store/menuList|}'|">기본카테고리</li>
+      <div th:each="category : ${categoryList}">
+        <input type="hidden" th:id="${category.getId()}" name="categoryId" th:value="${category.getId()}">
+        <li th:text="${category.name}" name="category" th:value="'category'+${category.getId()}" class="list-group-item btn btn-primary" style=" cursor: pointer;" th:id="'category'+${category.getId()}" th:onclick="|location.href='@{|/${storeSN}/admin/store/menuList/${category.getId()}|}'|">
+          카테고리명
+        </li>
+
+      </div>
+    </ul>
+  </form>
+</div>

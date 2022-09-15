@@ -1,4 +1,4 @@
-package com.mihak.jumun.customer.dto;
+package com.mihak.jumun.customer.form;
 
 
 import lombok.Getter;

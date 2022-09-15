@@ -72,7 +72,7 @@ public class Menu extends BaseEntity {
         menu.addCategory(category);
         menu.addStore(store);
 
-        /* 이미지 추가해야 함. 일단 첨부파일로 구현하고, 추후 s3에서 이미지 url 로 넣어줄 예정 */
+        /* S3처리 후 리턴된 이미지url 저장*/
         menu.setImgUrl(imgUrl);
 
         return menu;
