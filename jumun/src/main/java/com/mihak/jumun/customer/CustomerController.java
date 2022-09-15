@@ -8,7 +8,7 @@ import javax.validation.Valid;
 
 import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.store.StoreService;
-import com.mihak.jumun.customer.dto.CustomerCreateForm;
+import com.mihak.jumun.customer.form.CustomerCreateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -32,8 +32,6 @@ public class CustomerController {
     @GetMapping("/{storeSN}/customer")
     public String signup(@PathVariable String storeSN, Model model) {
         model.addAttribute("customerCreateForm", new CustomerCreateForm());
-//        CustomerLogin cookiecheck = new CustomerLogin(null);
-//        cookiecheck.checkCookie(request);
         return "customer/customer_login";
     }
 

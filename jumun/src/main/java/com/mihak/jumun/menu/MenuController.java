@@ -4,6 +4,7 @@ import com.mihak.jumun.category.CategoryService;
 import com.mihak.jumun.entity.Category;
 import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.entity.Store;
+import com.mihak.jumun.gallery.S3Service;
 import com.mihak.jumun.menu.form.MenuForm;
 import com.mihak.jumun.store.StoreService;
 import com.mihak.jumun.storeCategory.SCService;
@@ -13,9 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +30,8 @@ public class MenuController {
     private final CategoryService categoryService;
     private final StoreService storeService;
     private final SCService scService;
+    /*S3 처리*/
+    private final S3Service s3Service;
 
     /* 메뉴 생성폼 */
     @PreAuthorize("isAuthenticated()")
@@ -41,7 +46,7 @@ public class MenuController {
     /* 메뉴 생성 */
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{storeSN}/admin/store/menu")
-    public String create(@PathVariable("storeSN") String storeSN, @Valid MenuForm menuForm, BindingResult result) {
+    public String create(@PathVariable("storeSN") String storeSN, @Valid MenuForm menuForm, BindingResult result, MultipartFile file) throws IOException {
         // 메뉴명 Null 값, 가격 Null 값 예외 체크
         if (result.hasErrors()) {
             return "menu/create_menu";
@@ -56,6 +61,11 @@ public class MenuController {
             return "menu/create_menu";
         }
 
+        /*S3 컨트롤러 부분*/
+        String imgPath = s3Service.upload(file);
+        /*menuForm의 변수에 S3처리 후 리턴된 Url을 넣어주는 코드*/
+        menuForm.setImgUrl(imgPath);
+
         menuService.saveMenu(menuForm);
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
     }
@@ -67,11 +77,51 @@ public class MenuController {
         Store store = storeService.findBySerialNumber(storeSN);
         List<Category> categoryList = scService.findAllbyStoreId(store.getId());
         model.addAttribute("categoryList", categoryList);
-        List<Menu> menuList = menuService.findAllByStore(storeSN);  // 이것도 수정해야 함.
+        List<Menu> menuList = menuService.findAllByStore(storeSN);
         model.addAttribute("menuList", menuList);
         model.addAttribute("storeSN", storeSN);
 
         return "menu/menu_list";
+    }
+    /*기본, 관리자가 카테고리를 눌렀을 때*/
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{storeSN}/admin/store/menuList")
+    @ResponseBody
+    public String changeMenuViewByCategory(@RequestParam Long categoryId, @PathVariable("storeSN") String storeSN, Model model) {
+        Store store = storeService.findBySerialNumber(storeSN);
+        List<Category> categoryList = scService.findAllbyStoreId(store.getId());
+        model.addAttribute("categoryList", categoryList);
+        List<Menu> menuList = menuService.findByCategoryId(categoryId);
+        model.addAttribute("menuList" , menuList);
+        model.addAttribute("storeSN", storeSN);
+
+        return "redirect:/" +storeSN+ "/admin/store/menu_list"+categoryId;
+    }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{storeSN}/admin/store/menuList/{categoryId}")
+    public String menuView(@PathVariable("storeSN") String storeSN, @PathVariable("categoryId") Long categoryId, Model model) {
+        Store store = storeService.findBySerialNumber(storeSN);
+        List<Category> categoryList = scService.findAllbyStoreId(store.getId());
+        model.addAttribute("categoryList", categoryList);
+        List<Menu> menuList = menuService.findByCategoryId(categoryId);
+        model.addAttribute("categoryId" , categoryId);
+        model.addAttribute("menuList" , menuList);
+        model.addAttribute("storeSN", storeSN);
+
+        return "menu/menu_list";
+    }
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{storeSN}/admin/store/menuList/{categoryId}")
+    @ResponseBody
+    public String changeMenuViewByAnotherCategory(@PathVariable("categoryId") Long categoryId, @PathVariable("storeSN") String storeSN, Model model) {
+        Store store = storeService.findBySerialNumber(storeSN);
+        List<Category> categoryList = scService.findAllbyStoreId(store.getId());
+        model.addAttribute("categoryList", categoryList);
+        List<Menu> menuList = menuService.findByCategoryId(categoryId);
+        model.addAttribute("menuList" , menuList);
+        model.addAttribute("storeSN", storeSN);
+
+        return "redirect:/" +storeSN+ "/admin/store/menu_list"+categoryId;
     }
 
     /* 메뉴 수정 */

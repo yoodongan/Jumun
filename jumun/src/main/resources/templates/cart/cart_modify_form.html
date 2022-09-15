@@ -1,39 +1,43 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
-    <div class="my-3 border-bottom">
-        <div>
-            <h4>회원가입</h4>
-        </div>
-    </div>
-    <form th:action="@{|/${storeSN}/cart/modify/${cartId}|}" th:object="${cartFormDto}" method="post">
+    <form th:action th:object="${cartFormDto}" method="post">
 
         <img th:src="*{imgUrl}" class="card-img-top" alt="card-grid-image">
+        <input type="hidden" name="imgUrl" th:value="${cartFormDto.imgUrl}"/>
         <h3>장바구니 속성</h3>
         <hr/>
         <h5 th:text="*{name}" class="card-title">메뉴명</h5>
+        <input type="hidden" name="name" th:value="${cartFormDto.name}"/>
         <h5 th:text="*{description}" class="card-title">상세보기</h5>
+        <input type="hidden" th:name="description" th:value="${cartFormDto.description}"/>
         <h5 th:text="*{price} +'원'" class="card-title">가격</h5>
+        <input type="hidden" th:name="price" th:value="${cartFormDto.price}" />
 
         <div th:each="optionGroup : *{optionGroups}" class="form-check">
             <h5 th:text="${optionGroup.name}">옵션그룹이름</h5>
             <hr/>
             <div th:if="${optionGroup.isMultiple}">
                 <div th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}">
-                    <input type = "checkbox" id="'ignore_'+ ${optionAndOptionGroup.id}"
-                           th:value="${optionAndOptionGroup.options}" th:checked="${#lists.contains(cartFormDto.checkOptions, optionAndOptionGroup.options)}">
-                    <label th:for="ignore" th:text="${optionAndOptionGroup.options.name}">옵션이름</label>
+                    <input type = "checkbox" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
+                           th:value="${optionAndOptionGroup.option.getId()}" th:checked="${#lists.contains(cartFormDto.checkOptions, optionAndOptionGroup.option)}">
+                    <label th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
+                    <span th:text="${optionAndOptionGroup.option.price} +'원'">옵션가격</span>
                 </div>
             </div>
             <div th:if="${!optionGroup.isMultiple}">
                     <div th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}">
-                        <input type="radio" id="'ignore_'+ ${optionAndOptionGroup.id}"
-                               th:value="${optionAndOptionGroup.options}" th:checked="${#lists.contains(cartFormDto.checkOptions, optionAndOptionGroup.options)}">
-                        <label th:for="ignore" th:text="${optionAndOptionGroup.options.name}">옵션이름</label>
+                        <input type="radio" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
+                               th:value="${optionAndOptionGroup.option.getId()}" th:checked="${#lists.contains(cartFormDto.checkOptions, optionAndOptionGroup.option)}">
+                        <label th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
+                        <span th:text="${optionAndOptionGroup.option.price} +'원'">옵션가격</span>
                     </div>
                 </div>
             <br/><br/><br/>
         </div>
-
+        <div>
+            <p class="text-dark">개수</p>
+            <input type="number" step="1" min= "0" max="10" th:name="count" th:value="${cartFormDto.count}" >
+        </div>
         <button type="submit" class="float-end btn btn-info btn-sm my-2">메뉴 수정</button>
     </form>
 </div>

@@ -14,7 +14,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class OptionAndOptionGroupService {
-
     private final OptionAndOptionGroupRepository optionAndOptionGroupRepository;
     private final OptionService optionService;
 

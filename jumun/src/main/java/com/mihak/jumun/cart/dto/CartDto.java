@@ -12,8 +12,8 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class CartDto {
-    private Long id;
+    private Long cartId;
     private Menu menu;
     private int count;
-    private List<Option> Options;
+    private List<Option> options;
 }
