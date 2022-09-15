@@ -39,7 +39,7 @@ public class CartController {
         model.addAttribute("cartListDto", cartListDto);
         model.addAttribute("storeName", store.getName());
         model.addAttribute("storeSN", storeSN);
-        model.addAttribute("orderDto", new OrderDtoFromCart());
+        model.addAttribute("orderDtoFromCart", new OrderDtoFromCart());
         return "cart/cart_list";
     }
 
