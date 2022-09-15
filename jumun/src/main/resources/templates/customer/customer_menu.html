@@ -13,7 +13,7 @@
         }
     </style>
     <script th:inline="javascript">
-        <!--디폴트 값은 0을 주고, 만약 다른 categoryId값이 들어온다면 해당 div class 속성에 active 주기 -->
+        <!--만약 다른 categoryId값이 들어온다면 해당 div class 속성에 active 주기 -->
         /*<![CDATA[*/
         window.onload = function giveActive() {
 
@@ -32,7 +32,6 @@
             }
             //클릭된 카테고리만 속성 값 부여
             target.setAttribute('class', 'list-group-item btn btn-primary active');
-            conlole.log(defaultCategory);
         }
         /*]]>*/
     </script>
@@ -47,6 +46,7 @@
                 <!-- 메뉴칸 자체에 링크를 걸기. -->
 
                 <!-- S3 img -->
+                <div class="card">
                 <img th:src= "@{${menu.imgUrl}}" class="card-img-top" alt="card-grid-image">
                 <div class="card-body">
                     <div class="menu-info-top">
@@ -54,6 +54,7 @@
                         <h5 th:text="${menu.price} +'원'" class="card-title">1500원(가격)</h5>
                     </div>
                     <p th:text="${menu.description}" class="card-text">메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.</p>
+                </div>
                 </div>
                 </a>
             </div>
