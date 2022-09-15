@@ -31,6 +31,7 @@ public class CustomerMenuController {
     private final CartAndOptionService cartAndOptionService;
 
 
+    /*기본창*/
     @GetMapping("/{storeSN}/menu")
     public String menuView(@PathVariable("storeSN") String storeSN, Model model) {
         Store store = storeService.findBySerialNumber(storeSN);
@@ -42,6 +43,44 @@ public class CustomerMenuController {
 
         return "customer/customer_menu";
     }
+    /*기본, 사용자가 카테고리를 눌렀을 때*/
+    @PostMapping("/{storeSN}/menu")
+    @ResponseBody
+    public String changeMenuViewByCategory(@RequestParam Long categoryId, @PathVariable("storeSN") String storeSN, Model model) {
+        Store store = storeService.findBySerialNumber(storeSN);
+        List<Category> categoryList = scService.findAllbyStoreId(store.getId());
+        model.addAttribute("categoryList", categoryList);
+        List<Menu> menuList = menuService.findByCategoryId(categoryId);
+        model.addAttribute("menuList" , menuList);
+        model.addAttribute("storeSN", storeSN);
+
+        return "redirect:/" +storeSN+ "/menu"+categoryId;
+    }
+
+    @GetMapping("/{storeSN}/menu/{categoryId}")
+    public String menuView(@PathVariable("storeSN") String storeSN, @PathVariable("categoryId") Long categoryId, Model model) {
+        Store store = storeService.findBySerialNumber(storeSN);
+        List<Category> categoryList = scService.findAllbyStoreId(store.getId());
+        model.addAttribute("categoryList", categoryList);
+        List<Menu> menuList = menuService.findByCategoryId(categoryId);
+        model.addAttribute("categoryId" , categoryId);
+        model.addAttribute("menuList" , menuList);
+        model.addAttribute("storeSN", storeSN);
+
+        return "customer/customer_menu";
+    }
+    @PostMapping("/{storeSN}/menu/{categoryId}")
+    @ResponseBody
+    public String changeMenuViewByAnotherCategory(@PathVariable("categoryId") Long categoryId, @PathVariable("storeSN") String storeSN, Model model) {
+        Store store = storeService.findBySerialNumber(storeSN);
+        List<Category> categoryList = scService.findAllbyStoreId(store.getId());
+        model.addAttribute("categoryList", categoryList);
+        List<Menu> menuList = menuService.findByCategoryId(categoryId);
+        model.addAttribute("menuList" , menuList);
+        model.addAttribute("storeSN", storeSN);
+
+        return "redirect:/"+storeSN+"/menu"+categoryId;
+    }
 
     @GetMapping("/{storeSN}/menu/{id}/option")
     public String menuDetail(@PathVariable("storeSN") String storeSN, @PathVariable Long id, Model model){
@@ -52,7 +91,6 @@ public class CustomerMenuController {
         CustomerMenuForm customerMenuForm = customerMenuService.getMenuFormById(id);
         model.addAttribute("customerMenuForm", customerMenuForm);
 
-
         return "customer/customer_menu_detail";
     }
     @PostMapping("/{storeSN}/menu/{id}/option")
@@ -61,10 +99,6 @@ public class CustomerMenuController {
         HttpSession session = request.getSession(true);
         String userNickname = session.getAttribute(customerKey).toString();
         Menu menu = menuService.findById(id);
-
-        /*사용자가 입력한 메뉴폼의 내용대로 CartFormDTO내용을 업데이트*/
-//        CartFormDto cartFormDto = customerMenuService.addToForm(customerMenuForm, menu);
-
 
         Cart cart = cartService.addToCart(customerMenuForm, userNickname, menu);
         List<CartAndOption> cartAndOptions = cartAndOptionService.saveOptions(cart, customerMenuForm.getCheckOptions());
