@@ -1,7 +1,9 @@
 package com.mihak.jumun.menu;
 
+import com.mihak.jumun.entity.Category;
 import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.entity.Store;
+import com.mihak.jumun.entity.StoreAndCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -17,4 +19,5 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 
     Optional<Menu> findByNameAndIdNot(String name, Long menuId);
 
+    List<Menu> findByCategoryId(Long categoryId);
 }

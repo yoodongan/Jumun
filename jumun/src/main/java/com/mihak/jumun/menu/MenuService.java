@@ -1,13 +1,12 @@
 package com.mihak.jumun.menu;
 
 import com.mihak.jumun.category.CategoryRepository;
-import com.mihak.jumun.entity.Category;
-import com.mihak.jumun.entity.Menu;
-import com.mihak.jumun.entity.MenuAndOptionGroup;
-import com.mihak.jumun.entity.Store;
+import com.mihak.jumun.category.CategoryService;
+import com.mihak.jumun.entity.*;
 import com.mihak.jumun.exception.MenuNotFoundException;
 import com.mihak.jumun.menu.form.MenuForm;
 import com.mihak.jumun.store.StoreService;
+import com.mihak.jumun.storeCategory.SCService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +20,8 @@ public class MenuService {
     private final MenuRepository menuRepository;
     private final CategoryRepository categoryRepository;
     private final StoreService storeService;
+    private final SCService scService;
+
 
     public Long saveMenu(MenuForm menuForm) {
         Optional<Category> oCategory = categoryRepository.findById((menuForm.getCategoryId()));
@@ -34,6 +35,10 @@ public class MenuService {
         Optional<Menu> findMenu =  menuRepository.findById(id);
         if(!(findMenu.isPresent())) throw new MenuNotFoundException("수정할 메뉴가 없습니다!");
         return findMenu.get();
+    }
+    public List<Menu> findByCategoryId(Long id) {
+        List<Menu> findMenu = menuRepository.findByCategoryId(id);
+        return findMenu;
     }
 
 

@@ -12,19 +12,38 @@
             color: #dc3545;
         }
     </style>
+    <script th:inline="javascript">
+        <!--만약 다른 categoryId값이 들어온다면 해당 div class 속성에 active 주기 -->
+        /*<![CDATA[*/
+        window.onload = function giveActive() {
+
+            var defaultCategory = document.getElementById("defaultCategory");
+            var categoryIdIsNull = /*[[${categoryId}]]*/;
+
+            <!-- 백틱을 사용한 템플릿 리터럴사용-->
+            let targetId = `category[[${categoryId}]]`;
+
+            var target = document.getElementById(targetId);
+            //새로고침되기 때문에 속성값이 알아서 초기화 된다.
+
+            //넘어온 categoryId값이 null이라면 기본 카테고리 버튼 active
+            if(categoryIdIsNull==null) {
+                defaultCategory.setAttribute('class', 'list-group-item btn btn-primary active');
+            }
+            //클릭된 카테고리만 속성 값 부여
+            target.setAttribute('class', 'list-group-item btn btn-primary active');
+        }
+        /*]]>*/
+    </script>
 </head>
 <body>
 <h2>관리자 메뉴판</h2>
-<div class="admin-menu">
-    <ul th:each="category : ${categoryList}" class="list-group list-group-horizontal">
-        <li th:text="${category.name}" class="list-group-item">카테고리명</li>
-    </ul>
-</div>
-
+<!-- 카테고리 바 -->
+<div th:replace="menu/menu_categorybar :: menu_categorybarFragment"></div>
 <div class="row row-cols-1 row-cols-sm-2 g-3">
     <div th:each="menu : ${menuList}" class="col">
         <div class="card">
-            <img th:src="${menu.imgUrl}" class="card-img-top" alt="card-grid-image">
+            <img th:src= "@{${menu.imgUrl}}" class="card-img-top" alt="card-grid-image">
             <div class="card-body">
                 <div class="menu-info-top">
                     <h5 th:text="${menu.name}" class="card-title">떡볶이(메뉴명)</h5>

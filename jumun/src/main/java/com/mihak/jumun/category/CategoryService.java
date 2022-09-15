@@ -2,6 +2,7 @@ package com.mihak.jumun.category;
 
 import com.mihak.jumun.category.form.CategoryForm;
 import com.mihak.jumun.entity.Category;
+import com.mihak.jumun.entity.Store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

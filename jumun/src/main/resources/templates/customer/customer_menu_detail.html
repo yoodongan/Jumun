@@ -5,31 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/menu_list.css}">
-    <title>관리자 메뉴 페이지</title>
+    <title>고객 주문 상세페이지</title>
     <style>
         .field-error {
             border-color: #dc3545;
             color: #dc3545;
         }
     </style>
+    <script>
+        function incrementValue(e) {
+            e.preventDefault();
+            var fieldName = $(e.target).data('field');
+            var parent = $(e.target).closest('div');
+            var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+            if (!isNaN(currentVal)) {
+                parent.find('input[name=' + fieldName + ']').val(currentVal + 1);
+            } else {
+                parent.find('input[name=' + fieldName + ']').val(0);
+            }
+        }
+
+        function decrementValue(e) {
+            e.preventDefault();
+            var fieldName = $(e.target).data('field');
+            var parent = $(e.target).closest('div');
+            var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+            if (!isNaN(currentVal) && currentVal > 0) {
+                parent.find('input[name=' + fieldName + ']').val(currentVal - 1);
+            } else {
+                parent.find('input[name=' + fieldName + ']').val(0);
+            }
+        }
+
+        $('.input-group').on('click', '.button-plus', function(e) {
+            incrementValue(e);
+        });
+
+        $('.input-group').on('click', '.button-minus', function(e) {
+            decrementValue(e);
+        });
+    </script>
 </head>
 <body>
-<div class="row row-cols-1 row-cols-sm-2 g-3">
-    <div th:each="menu : ${menuDetail}" class="col">
-            <img th:src= "@{${menuDetail.imgUrl}}" class="card-img-top" alt="card-grid-image">
+<h2>고객 메뉴판</h2>
+<form th:action th:object="${customerMenuForm}" method="post">
+            <img th:src= "*{imgUrl}" class="card-img-top" alt="card-grid-image">
+            <div style="color: silver;">
+            <h5 th:text="*{category}" class="card-title">카테고리</h5>
+            </div>
+            <br>
+    <div class="row row-cols-1 row-cols-sm-2 g-2">
             <div class="card-body">
                 <div class="menu-info-top">
-                    <h5 th:text="${menuDetail.category.getName()}" class="card-title">카테고리</h5><br>
-                    <h5 th:text="${menuDetail.name}" class="card-title">떡볶이(메뉴명)</h5>
-                    <h5 th:text="${menuDetail.price} +'원'" class="card-title">1500원(가격)</h5>
+                    <h5 th:text="*{name}" class="card-title">떡볶이(메뉴명)</h5>
+                    <h5 th:text="*{price} +'원'" class="card-title">1500원(가격)</h5>
                 </div>
-                <p th:text="${menuDetail.description}" class="card-text">메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.</p>
-                <div th:each="menuoption : ${menuOption}" class="col">
-                    <p th:text="${menuOption.name}" class="card-text"></p>
-                    <p th:text="${menuOption.price}" class="card-text"></p>
-                </div>
+                <p th:text="*{description}" class="card-text">메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.</p>
             </div>
     </div>
-</div>
+                <div th:each="optionGroup : *{optionGroups}">
+                    <h5 th:text="${optionGroup.name}">옵션그룹이름</h5>
+                    <!-- 중복가능여부를 판단하는 로직-->
+                    <div th:if="${optionGroup.isMultiple}">
+                        <div th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}">
+                            <input type = "checkbox" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
+                                   th:value="${optionAndOptionGroup.option.getId()}" >
+                            <label th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
+                        </div>
+                    </div>
+                    <div th:if="${!optionGroup.isMultiple}">
+                        <div th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}" class="form-check form-check-inline">
+                            <input type="radio" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}" th:name="${optionAndOptionGroup.optionGroup.getId()}"
+                                   th:value="${optionAndOptionGroup.option.getId()}" class="form-check-input" >
+                            <label th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}" class="form-check-label">옵션이름</label>
+                        </div>
+                    </div>
+                    <br/><br/><br/>
+                </div>
+     <!--bootstrap increment buttons -->
+    <div class="container">
+        <div class="row mb-8 justify-content-center ">
+            <div class="col-md-6 col-12">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <p class="text-dark">개수</p>
+                            </div>
+                            <div class="input-group w-auto justify-content-end align-items-center">
+                                <input type="button" value="-" class="button-minus border rounded-circle  icon-shape icon-sm mx-1 " data-field="quantity">
+                                <input type="number" step="1" max="10" value="1" th:field="*{count}" class="quantity-field border-0 text-center w-25" >
+                                <input type="button" value="+" class="button-plus border rounded-circle icon-shape icon-sm " data-field="quantity">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <button type="submit" class="float-end btn btn-info btn-sm my-2">장바구니 담기</button>
+    </div>
+</form>
 </body>
 </html>

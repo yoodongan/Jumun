@@ -133,4 +133,15 @@ public class CartService {
         List<CartAndOption> cartAndOptions = cartAndOptionService.saveOptions(cart, checkOptions);
         cart.updateCartAndOptions(cartAndOptions);
     }
+
+    public Cart addToCart(CustomerMenuForm customerMenuForm, String userNickname, Menu menu) {
+        Cart cart = Cart.builder().
+                userNickName(userNickname)
+                .count(customerMenuForm.getCount())
+                .isOrdered(false)
+                .menu(menu)
+                .build();
+
+        return cartRepository.save(cart);
+    }
 }
