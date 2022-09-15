@@ -15,40 +15,30 @@
     <script th:inline="javascript">
         <!--디폴트 값은 0을 주고, 만약 다른 categoryId값이 들어온다면 해당 div class 속성에 active 주기 -->
         /*<![CDATA[*/
-        function giveActive(clicked_id) {
-            const isAcitve = 0;
+        window.onload = function giveActive() {
             let elements = document.getElementsByName("category");
-            var target = document.getElementById(clicked_id);
+            <!-- 백틱을 사용한 템플릿 리터럴사용-->
+            let targetId = `category[[${categoryId}]]`;
+            console.log(targetId);
+            console.log(elements);
+            var target = document.getElementById(targetId);
 
             var attrValue = target.getAttribute('class');
             //모든 카테고리 active속성 초기화
-            elements.removeAttribute('class', active);
+
 
             //클릭된 카테고리만 속성 값 부여
-            target.setAttribute('class', active);
+            target.setAttribute('class', 'list-group-item btn btn-primary active');
+            conlole.log(target);
+            conlole.log(targetId);
         }
-        $('.admin-menu').on('click', '.list-group-item', function(clicked_id) {
-            giveActive(clicked_id);
-        });
         /*]]>*/
     </script>
 </head>
 <body>
     <h2>고객 메뉴판</h2>
-    <div class="admin-menu">
-        <form th:action method="post">
-        <ul class="list-group list-group-horizontal btn-group">
-            <li class="list-group-item btn btn-primary" name="category" th:value="${categoryId}">기본카테고리</li>
-            <div th:each="category : ${categoryList}">
-                <input type="hidden" th:id="${category.getId()}" name="categoryId" th:value="${category.getId()}">
-                <li th:text="${category.name}" name="category" th:value="'category'+${category.getId()}" class="list-group-item btn btn-primary" style=" cursor: pointer;" th:id="'category'+${category.getId()}" th:onclick="|location.href='@{|/${storeSN}/menu/${category.getId()}|}'|">
-                카테고리명
-            </li>
-
-            </div>
-        </ul>
-        </form>
-    </div>
+    <!-- 카테고리 바 -->
+    <div th:replace="customer/customer_categorybar :: customer_categorybarFragment"></div>
     <div class="row row-cols-1 row-cols-sm-2 g-3">
         <div th:each="menu : ${menuList}" class="col" >
             <div th:id="${menu.category.getId()}" style=" cursor: pointer;" th:onclick="|location.href='@{|/${storeSN}/menu/${menu.id}/option|}'|">

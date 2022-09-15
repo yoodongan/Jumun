@@ -1,0 +1,14 @@
+<div th:fragment="customer_categorybarFragment" class="admin-menu">
+    <form th:action method="post">
+        <ul class="list-group list-group-horizontal btn-group">
+            <li class="list-group-item btn btn-primary" name="category" th:onclick="|location.href='@{|/${storeSN}/menu|}'|">기본카테고리</li>
+            <div th:each="category : ${categoryList}">
+                <input type="hidden" th:id="${category.getId()}" name="categoryId" th:value="${category.getId()}">
+                <li th:text="${category.name}" name="category" th:value="'category'+${category.getId()}" class="list-group-item btn btn-primary" style=" cursor: pointer;" th:id="'category'+${category.getId()}" th:onclick="|location.href='@{|/${storeSN}/menu/${category.getId()}|}'|">
+                    카테고리명
+                </li>
+
+            </div>
+        </ul>
+    </form>
+</div>
