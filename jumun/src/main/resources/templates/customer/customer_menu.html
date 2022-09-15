@@ -16,21 +16,23 @@
         <!--디폴트 값은 0을 주고, 만약 다른 categoryId값이 들어온다면 해당 div class 속성에 active 주기 -->
         /*<![CDATA[*/
         window.onload = function giveActive() {
-            let elements = document.getElementsByName("category");
+
+            var defaultCategory = document.getElementById("defaultCategory");
+            var categoryIdIsNull = /*[[${categoryId}]]*/;
+
             <!-- 백틱을 사용한 템플릿 리터럴사용-->
             let targetId = `category[[${categoryId}]]`;
-            console.log(targetId);
-            console.log(elements);
+
             var target = document.getElementById(targetId);
+            //새로고침되기 때문에 속성값이 알아서 초기화 된다.
 
-            var attrValue = target.getAttribute('class');
-            //모든 카테고리 active속성 초기화
-
-
+            //넘어온 categoryId값이 null이라면 기본 카테고리 버튼 active
+            if(categoryIdIsNull==null) {
+                defaultCategory.setAttribute('class', 'list-group-item btn btn-primary active');
+            }
             //클릭된 카테고리만 속성 값 부여
             target.setAttribute('class', 'list-group-item btn btn-primary active');
-            conlole.log(target);
-            conlole.log(targetId);
+            conlole.log(defaultCategory);
         }
         /*]]>*/
     </script>
