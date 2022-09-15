@@ -23,3 +23,7 @@ h2 {
     display :flex;
     justify-content : space-between;
 }
+.option-head {
+    display : flex;
+    justify-content : space-between;
+}

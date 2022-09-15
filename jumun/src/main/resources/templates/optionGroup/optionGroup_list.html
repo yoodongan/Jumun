@@ -13,7 +13,6 @@
     <a th:href="@{|/${storeSN}/admin/store/optionGroup|}">
     <button type="button" class="btn btn-primary" >+ 옵션그룹추가</button>
     </a>
-
 </div>
 <div th:each="optionGroup : ${optionGroups}" class="list-group mt-3">
 <!--    <a th:href="@{|/${storeSN}/admin/store/optionGroupDetail/${optionGroup.id}|}">-->
@@ -31,8 +30,3 @@
 </body>
 
 </html>
-<script>
-    function deleteOk(){
-        if(!confirm('정말로 삭제하시겠습니까??')) return false;
-    }
-</script>

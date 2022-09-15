@@ -14,7 +14,12 @@
     </style>
 </head>
 <body>
-<h2>옵션 관리 페이지</h2>
+<div class="option-head">
+    <h2>옵션 관리</h2>
+    <a th:href="@{|/${storeSN}/admin/store/option|}">
+        <button type="button" class="btn btn-primary" >+ 옵션추가</button>
+    </a>
+</div>
 
 <div class="list-group" th:each="option : ${options}">
     <li class="list-group-item d-flex justify-content-between align-items-start">
