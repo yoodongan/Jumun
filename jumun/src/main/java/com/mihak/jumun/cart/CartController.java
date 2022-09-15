@@ -1,13 +1,13 @@
 package com.mihak.jumun.cart;
 
 import com.mihak.jumun.cart.dto.CartDetailDto;
-import com.mihak.jumun.cart.dto.CartDto;
 import com.mihak.jumun.cart.dto.CartFormDto;
+import com.mihak.jumun.cart.dto.CartListDto;
 import com.mihak.jumun.cartAndOption.CartAndOptionService;
-import com.mihak.jumun.entity.Cart;
-import com.mihak.jumun.entity.CartAndOption;
-import com.mihak.jumun.entity.Menu;
+import com.mihak.jumun.entity.*;
 import com.mihak.jumun.menu.MenuService;
+import com.mihak.jumun.order.dto.OrderDtoFromCart;
+import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +24,7 @@ public class CartController {
     private final CartService cartService;
     private final MenuService menuService;
     private final CartAndOptionService cartAndOptionService;
+    private final StoreService storeService;
 
     @GetMapping("/{storeSN}/cart")
     public String showCart(@PathVariable String storeSN, Model model,
@@ -32,17 +33,25 @@ public class CartController {
         HttpSession session = request.getSession(true);
         String userNickname = session.getAttribute(customerKey).toString();
 
-        List<CartDto> cartDtoList = cartService.getCartByUserNickName(userNickname, false);
-        model.addAttribute("cartList", cartDtoList);
+        Store store = storeService.findBySerialNumber(storeSN);
+        CartListDto cartListDto = cartService.getCartListBy(userNickname);
+
+        model.addAttribute("cartListDto", cartListDto);
+        model.addAttribute("storeName", store.getName());
         model.addAttribute("storeSN", storeSN);
+        model.addAttribute("orderDtoFromCart", new OrderDtoFromCart());
         return "cart/cart_list";
+    }
+
+    @ModelAttribute("orderTypes")
+    public OrderType[] orderTypes() {
+        return OrderType.values();
     }
 
     @PostMapping("/{storeSN}/menu/{menuId}")
     public String saveCart(@PathVariable String storeSN,
                            @PathVariable Long menuId, @ModelAttribute CartFormDto cartFormDto,
                            HttpServletRequest request, @CookieValue("customerLogin") String customerKey) {
-
         HttpSession session = request.getSession(true);
         String userNickname = session.getAttribute(customerKey).toString();
         Menu menu = menuService.findById(menuId);

@@ -5,7 +5,6 @@ import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.entity.StoreAndCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;

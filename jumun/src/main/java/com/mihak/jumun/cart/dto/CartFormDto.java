@@ -2,14 +2,12 @@ package com.mihak.jumun.cart.dto;
 
 import com.mihak.jumun.entity.Option;
 import com.mihak.jumun.entity.OptionGroup;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,9 +23,3 @@ public class CartFormDto {
     private List<Option> checkOptions;
     private int count;
 }
-// 메뉴상세보기 - 페이지
-// 메뉴 - name, imgurl, description, price, optionGroups
-// optionGroups
-// option1 2 3
-
-//

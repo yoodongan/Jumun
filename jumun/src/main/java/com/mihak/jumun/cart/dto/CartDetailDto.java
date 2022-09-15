@@ -20,6 +20,7 @@ public class CartDetailDto {
     private String description;
     private int price;
 
+    private List<OptionGroup> optionGroups;
     private List<Option> checkOptions;
     private int count;
 }
