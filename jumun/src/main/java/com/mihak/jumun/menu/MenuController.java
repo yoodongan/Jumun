@@ -66,7 +66,7 @@ public class MenuController {
             /*menuForm의 변수에 S3처리 후 리턴된 Url을 넣어주는 코드*/
             menuForm.setImgUrl(imgPath);
         }else
-            menuForm.setImgUrl("https://via.placeholder.com/100x100.png?text=No Image");
+            menuForm.setImgUrl("https://jumun-bucket.s3.ap-northeast-2.amazonaws.com/readyForMenu.png");
 
         menuService.saveMenu(menuForm);
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
