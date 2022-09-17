@@ -30,6 +30,7 @@ public class OrderService {
                 .payStatus(PayStatus.CONTINUE)
                 .build();
 
+        order.setCreatedDate(LocalDateTime.now());
         return orderRepository.save(order);
     }
 

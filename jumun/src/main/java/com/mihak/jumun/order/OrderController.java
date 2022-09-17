@@ -60,16 +60,15 @@ public class OrderController {
     }
 
     @PostMapping("/{storeSN}/pay")
-    public String doOrder(@PathVariable String storeSN, @PathVariable Long orderId,
-                            HttpServletRequest request, @CookieValue("customerLogin") String customerKey,
-                            @ModelAttribute OrderFormDto orderFormDto) {
+    public String doOrder(@PathVariable String storeSN, HttpServletRequest request,
+                          @CookieValue("customerLogin") String customerKey, @ModelAttribute OrderFormDto orderFormDto) {
 
         HttpSession session = request.getSession(true);
         String userNickname = session.getAttribute(customerKey).toString();
 
         OrderDtoFromCart orderDtoFromCart = orderDao.getOrderDtoFromCart(userNickname);
         orderService.saveOrder(orderDtoFromCart, orderFormDto);
-        return "order/orderForm"; // 간편결제!
+        return "order/order_complete"; // 간편결제!
     }
 
 }
