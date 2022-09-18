@@ -185,5 +185,16 @@ public class MenuController {
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
     }
 
+    /* 메뉴 수정 시 메뉴에 속한 옵션 그룹 삭제 */
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{storeSN}/admin/store/menu/deleteOptionGroup/{menuId}/{optionGroupId}")
+    public String deleteOptionGroup(@PathVariable("storeSN") String storeSN,  @PathVariable Long menuId, @PathVariable Long optionGroupId) {
+        Store store = storeService.findBySerialNumber(storeSN);
+        Menu menu = menuService.findById(menuId);
+        OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, store);
+
+        menuAndOptionGroupService.removeOptionGroup(menu, optionGroup);
+        return "redirect:/" + store.getSerialNumber() + "/admin/store/menu/modify/" + menu.getId();
+    }
 
 }
