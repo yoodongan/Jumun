@@ -78,12 +78,9 @@ public class OptionGroupService {
         optionGroupRepository.deleteById(optionGroupId);
     }
     // 옵션그룹 삭제 (옵션가지고 있을 시)
-    @Transactional
     public void removeOptionGroup(OptionGroup optionGroup) {
         remove(optionGroup.getId());
         optionAndOptionGroupService.deleteAllByOptionGroup(optionGroup);
 
     }
-
-
 }
