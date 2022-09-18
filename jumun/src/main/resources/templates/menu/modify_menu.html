@@ -28,11 +28,32 @@
             <input type="file" name="image" accept="image/png, image/jpeg"/>
             <!--            <img src="" class="img-thumbnail" alt="img-thumbnail">-->
         </div>
-
         <div class="mb-3">
             <label for="description" class="form-label">메뉴 설명</label>
             <textarea th:field="*{description}" class="form-control" rows="6" placeholder="메뉴 상세 설명입니다."></textarea>
         </div>
+        <!-- 메뉴 수정 시, 옵션 그룹 추가할 수 있도록. -->
+        <div class="mb-3">
+            <label class="form-label">옵션 그룹 선택</label>
+            <select th:field="*{optionGroupId}" class="form-select">
+                <option value="">==옵션그룹 선택==</option>
+                <option th:each="optionGroup : ${optionGroupList}" th:value="${optionGroup.id}" th:text="${optionGroup.name}">옵션그룹선택</option>
+            </select>
+        </div>
+
+        <div th:each="optionGroup : ${optionGroups}" class="list-group mt-3">
+            <div href="#" class="list-group-item list-group-item-action option-group" aria-current="true">
+                <div>
+                    <div th:text="${optionGroup.name}">첫 번째 옵션명</div>
+                    <div th:if="${optionGroup.isMultiple == True}">다중(여러개) 선택 가능</div>
+                    <div th:if="${optionGroup.isMultiple == False}">단일(하나만) 선택 가능</div>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-danger">삭제</button>
+                </div>
+            </div>
+        </div>
+
         <input onclick="if ( !confirm('정말로 수정하시겠습니까?') ) return false;" type="submit" value="메뉴 수정" class="btn btn-primary my-2">
     </form>
 </div>
