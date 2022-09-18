@@ -19,16 +19,14 @@ public class SCService {
 
     private final StoreService storeService;
     private final CategoryService categoryService;
-
-    private final CategoryRepository categoryRepository;
     private final SCRepository scRepository;
 
     public void save(String storeSN, String name) {
         StoreAndCategory sc = new StoreAndCategory();
         Store store = storeService.findBySerialNumber(storeSN);
-        Category category = categoryService.findByName(name).get();
+        Optional<Category> category = categoryService.findByName(name);
         sc.setStore(store);
-        sc.setCategory(category);
+        sc.setCategory(category.get());
         scRepository.save(sc);
     }
 
@@ -59,14 +57,14 @@ public class SCService {
     }
 
     public List<StoreAndCategory> findAllByCategory(Long id) {
-        Category category = categoryRepository.findById(id).get();
+        Category category = categoryService.findById(id).get();
         List<StoreAndCategory> li = scRepository.findAllByCategory(category);
         return li;
     }
 
     public void modify(String storeSN, Category order, Category newer) {
         Store store = storeService.findBySerialNumber(storeSN);
-        StoreAndCategory sc = scRepository.findByStoreAndCategory(store,order).get();
+        StoreAndCategory sc = scRepository.findByStoreAndCategory(store,order).orElseThrow(() -> new RuntimeException("에러"));
         sc.setCategory(newer);
         scRepository.save(sc);
     }
