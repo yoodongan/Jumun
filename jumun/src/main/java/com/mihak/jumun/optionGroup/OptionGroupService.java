@@ -6,6 +6,7 @@ import com.mihak.jumun.optionAndOptionGroup.OptionAndOptionGroupService;
 import com.mihak.jumun.optionGroup.form.OptionGroupFormDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +77,13 @@ public class OptionGroupService {
     public void remove(Long optionGroupId) {
         optionGroupRepository.deleteById(optionGroupId);
     }
+    // 옵션그룹 삭제 (옵션가지고 있을 시)
+    @Transactional
+    public void removeOptionGroup(OptionGroup optionGroup) {
+        remove(optionGroup.getId());
+        optionAndOptionGroupService.deleteAllByOptionGroup(optionGroup);
 
+    }
 
 
 }

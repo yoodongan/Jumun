@@ -6,6 +6,7 @@ import com.mihak.jumun.entity.OptionGroup;
 import com.mihak.jumun.option.OptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,5 +40,10 @@ public class OptionAndOptionGroupService {
     public void remove(Long optionId) {
         Option option = optionService.findById(optionId);
         optionAndOptionGroupRepository.deleteAllByOption(option);
+    }
+
+    @Transactional
+    public void deleteAllByOptionGroup(OptionGroup optionGroup) {
+        optionAndOptionGroupRepository.deleteAllByOptionGroup(optionGroup);
     }
 }

@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -119,11 +120,15 @@ public class OptionGroupController {
     }
 
     /* 옵션 그룹 삭제하기 */
+    @Transactional
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/optionGroup/delete/{optionGroupId}")
     public String deleteOptionGroup(@PathVariable String storeSN,
                                     @PathVariable Long optionGroupId) {
-        optionGroupService.remove(optionGroupId);
+        OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, storeService.findBySerialNumber(storeSN));
+        optionGroupService.removeOptionGroup(optionGroup);
+
+
         return "redirect:/%s/admin/store/optionGroupList".formatted(storeSN, optionGroupId);
     }
 

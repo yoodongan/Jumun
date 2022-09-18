@@ -10,4 +10,6 @@ public interface OptionAndOptionGroupRepository extends JpaRepository<OptionAndO
     List<OptionAndOptionGroup> findAllByOptionGroup(OptionGroup optionGroup);
 
     void deleteAllByOption(Option option);
+
+    void deleteAllByOptionGroup(OptionGroup optionGroup);
 }
