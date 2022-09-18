@@ -13,18 +13,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderManagementController {
 
-    //private final OrderManagementService orderManagementService;
+    private final OrderManagementService orderManagementService;
 
-    @GetMapping("/{storeSN}/admin/store/order")
+    @GetMapping("/{storeSN}/admin/store/list")
     public String orderHome(Model model , @PathVariable String storeSN){
         model.addAttribute("storeSN" , storeSN);
-        return "order/order_detail";
+        List<Order> orderList = orderManagementService.findAllByStoreSN(storeSN);
+        model.addAttribute("orderList",orderList);
+        return "order/orderList";
     }
 
-    @GetMapping("/{storeSN}/admin/store/order/list")
-    public String orderList(Model model , @PathVariable String storeSN){
-       // List<Order> orderList = orderManagementService.findbyStoreSN(storeSN);
-        model.addAttribute("storeSN" , storeSN);
-        return "order/orderList";
+    @GetMapping("/{storeSN}/admin/store/order/detail/{orderId}")
+    public String orderList(Model model , @PathVariable String storeSN,@PathVariable Long orderId){
+        Order order = orderManagementService.findbyOrderId(orderId);
+        model.addAttribute("order" , order);
+        return "order/order_detail";
     }
 }

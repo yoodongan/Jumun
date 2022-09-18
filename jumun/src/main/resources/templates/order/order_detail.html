@@ -1,11 +1,19 @@
-<html layout:decorate="~{layout}">
-<div layout:fragment="content" class="container my-3">
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
-    <div class="card">
-        <div class="card-body" th:onclick="|location.href='@{|/${storeSN}/admin/store/order/list|}'|">
-            주문 현황
+    <body style="text-align: center;">
+
+    <div layout:fragment="content" class="container my-3">
+        <div>
+            주문 디테일입니다. 조리중, 주문 취소 , 조리 완료로 바꿀 수 있는 페이지
         </div>
 
+        <div style="border:1px solid black">
+            <h1 th:text="${order.id}"></h1>
+            <a>조리중</a>
+            <a>주문취소</a>
+            <a>조리완료</a>
+        </div>
     </div>
+    </body>
 </div>
 </html>

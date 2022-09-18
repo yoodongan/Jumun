@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
-주문 리스트 페이지입니다.
+<body style="text-align: center;">
+
+<div layout:fragment="content" class="container my-3">
+    <div th:onclick="|location.href='@{|/${storeSN}/admin/store/order/detail|}'|" >
+        주문 현황 페이지 입니다.
+    </div>
+
+    <div th:each="o : ${orderList}">
+        <a th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.id}"></h1></a>
+    </div>
+</div>
 </body>
 </html>
