@@ -46,4 +46,8 @@ public class OptionAndOptionGroupService {
     public void deleteAllByOptionGroup(OptionGroup optionGroup) {
         optionAndOptionGroupRepository.deleteAllByOptionGroup(optionGroup);
     }
+
+    public void deleteAllByOption(Option option) {
+        optionAndOptionGroupRepository.deleteAllByOption(option);
+    }
 }

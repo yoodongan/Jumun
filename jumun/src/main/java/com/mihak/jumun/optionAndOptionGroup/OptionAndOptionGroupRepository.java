@@ -10,6 +10,7 @@ import java.util.List;
 public interface OptionAndOptionGroupRepository extends JpaRepository<OptionAndOptionGroup, Long> {
     List<OptionAndOptionGroup> findAllByOptionGroup(OptionGroup optionGroup);
 
+    @Transactional
     void deleteAllByOption(Option option);
 
     @Transactional

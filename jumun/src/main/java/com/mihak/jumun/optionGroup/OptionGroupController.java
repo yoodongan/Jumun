@@ -92,6 +92,20 @@ public class OptionGroupController {
         return "redirect:/%s/admin/store/optionGroupDetail/%s".formatted(storeSN, optionGroupId);
     }
 
+    // 옵션 그룹 상세페이지에서 옵션 삭제하기.
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{storeSN}/admin/store/optionGroupDetail/delete/{optionGroupId}/{optionId}")
+    public String deleteOption(@PathVariable String storeSN,
+                               @PathVariable Long optionGroupId,
+                               @PathVariable Long optionId,
+                               Model model) {
+        model.addAttribute("optionId", optionId);
+        Option option = optionService.findById(optionId);
+        optionAndOptionGroupService.deleteAllByOption(option);
+        return "redirect:/%s/admin/store/optionGroupDetail/%s".formatted(storeSN, optionGroupId);
+    }
+
+
     /* 옵션 그룹 수정 */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/optionGroup/modify/{optionGroupId}")
