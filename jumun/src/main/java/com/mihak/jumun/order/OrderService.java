@@ -1,12 +1,12 @@
 package com.mihak.jumun.order;
 
 import com.mihak.jumun.entity.Order;
+import com.mihak.jumun.entity.PayStatus;
 import com.mihak.jumun.exception.OrderNotFoundException;
 import com.mihak.jumun.order.dto.OrderDtoFromCart;
 import com.mihak.jumun.order.dto.OrderFormDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -17,7 +17,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    public Order saveOrderWithOrderDto(OrderDtoFromCart orderDtoFromCart) {
+    public Order saveOrder(OrderDtoFromCart orderDtoFromCart, OrderFormDto orderFormDto) {
 
         Order order = Order.builder()
                 .userNickName(orderDtoFromCart.getUserNickName())
@@ -25,8 +25,12 @@ public class OrderService {
                 .totalPrice(orderDtoFromCart.getTotalPrice())
                 .orderType(orderDtoFromCart.getOrderType())
                 .orderedAt(LocalDateTime.now())
+                .payType(orderFormDto.getPayType())
+                .requests(orderFormDto.getRequests())
+                .payStatus(PayStatus.CONTINUE)
                 .build();
 
+        order.setCreatedDate(LocalDateTime.now());
         return orderRepository.save(order);
     }
 
@@ -40,12 +44,4 @@ public class OrderService {
         return findOrder.get();
     }
 
-    @Transactional
-    public void setOrderAboutPay(Long id, OrderFormDto orderFormDto) {
-        Order order = findOrderById(id);
-
-        // 현금 결제시 간편결제로 안넘어가도록 구현해야함.
-
-        order.setAboutPay(orderFormDto);
-    }
 }
