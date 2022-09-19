@@ -61,14 +61,6 @@ public class MenuService {
         menuRepository.save(menu);
     }
 
-    // 메뉴에 옵션 추가 기능.
-    public void addMenuOptions(Menu menu, MenuAndOptionGroup... menuAndOptionGroups) {
-        Menu findMenu = menuRepository.findById(menu.getId()).get();
-        for (MenuAndOptionGroup menuAndOptionGroup : menuAndOptionGroups) {
-            findMenu.addMenuMenuOption(menuAndOptionGroup);
-        }
-    }
-
     public boolean isMenuDuplicated(String name, Store store) {
         Optional<Menu> menu = menuRepository.findByNameAndStore(name, store);
         if(menu.isPresent()) return true;  // 중복된 메뉴가 있다.

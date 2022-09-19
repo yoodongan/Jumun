@@ -1,11 +1,11 @@
 package com.mihak.jumun.menu;
 
 import com.mihak.jumun.category.CategoryService;
-import com.mihak.jumun.entity.Category;
-import com.mihak.jumun.entity.Menu;
-import com.mihak.jumun.entity.Store;
+import com.mihak.jumun.entity.*;
 import com.mihak.jumun.gallery.S3Service;
 import com.mihak.jumun.menu.form.MenuForm;
+import com.mihak.jumun.menuAndOptionGroup.MenuAndOptionGroupService;
+import com.mihak.jumun.optionGroup.OptionGroupService;
 import com.mihak.jumun.store.StoreService;
 import com.mihak.jumun.storeCategory.SCService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,8 @@ public class MenuController {
     private final MenuService menuService;
     private final CategoryService categoryService;
     private final StoreService storeService;
+    private final OptionGroupService optionGroupService;
+    private final MenuAndOptionGroupService menuAndOptionGroupService;
     private final SCService scService;
     /*S3 처리*/
     private final S3Service s3Service;
@@ -60,11 +63,13 @@ public class MenuController {
             result.rejectValue("name", "duplicatedMenu", "이미 똑같은 메뉴가 있습니다.");
             return "menu/create_menu";
         }
-
-        /*S3 컨트롤러 부분*/
-        String imgPath = s3Service.upload(file);
-        /*menuForm의 변수에 S3처리 후 리턴된 Url을 넣어주는 코드*/
-        menuForm.setImgUrl(imgPath);
+        if (!file.isEmpty()) {
+            /*S3 컨트롤러 부분*/
+            String imgPath = s3Service.upload(file);
+            /*menuForm의 변수에 S3처리 후 리턴된 Url을 넣어주는 코드*/
+            menuForm.setImgUrl(imgPath);
+        }else
+            menuForm.setImgUrl("https://jumun-bucket.s3.ap-northeast-2.amazonaws.com/readyForMenu.png");
 
         menuService.saveMenu(menuForm);
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
@@ -131,6 +136,11 @@ public class MenuController {
         Store store = storeService.findBySerialNumber(storeSN);
         List<Category> categoryList = scService.findAllbyStoreId(store.getId());
         model.addAttribute("categoryList", categoryList);
+        List<OptionGroup> optionGroupList = optionGroupService.findAllByStore(store);
+        model.addAttribute("optionGroupList", optionGroupList);
+        List<OptionGroup> optionGroups = menuAndOptionGroupService.getOptionGroupsByMenu(menuService.findById(menuId));
+
+        model.addAttribute("optionGroups", optionGroups);
         Menu findMenu = menuService.findById(menuId);
         MenuForm menuForm = new MenuForm();
         Category category = findMenu.getCategory();
@@ -143,7 +153,10 @@ public class MenuController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{storeSN}/admin/store/menu/modify/{menuId}")
-    public String modifyMenu(@PathVariable("storeSN") String storeSN, @PathVariable Long menuId, @Valid MenuForm menuForm, BindingResult result) {
+    public String modifyMenu(@PathVariable("storeSN") String storeSN,
+                             @PathVariable Long menuId,
+                             @Valid MenuForm menuForm,
+                             BindingResult result) {
         // 메뉴명 Null 값, 가격 Null 값 예외 체크
         if (result.hasErrors()) {
             return "menu/modify_menu";
@@ -156,8 +169,12 @@ public class MenuController {
             result.rejectValue("name", "duplicatedMenu", "이미 똑같은 메뉴가 있습니다.");
             return "menu/modify_menu";
         }
-
         menuService.changeMenu(menuId, menuForm);
+
+        OptionGroup optionGroup = optionGroupService.findByIdAndStore(menuForm.getOptionGroupId(), store);
+        if(!(optionGroup == null)) {
+            menuAndOptionGroupService.addMenuOptionGroup(menuService.findById(menuId), optionGroup);
+        }
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
 
     }
@@ -171,6 +188,18 @@ public class MenuController {
         menuService.remove(menu);
 
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
+    }
+
+    /* 메뉴 수정 시 메뉴에 속한 옵션 그룹 삭제 */
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{storeSN}/admin/store/menu/deleteOptionGroup/{menuId}/{optionGroupId}")
+    public String deleteOptionGroup(@PathVariable("storeSN") String storeSN,  @PathVariable Long menuId, @PathVariable Long optionGroupId) {
+        Store store = storeService.findBySerialNumber(storeSN);
+        Menu menu = menuService.findById(menuId);
+        OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, store);
+
+        menuAndOptionGroupService.removeOptionGroup(menu, optionGroup);
+        return "redirect:/" + store.getSerialNumber() + "/admin/store/menu/modify/" + menu.getId();
     }
 
 }

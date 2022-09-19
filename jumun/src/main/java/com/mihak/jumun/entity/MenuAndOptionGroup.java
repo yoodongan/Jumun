@@ -22,4 +22,9 @@ public class MenuAndOptionGroup {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "OPTIONGROUP_ID")
     private OptionGroup optionGroup;
+
+    public void addMenuAndOptionGroup(Menu menu, OptionGroup optionGroup) {
+        this.menu = menu;
+        this.optionGroup = optionGroup;
+    }
 }

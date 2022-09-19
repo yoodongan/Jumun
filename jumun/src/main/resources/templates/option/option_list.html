@@ -14,22 +14,27 @@
     </style>
 </head>
 <body>
-<h2>옵션 관리 페이지</h2>
+<div class="option-head">
+    <h2>옵션 관리</h2>
+    <a th:href="@{|/${storeSN}/admin/store/option|}">
+        <button type="button" class="btn btn-primary" >+ 옵션추가</button>
+    </a>
+</div>
 
 <div class="list-group" th:each="option : ${options}">
-    <a href="#" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1" th:text="${option.name}">옵션명</h5>
-            <button type="button" class="btn btn-success">메뉴추가</button>
-        </div>
-        <div class="option-bottom">
-            <small th:text="${option.price} +'원'">옵션가격</small>
-            <div class="option-bottom_button">
-                <button type="button" class="btn btn-primary">옵션수정</button>
-                <button type="button" class="btn btn-danger">옵션삭제</button>
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="option-info d-flex w-100">
+            <div>
+                <h5 class="mb-1" th:text="${option.name}">옵션명</h5>
+                <small th:text="${option.price} +'원'">옵션가격</small>
             </div>
+            <div>
+                <a th:href="@{|/${storeSN}/admin/store/option/modify/${option.id}|}" class="btn btn-primary">수정</a>
+                <a onclick="if ( !confirm('옵션을 삭제하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/admin/store/option/delete/${option.id}|}" class="btn btn-danger">삭제</a>
+            </div>
+
         </div>
-    </a>
+    </li>
 </div>
 </body>
 </html>

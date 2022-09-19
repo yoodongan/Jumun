@@ -27,7 +27,7 @@
             <div th:text="${option.price}">1000 원</div>
         </div>
         <div>
-            <button type="button" class="btn btn-danger">삭제</button>
+            <button th:onclick="|location.href='@{|/${storeSN}/admin/store/optionGroupDetail/delete/${optionGroupId}/${option.id}|}'|" type="button" class="btn btn-danger">삭제</button>
         </div>
     </div>
 </div>
