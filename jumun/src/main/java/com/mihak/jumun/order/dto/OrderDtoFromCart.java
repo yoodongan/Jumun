@@ -15,6 +15,4 @@ public class OrderDtoFromCart implements Serializable {
     private OrderType orderType;
     private int totalPrice;
     private String storeSerialNumber;
-
-    
 }
