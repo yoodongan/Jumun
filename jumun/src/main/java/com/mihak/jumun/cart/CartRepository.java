@@ -12,4 +12,5 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     List<Cart> findByUserNickNameAndIsOrdered(String userNickName, boolean isOrdered);
 
     Optional<Cart> findById(Long id);
+
 }

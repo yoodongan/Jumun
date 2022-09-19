@@ -1,19 +1,37 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+
+
 </head>
+
 <body style="text-align: center;">
 
 <div layout:fragment="content" class="container my-3">
-    <div th:onclick="|location.href='@{|/${storeSN}/admin/store/order/detail|}'|" >
+    <div>
         주문 현황 페이지 입니다.
     </div>
 
+    <div style="margin-bottom: 20px">
+        --주문 접수 대기--
     <div th:each="o : ${orderList}">
-        <a th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.id}"></h1></a>
+        <div th:if="${o.orderStatus.toString().equals('주문접수전')}">
+        <a th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.id}+'번 주문'"></h1></a>
+        </div>
+        </div>
+    </div>
+
+    <div style="margin-bottom: 20px" >
+        -- 조리 중 --
+        <div th:each="o : ${orderList}">
+            <div th:if="${o.orderStatus.toString().equals('조리중')}">
+            <a th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.id}+'번 주문'"></h1></a>
+            </div>
+            </div>
     </div>
 </div>
+
 </body>
+
 </html>
