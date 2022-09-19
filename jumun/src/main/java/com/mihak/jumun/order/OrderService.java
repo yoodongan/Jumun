@@ -1,5 +1,6 @@
 package com.mihak.jumun.order;
 
+import com.mihak.jumun.cart.CartService;
 import com.mihak.jumun.entity.Order;
 import com.mihak.jumun.entity.OrderStatus;
 import com.mihak.jumun.entity.PayStatus;
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final CartService cartService;
 
     public Order saveOrder(OrderDtoFromCart orderDtoFromCart, OrderFormDto orderFormDto) {
 
@@ -47,11 +49,20 @@ public class OrderService {
     }
 
     @Transactional
-    public void cancelOrder(Long orderId) {
+    public void cancelOrderByPayFail(Long orderId) {
         Order order = findOrderById(orderId);
 
         order.setOrderStatus(OrderStatus.CANCEL);
         order.setPayStatus(PayStatus.REFUSE);
     }
 
+    @Transactional
+    public void cancelOrderByUser(Long orderId) {
+        Order order = findOrderById(orderId);
+
+        order.setOrderStatus(OrderStatus.CANCEL);
+        order.setPayStatus(PayStatus.REFUND);
+
+        cartService.cancelOrder(order.getUserNickName());
+    }
 }

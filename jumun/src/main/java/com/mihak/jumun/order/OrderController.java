@@ -76,11 +76,10 @@ public class OrderController {
         Order order = orderService.saveOrder(orderDtoFromCart, orderFormDto);
 
         if (true) { // 간편 결제 성공
-            order.setOrderStatus(OrderStatus.BeforeOrder);
+            order.setOrderStatus(OrderStatus.BEFOREORDER);
             return "redirect:/" + storeSN + "/order/" + order.getId();
-        }
-        else { // 간편 결제 실패
-            orderService.cancelOrder(order.getId());
+        } else { // 간편 결제 실패
+            orderService.cancelOrderByPayFail(order.getId());
             return "order/order_failed";
         }
     }
@@ -88,14 +87,27 @@ public class OrderController {
     @GetMapping("/{storeSN}/order/{orderId}")
     public String showOrderStatus(@PathVariable String storeSN, @PathVariable Long orderId,
                                   HttpServletRequest request, Model model,
-                          @CookieValue("customerLogin") String customerKey, @ModelAttribute OrderFormDto orderFormDto) {
+                                  @CookieValue("customerLogin") String customerKey, @ModelAttribute OrderFormDto orderFormDto) {
+
+        HttpSession session = request.getSession(true);
+        String userNickname = session.getAttribute(customerKey).toString();
 
         Order order = orderService.findOrderById(orderId);
         List<CartDto> orderHistory = cartService.getCartByUserNickName(order.getUserNickName(), true);
+        model.addAttribute("userNickName", userNickname);
+        model.addAttribute("orderId", order.getId());
         model.addAttribute("orderHistory", orderHistory);
         model.addAttribute("orderStatus", order.getOrderStatus());
         model.addAttribute("orderTotalPrice", order.getTotalPrice());
 
         return "order/order_status";
+    }
+
+    @GetMapping("/{storeSN}/order/cancel/{orderId}")
+    public String cancelOrder(@PathVariable String storeSN, @PathVariable Long orderId,
+                              @CookieValue("customerLogin") String customerKey) {
+
+        orderService.cancelOrderByUser(orderId);
+        return "redirect:/{storeSN}/cart";
     }
 }
