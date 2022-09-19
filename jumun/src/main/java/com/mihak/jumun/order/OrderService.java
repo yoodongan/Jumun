@@ -1,12 +1,14 @@
 package com.mihak.jumun.order;
 
 import com.mihak.jumun.entity.Order;
+import com.mihak.jumun.entity.OrderStatus;
 import com.mihak.jumun.entity.PayStatus;
 import com.mihak.jumun.exception.OrderNotFoundException;
 import com.mihak.jumun.order.dto.OrderDtoFromCart;
 import com.mihak.jumun.order.dto.OrderFormDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -42,6 +44,14 @@ public class OrderService {
         }
 
         return findOrder.get();
+    }
+
+    @Transactional
+    public void cancelOrder(Long orderId) {
+        Order order = findOrderById(orderId);
+
+        order.setOrderStatus(OrderStatus.CANCEL);
+        order.setPayStatus(PayStatus.REFUSE);
     }
 
 }

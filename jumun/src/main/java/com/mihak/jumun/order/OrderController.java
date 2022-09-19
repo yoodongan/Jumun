@@ -1,5 +1,9 @@
 package com.mihak.jumun.order;
 
+import com.mihak.jumun.cart.CartService;
+import com.mihak.jumun.cart.dto.CartDto;
+import com.mihak.jumun.entity.Order;
+import com.mihak.jumun.entity.OrderStatus;
 import com.mihak.jumun.entity.PayType;
 import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.order.dao.OrderDao;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,6 +25,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final StoreService storeService;
+    private final CartService cartService;
     private final OrderDao orderDao;
 
     @PostMapping("/{storeSN}/order")
@@ -67,8 +73,29 @@ public class OrderController {
         String userNickname = session.getAttribute(customerKey).toString();
 
         OrderDtoFromCart orderDtoFromCart = orderDao.getOrderDtoFromCart(userNickname);
-        orderService.saveOrder(orderDtoFromCart, orderFormDto);
-        return "order/order_complete"; // 간편결제!
+        Order order = orderService.saveOrder(orderDtoFromCart, orderFormDto);
+
+        if (true) { // 간편 결제 성공
+            order.setOrderStatus(OrderStatus.BeforeOrder);
+            return "redirect:/" + storeSN + "/order/" + order.getId();
+        }
+        else { // 간편 결제 실패
+            orderService.cancelOrder(order.getId());
+            return "order/order_failed";
+        }
     }
 
+    @GetMapping("/{storeSN}/order/{orderId}")
+    public String showOrderStatus(@PathVariable String storeSN, @PathVariable Long orderId,
+                                  HttpServletRequest request, Model model,
+                          @CookieValue("customerLogin") String customerKey, @ModelAttribute OrderFormDto orderFormDto) {
+
+        Order order = orderService.findOrderById(orderId);
+        List<CartDto> orderHistory = cartService.getCartByUserNickName(order.getUserNickName(), true);
+        model.addAttribute("orderHistory", orderHistory);
+        model.addAttribute("orderStatus", order.getOrderStatus());
+        model.addAttribute("orderTotalPrice", order.getTotalPrice());
+
+        return "order/order_status";
+    }
 }
