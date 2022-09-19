@@ -27,6 +27,14 @@ public class StoreMgmtController {
     public PayStatus[] payStatuses() {
         return PayStatus.values();
     }
+    @ModelAttribute("payType")
+    public PayType[] payTypes() {
+        return PayType.values();
+    }
+    @ModelAttribute("orderType")
+    public OrderType[] orderTypes() {
+        return OrderType.values();
+    }
     /*매장관리 라우팅페이지*/
     @GetMapping("/{storeSN}/admin/store/management")
     public String mgmtHome(Model model , @PathVariable String storeSN){
@@ -51,14 +59,14 @@ public class StoreMgmtController {
 
     /*주문내역 상세 페이지*/
     @GetMapping("/{storeSN}/admin/store/management/order/{orderId}")
-    public String totalOrderDetail(Model model , @PathVariable String storeSN){
+    public String totalOrderDetail(Model model , @PathVariable String storeSN, @PathVariable Long orderId){
         Store store = storeService.findBySerialNumber(storeSN);
         model.addAttribute("store", store);
         model.addAttribute("storeSN" , storeSN);
         /*스토어넘버로 모든 주문 내역을 가져온다. order테이블의 모든 것을 조회하기 위해 객체를 가져옴*/
-        List<Order> orderLists = orderService.findAllbyStoreId(storeSN);
-        model.addAttribute("orderLists", orderLists);
-        return "storeMgmt/orderList";
+        Order findOrder = orderService.findOrderById(orderId);
+        model.addAttribute("findOrder", findOrder);
+        return "storeMgmt/orderDetail";
     }
 
     /*매출관리 페이지*/
