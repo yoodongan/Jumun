@@ -29,4 +29,9 @@ public class OptionGroup {
 
     @OneToMany(mappedBy = "optionGroup", cascade = CascadeType.ALL)
     private List<OptionAndOptionGroup> optionAndOptionGroups = new ArrayList<>();
+
+    public void changeOptionGroup(String name, boolean isMultiple) {
+        this.name = name;
+        this.isMultiple = isMultiple;
+    }
 }

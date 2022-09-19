@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,7 @@ public class OptionGroupController {
         }
         optionGroupFormDto.setStore(storeService.findBySerialNumber(storeSN));
         optionGroupService.createOptionGroup(optionGroupFormDto);
-        return "redirect:/%s/admin/store/optionGroup".formatted(storeSN);   // 스토어 관리 페이지로 이동하면 좋을 것 같다.
+        return "redirect:/%s/admin/store/optionGroupList".formatted(storeSN);
     }
 
     /* 옵션 그룹 관리 */
@@ -89,6 +90,60 @@ public class OptionGroupController {
         optionAndOptionGroupService.addOption(optionGroup, option);
 
         return "redirect:/%s/admin/store/optionGroupDetail/%s".formatted(storeSN, optionGroupId);
+    }
+
+    // 옵션 그룹 상세페이지에서 옵션 삭제하기.
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{storeSN}/admin/store/optionGroupDetail/delete/{optionGroupId}/{optionId}")
+    public String deleteOption(@PathVariable String storeSN,
+                               @PathVariable Long optionGroupId,
+                               @PathVariable Long optionId,
+                               Model model) {
+        model.addAttribute("optionId", optionId);
+        Option option = optionService.findById(optionId);
+        optionAndOptionGroupService.deleteAllByOption(option);
+        return "redirect:/%s/admin/store/optionGroupDetail/%s".formatted(storeSN, optionGroupId);
+    }
+
+
+    /* 옵션 그룹 수정 */
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{storeSN}/admin/store/optionGroup/modify/{optionGroupId}")
+    public String optionGroupModifyForm(@PathVariable String storeSN, @PathVariable Long optionGroupId, Model model) {
+        Store store = storeService.findBySerialNumber(storeSN);
+        OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, store);
+        OptionGroupFormDto optionGroupFormDto = optionGroupService.getOptionGroupFormDtd(optionGroup);
+        model.addAttribute("optionGroupFormDto", optionGroupFormDto);
+
+        return "optionGroup/optionGroup_modify";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{storeSN}/admin/store/optionGroup/modify/{optionGroupId}")
+    public String optionGroupModify(@PathVariable String storeSN,
+                                    @PathVariable Long optionGroupId,
+                                    @Valid OptionGroupFormDto optionGroupFormDto,
+                                    Model model,
+                                    BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "optionGroup/optionGroup_modify";
+        }
+        optionGroupService.modifyOptionGroup(optionGroupId, optionGroupFormDto);
+
+        return "redirect:/%s/admin/store/optionGroupList".formatted(storeSN, optionGroupId);
+    }
+
+    /* 옵션 그룹 삭제하기 */
+    @Transactional
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{storeSN}/admin/store/optionGroup/delete/{optionGroupId}")
+    public String deleteOptionGroup(@PathVariable String storeSN,
+                                    @PathVariable Long optionGroupId) {
+        OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, storeService.findBySerialNumber(storeSN));
+        optionGroupService.removeOptionGroup(optionGroup);
+
+
+        return "redirect:/%s/admin/store/optionGroupList".formatted(storeSN, optionGroupId);
     }
 
 }
