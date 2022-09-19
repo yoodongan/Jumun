@@ -6,9 +6,7 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.util.IOUtils;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,10 +28,10 @@ public class S3Service {
     @Value("${cloud.aws.credentials.secretKey}")
     private String secretKey;
 
-    @Value("${cloud.aws.s3.bucket}")
+    @Value("jumun-bucket")
     private String bucket;
 
-    @Value("${cloud.aws.region.static}")
+    @Value("ap-northeast-2")
     private String region;
 
     /*자격증명이란 accessKey, secretKey를 의미하는데, 의존성 주입 시점에는 @Value 어노테이션의 값이 설정되지 않아서 @PostConstruct를 사용*/
@@ -53,18 +51,6 @@ public class S3Service {
 
     public String upload(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-
-        /*No content length specified for stream data.*/
-//        ObjectMetadata objMeta = new ObjectMetadata();
-//
-//        byte[] bytes = IOUtils.toByteArray(targetIS);
-//        objMeta.setContentLength(bytes.length);
-//
-//        ByteArrayInputStream byteArrayIs = new ByteArrayInputStream(bytes);
-//
-//        PutObjectRequest putObjReq = new PutObjectRequest(bucketName, key, byteArrayIs, objMeta);
-//        s3client.putObject(putObjReq);
-
 
         //업로드를 하기 위해 사용되는 함수
         s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)

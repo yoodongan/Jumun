@@ -1,5 +1,6 @@
 package com.mihak.jumun.order;
 
+import com.mihak.jumun.entity.Category;
 import com.mihak.jumun.entity.Order;
 import com.mihak.jumun.entity.PayStatus;
 import com.mihak.jumun.exception.OrderNotFoundException;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,4 +47,14 @@ public class OrderService {
         return findOrder.get();
     }
 
+    public List<Order> findAllbyStoreId(String storeSN) {
+        List<Order> li = orderRepository.findAll();
+        List<Order> findList = new ArrayList<>();
+        for (Order list : li) {
+            if (list.getStoreSerialNumber().equals(storeSN)) {
+                findList.add(list);
+            }
+        }
+        return findList;
+    }
 }
