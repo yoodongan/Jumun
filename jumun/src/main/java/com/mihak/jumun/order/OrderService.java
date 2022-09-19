@@ -49,9 +49,6 @@ public class OrderService {
 
     public List<Order> findAllbyStoreId(String storeSN) {
         List<Order> li = orderRepository.findAll();
-//        for(StoreAndCategory d : li){
-//            System.out.println(d);
-//        }
         List<Order> findList = new ArrayList<>();
         for (Order list : li) {
             if (list.getStoreSerialNumber().equals(storeSN)) {
