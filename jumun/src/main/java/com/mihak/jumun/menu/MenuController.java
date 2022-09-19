@@ -63,11 +63,13 @@ public class MenuController {
             result.rejectValue("name", "duplicatedMenu", "이미 똑같은 메뉴가 있습니다.");
             return "menu/create_menu";
         }
-
-        /*S3 컨트롤러 부분*/
-        String imgPath = s3Service.upload(file);
-        /*menuForm의 변수에 S3처리 후 리턴된 Url을 넣어주는 코드*/
-        menuForm.setImgUrl(imgPath);
+        if (!file.isEmpty()) {
+            /*S3 컨트롤러 부분*/
+            String imgPath = s3Service.upload(file);
+            /*menuForm의 변수에 S3처리 후 리턴된 Url을 넣어주는 코드*/
+            menuForm.setImgUrl(imgPath);
+        }else
+            menuForm.setImgUrl("https://jumun-bucket.s3.ap-northeast-2.amazonaws.com/readyForMenu.png");
 
         menuService.saveMenu(menuForm);
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
