@@ -1,6 +1,8 @@
 package com.mihak.jumun.order;
 
+import com.mihak.jumun.entity.Category;
 import com.mihak.jumun.entity.Order;
+import com.mihak.jumun.entity.StoreAndCategory;
 import com.mihak.jumun.exception.OrderNotFoundException;
 import com.mihak.jumun.order.dto.OrderDtoFromCart;
 import com.mihak.jumun.order.dto.OrderFormDto;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,5 +51,19 @@ public class OrderService {
         // 현금 결제시 간편결제로 안넘어가도록 구현해야함.
 
         order.setAboutPay(orderFormDto);
+    }
+
+    public List<Order> findAllbyStoreId(String storeSN) {
+        List<Order> li = orderRepository.findAll();
+//        for(StoreAndCategory d : li){
+//            System.out.println(d);
+//        }
+        List<Order> findList = new ArrayList<>();
+        for (Order list : li) {
+            if (list.getStoreSerialNumber().equals(storeSN)) {
+                findList.add(list);
+            }
+        }
+        return findList;
     }
 }

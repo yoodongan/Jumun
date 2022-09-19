@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/optionGroup_list.css}">
+    <title>주문 내역 페이지</title>
+</head>
+<body>
+    <h1 th:text="${store.name}">매장 이름</h1>
+    <div>
+    <h1>주문내역페이지</h1>
+    </div>
+    <span class="border-bottom"></span>
+    <div th:each="orderList : ${orderLists}" class="list-group mt-3">
+        <a th:href="@{|/${storeSN}/admin/store/management/order/${orderList.id}|}">
+            <div href="#" class="list-group-item list-group-item-action" aria-current="true">
+                <div class="option-group">
+                <div th:text="${orderList.orderedAt}" >주문 처리 일시</div>
+                <div th:text="${orderList.totalPrice} +'원'" class="p-2 mb-2 bg-secondary text-white">주문 가격</div>
+                </div>
+                <h5 th:text="${orderList.payStatus.description}" class="payStatus">결제 상태</h5>
+            </div>
+        </a>
+    </div>
+</body>
+</html>
