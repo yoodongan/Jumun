@@ -24,4 +24,9 @@ public class Option {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STORE_ID")
     private Store store;
+
+    public void changeOption(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
 }

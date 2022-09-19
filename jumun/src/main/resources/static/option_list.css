@@ -19,11 +19,11 @@ body {
 h2 {
     margin-bottom : 30px;
 }
-.option-bottom{
+.option-info {
+    display :flex;
+    justify-content : space-between;
+}
+.option-head {
     display : flex;
     justify-content : space-between;
-    margin-top : 25px;
-}
-.option-bottom_button button:first-child {
-    margin-right : 15px;
 }
