@@ -30,6 +30,7 @@ a {
     align-items: flex-end;
     margin-bottom : 25px;
     margin-top: 10px;
+    letter-spacing:1px;
 }
 .order-body {
     display :flex;

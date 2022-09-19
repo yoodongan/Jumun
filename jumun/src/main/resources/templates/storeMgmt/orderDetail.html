@@ -14,7 +14,7 @@
 <br>
 <div>
     <p th:text="${findOrder.userNickName}" class="order-head">결제자 이름</p>
-    <h3 th:text="${findOrder.totalPrice} + '원'" class="price">전체가격</h3>
+    <h3 th:text="${#numbers.formatInteger(findOrder.totalPrice, 0, 'COMMA')} + '원'" class="price">전체가격</h3>
     <hr size="30" noshade>
     <ul class="list-group list-group-flush">
         <li class="list-group-item listDesc">
