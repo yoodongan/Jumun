@@ -21,4 +21,3 @@ public class ManagementController {
         return "management/orderList";
     }
 }
-
