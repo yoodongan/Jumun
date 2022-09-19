@@ -38,10 +38,4 @@ public class Order extends BaseEntity {
 
     private String userNickName;
     private String storeSerialNumber;
-
-    public void setAboutPay(OrderFormDto dto) {
-        this.payType = dto.getPayType();
-        this.requests = dto.getRequests();
-        this.payStatus = PayStatus.CONTINUE;
-    }
 }
