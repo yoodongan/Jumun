@@ -1,16 +1,26 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
+    카카오페이 결제가 정상적으로 완료되었습니다.
+    <div th:text="${kakaoPaySuccessDto.userNickName} + '님의 주문 내역'" class="m-2"></div>
+    <div th:each="order : ${kakaoPaySuccessDto.orderHistory}" class="row">
+        <div>
+            <span th:text="${order.menu.name}">메뉴명</span>
+            <span th:text="${order.menu.price} +'원'">가격</span>
+        </div>
+        <ui class="list-group list-group-flush" th:each="option : ${order.options}">
+            <li class="list-group-item">
+                <span th:text="'+ '+ ${option.name}">옵션명</span>
+                <span th:text="${option.price} +'원'">옵션가격</span>
+            </li>
+        </ui>
+        <span th:text="${order.count} +'개'">갯수</span>
+        <hr/>
+    </div>
+    <div th:text="'총 금액 : ' + ${kakaoPaySuccessDto.orderTotalPrice}">전체 가격</div>
+    <div th:text="'주문 상태 : ' + ${kakaoPaySuccessDto.orderStatus.getDescription()}">주문 상태</div>
 
-카카오페이 결제가 정상적으로 완료되었습니다.
-
-결제일시:     [[${info.approved_at}]]<br/>
-주문번호:    [[${info.partner_order_id}]]<br/>
-상품명:    [[${info.item_name}]]<br/>
-상품수량:    [[${info.quantity}]]<br/>
-결제금액:    [[${info.amount.total}]]<br/>
-결제방법:    [[${info.payment_method_type}]]<br/>
-
-<h2>[[${info}]]</h2>
-
+    <div th:if="${kakaoPaySuccessDto.orderStatus.getDescription().toString().equals('주문접수전')}">
+        <a onclick="if ( !confirm('주문 취소를 수정하시겠습니까?') ) return false;" th:href="@{|/${kakaoPaySuccessDto.storeSN}/order/cancel/${kakaoPaySuccessDto.orderId}|}" class="btn btn-primary">주문 취소</a>
+    </div>
 </div>
 </html>

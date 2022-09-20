@@ -154,4 +154,15 @@ public class CartService {
             cart.setOrdered(false);
         }
     }
+
+    @Transactional
+    public void changeIsOrdered(Order order) {
+
+        String userNickName = order.getUserNickName();
+        List<Cart> carts = cartRepository.findByUserNickNameAndIsOrdered(userNickName, false);
+
+        for (Cart cart : carts) {
+            cart.setOrdered(true);
+        }
+    }
 }
