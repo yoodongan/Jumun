@@ -57,3 +57,7 @@ icon-shape {
     height: 2rem;
 
 }
+.title {
+    display: flex;
+    justify-content: space-between;
+}
