@@ -77,4 +77,11 @@ public class StoreMgmtController {
         model.addAttribute("storeSN" , storeSN);
         return "storeMgmt/revenueList";
     }
+    /* 메뉴관리 페이지 */
+    @GetMapping("/{storeSN}/admin/store/management/menu")
+    public String mgmtMenu(Model model , @PathVariable String storeSN){
+        Store store = storeService.findBySerialNumber(storeSN);
+        model.addAttribute("store", store);
+        return "storeMgmt/mgmtMenu";
+    }
 }
