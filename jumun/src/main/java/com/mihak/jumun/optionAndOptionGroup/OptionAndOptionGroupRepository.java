@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OptionAndOptionGroupRepository extends JpaRepository<OptionAndOptionGroup, Long> {
     List<OptionAndOptionGroup> findAllByOptionGroup(OptionGroup optionGroup);
@@ -15,4 +16,6 @@ public interface OptionAndOptionGroupRepository extends JpaRepository<OptionAndO
 
     @Transactional
     void deleteAllByOptionGroup(OptionGroup optionGroup);
+
+    Optional<OptionAndOptionGroup> findByOptionGroupAndOption(OptionGroup optionGroup, Option option);
 }
