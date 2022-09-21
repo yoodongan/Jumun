@@ -89,4 +89,14 @@ public class OrderController {
         orderService.cancelOrderByUser(orderId);
         return "redirect:/{storeSN}/cart";
     }
+
+    @GetMapping("/status/{orderId}")
+    public String getOrderStatus(@PathVariable Long orderId, Model model) {
+
+        Order order = orderService.findOrderById(orderId);
+        model.addAttribute("orderId", order.getId());
+        model.addAttribute("orderStatus", order.getOrderStatus());
+        model.addAttribute("storeSN", order.getStoreSerialNumber());
+        return "pay/orderStatus";
+    }
 }
