@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class KakaoPaySuccessDto {
+public class PaySuccessDto {
     private String userNickName;
     private Long orderId;
     private List<CartDto> orderHistory;

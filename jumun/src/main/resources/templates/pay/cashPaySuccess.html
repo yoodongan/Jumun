@@ -15,7 +15,7 @@
         let orderId = [[${paySuccessDto.orderId}]];
         timer = setInterval( function () {
             $.ajax ({
-                "url" : "/kakaopay/status/" + orderId,
+                "url" : "/cashpay/status/" + orderId,
                 cache : false,
                 success : function (html) {
                     $("#orderStatus").html(html);
@@ -26,7 +26,7 @@
 </script>
 <body>
 <div layout:fragment="content" class="container my-3">
-    카카오페이 결제가 정상적으로 완료되었습니다.
+    카운터에서 결제를 해주셔야 주문이 접수됩니다.!
     <div th:text="${paySuccessDto.userNickName} + '님의 주문 내역'" class="m-2"></div>
     <div th:each="order : ${paySuccessDto.orderHistory}" class="row">
         <div>
@@ -47,7 +47,7 @@
         <div th:text="'주문 상태 : ' + ${paySuccessDto.orderStatus.getDescription()}">주문 상태</div>
 
         <div th:if="${paySuccessDto.orderStatus.getDescription().toString().equals('주문접수전')}">
-            <a onclick="if ( !confirm('주문 취소를 수정하시겠습니까?') ) return false;" th:href="@{|/${paySuccessDto.storeSN}/kakaopay/cancel/${paySuccessDto.orderId}|}" class="btn btn-primary">주문 취소</a>
+            <a onclick="if ( !confirm('주문 취소를 수정하시겠습니까?') ) return false;" th:href="@{|/${paySuccessDto.storeSN}/cashpay/cancel/${paySuccessDto.orderId}|}" class="btn btn-primary">주문 취소</a>
         </div>
     </div>
 </div>

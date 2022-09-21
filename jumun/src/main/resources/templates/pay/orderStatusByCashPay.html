@@ -1,0 +1,7 @@
+<div layout:fragment="content">
+  <div th:text="'주문 상태 : ' + ${orderStatus.getDescription()}">주문 상태</div>
+
+  <div th:if="${orderStatus.getDescription().toString().equals('주문접수전')}">
+    <a onclick="if ( !confirm('주문 취소를 수정하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/cashpay/cancel/${orderId}|}" class="btn btn-primary">주문 취소</a>
+  </div>
+</div>

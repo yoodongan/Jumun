@@ -1,6 +1,5 @@
 package com.mihak.jumun.order;
 
-import com.mihak.jumun.cart.CartService;
 import com.mihak.jumun.entity.Order;
 import com.mihak.jumun.entity.PayType;
 import com.mihak.jumun.entity.Store;
@@ -65,7 +64,8 @@ public class OrderController {
 
     @PostMapping("/{storeSN}/pay")
     public String doOrder(@PathVariable String storeSN, HttpServletRequest request,
-                          @CookieValue("customerLogin") String customerKey, @ModelAttribute OrderFormDto orderFormDto) {
+                          @CookieValue("customerLogin") String customerKey, @ModelAttribute OrderFormDto orderFormDto,
+                          Model model) {
 
         HttpSession session = request.getSession(true);
         String userNickname = session.getAttribute(customerKey).toString();
@@ -76,27 +76,10 @@ public class OrderController {
         // 간편 결제 호출
         if (order.getPayType().equals(PayType.KAKAOPAY)) {
             return "redirect:/kakaopay/" + order.getId();
+        } else if (order.getPayType().equals(PayType.CASH)) {
+            return "redirect:/cashPaySuccess/" + order.getId();
         } else {
             return null;
         }
-    }
-
-    @GetMapping("/{storeSN}/order/cancel/{orderId}")
-    public String cancelOrder(@PathVariable String storeSN, @PathVariable Long orderId,
-                              @CookieValue("customerLogin") String customerKey) {
-
-        kaKaoPayService.kakaoPayCancel(orderId);
-        orderService.cancelOrderByUser(orderId);
-        return "redirect:/{storeSN}/cart";
-    }
-
-    @GetMapping("/status/{orderId}")
-    public String getOrderStatus(@PathVariable Long orderId, Model model) {
-
-        Order order = orderService.findOrderById(orderId);
-        model.addAttribute("orderId", order.getId());
-        model.addAttribute("orderStatus", order.getOrderStatus());
-        model.addAttribute("storeSN", order.getStoreSerialNumber());
-        return "pay/orderStatus";
     }
 }

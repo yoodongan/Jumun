@@ -8,7 +8,7 @@ import com.mihak.jumun.entity.PayStatus;
 import com.mihak.jumun.exception.OrderNotFoundException;
 import com.mihak.jumun.order.dto.OrderDtoFromCart;
 import com.mihak.jumun.order.dto.OrderFormDto;
-import com.mihak.jumun.pay.dto.KakaoPaySuccessDto;
+import com.mihak.jumun.pay.dto.PaySuccessDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,11 +80,11 @@ public class OrderService {
         cartService.cancelOrder(order.getUserNickName());
     }
 
-    public KakaoPaySuccessDto getKakaoPaySuccessDto(Order order) {
+    public PaySuccessDto getPaySuccessDto(Order order) {
 
         List<CartDto> orderHistory = cartService.getCartByUserNickName(order.getUserNickName(), true);
 
-        return KakaoPaySuccessDto.builder()
+        return PaySuccessDto.builder()
                 .userNickName(order.getUserNickName())
                 .orderId(order.getId())
                 .orderHistory(orderHistory)
