@@ -140,8 +140,8 @@ public class OptionGroupController {
     public String deleteOptionGroup(@PathVariable String storeSN,
                                     @PathVariable Long optionGroupId) {
         OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, storeService.findBySerialNumber(storeSN));
+        optionAndOptionGroupService.deleteAllByOptionGroup(optionGroup);
         optionGroupService.removeOptionGroup(optionGroup);
-
 
         return "redirect:/%s/admin/store/optionGroupList".formatted(storeSN, optionGroupId);
     }

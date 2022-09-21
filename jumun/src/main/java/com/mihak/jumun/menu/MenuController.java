@@ -171,7 +171,10 @@ public class MenuController {
         }
         menuService.changeMenu(menuId, menuForm);
 
-        menuAndOptionGroupService.addMenuOptionGroup(menuService.findById(menuId), optionGroupService.findByIdAndStore(menuForm.getOptionGroupId(), store) );
+        OptionGroup optionGroup = optionGroupService.findByIdAndStore(menuForm.getOptionGroupId(), store);
+        if(!(optionGroup == null)) {
+            menuAndOptionGroupService.addMenuOptionGroup(menuService.findById(menuId), optionGroup);
+        }
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
 
     }

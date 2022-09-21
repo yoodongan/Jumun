@@ -1,0 +1,35 @@
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <body style="text-align: center;">
+
+    <div layout:fragment="content" class="container my-3">
+        <div>
+            주문 디테일입니다. 조리중, 주문 취소 , 조리 완료로 바꿀 수 있는 페이지
+        </div>
+
+
+        <div style="border:1px solid black">
+            <div th:text="${order.id}+'번 주문'"></div>
+            <div th:each="cart : ${cartListDto.cartDtos}">
+                <div style="margin-bottom: 20px">
+                <div th:text="${cart.menu.name}"></div>
+                <div th:text="${cart.count}+'개'"></div>
+                <ui class="list-group list-group-flush" th:each="option : ${cart.options}">
+                    <li class="list-group-item">
+                        <span th:text="'+ '+ ${option.name}" class="card-title">옵션명</span>
+                    </li>
+                </ui>
+            </div>
+            </div>
+            <form method="GET" th:action="@{|/${order.storeSerialNumber}/admin/store/order/modify/${order.id}|}">
+
+                    <input type="radio" name="orderStatus" value="조리완료" >조리완료
+                    <input type="radio" name="orderStatus" value="조리중" >조리중
+                    <input type="radio" name="orderStatus" value="주문접수전" >주문접수전
+                <input type="submit">
+            </form>
+        </div>
+    </div>
+    </body>
+</div>
+</html>
