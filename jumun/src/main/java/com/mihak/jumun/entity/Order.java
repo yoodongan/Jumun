@@ -47,3 +47,4 @@ public class Order extends BaseEntity {
         this.payStatus = payStatus;
     }
 }
+

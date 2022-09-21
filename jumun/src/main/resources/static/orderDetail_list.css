@@ -20,21 +20,29 @@ body {
 a {
     text-decoration:none
 }
-.option-head {
+.order-head {
     display : flex;
     justify-content : space-between;
 }
-.option-group {
+.price {
+    display : flex;
+    justify-content : space-between;
+    align-items: flex-end;
+    margin-bottom : 25px;
+    margin-top: 10px;
+    letter-spacing:1px;
+}
+.order-body {
     display :flex;
     justify-content : space-between;
 }
-.payStatus{
-    display : flex;
-    justify-content : flex-start;
-    margin-top : 25px;
-    align-items: flex-end;
-    color: red;
+.listDesc{
+    display :flex;
+    justify-content : space-between;
 }
-.button-group {
-
+.listValue{
+    font-weight: bold;
+    font-size: large;
+    display :flex;
+    justify-content : space-between;
 }

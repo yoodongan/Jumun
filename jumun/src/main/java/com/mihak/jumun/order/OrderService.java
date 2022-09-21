@@ -1,5 +1,6 @@
 package com.mihak.jumun.order;
 
+
 import com.mihak.jumun.cart.CartService;
 import com.mihak.jumun.cart.dto.CartDto;
 import com.mihak.jumun.entity.Order;
@@ -92,5 +93,16 @@ public class OrderService {
                 .orderTotalPrice(order.getTotalPrice())
                 .storeSN(order.getStoreSerialNumber())
                 .build();
+    }
+    
+    public List<Order> findAllbyStoreId(String storeSN) {
+        List<Order> li = orderRepository.findAll();
+        List<Order> findList = new ArrayList<>();
+        for (Order list : li) {
+            if (list.getStoreSerialNumber().equals(storeSN)) {
+                findList.add(list);
+            }
+        }
+        return findList;
     }
 }

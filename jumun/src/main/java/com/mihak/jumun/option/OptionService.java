@@ -57,4 +57,25 @@ public class OptionService {
         }
         return options;
     }
+
+    /* 수정 */
+    // 수정폼 보여주기
+    public OptionFormDto getOptionFormDto(Option option) {
+        OptionFormDto optionFormDto = OptionFormDto.builder()
+                .name(option.getName())
+                .price(option.getPrice())
+                .store(option.getStore())
+                .build();
+        return optionFormDto;
+    }
+
+    public void modifyOption(Long optionId, OptionFormDto optionFormDto) {
+        Option option = optionRepository.findById(optionId).get();
+        option.changeOption(optionFormDto.getName(), optionFormDto.getPrice());
+        optionRepository.save(option);
+    }
+
+    public void remove(Long optionId) {
+        optionRepository.deleteById(optionId);
+    }
 }

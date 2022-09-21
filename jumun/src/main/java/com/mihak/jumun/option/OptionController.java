@@ -1,12 +1,15 @@
 package com.mihak.jumun.option;
 
 import com.mihak.jumun.entity.Option;
+import com.mihak.jumun.entity.OptionGroup;
 import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.option.form.OptionFormDto;
+import com.mihak.jumun.optionAndOptionGroup.OptionAndOptionGroupService;
 import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,7 @@ import java.util.List;
 public class OptionController {
     private final OptionService optionService;
     private final StoreService storeService;
+    private final OptionAndOptionGroupService optionAndOptionGroupService;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/option")
@@ -50,6 +54,41 @@ public class OptionController {
         model.addAttribute("storeSN", storeSN);
         model.addAttribute("options", options);
         return "option/option_list";
+    }
+
+    /* 옵션 수정 */
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{storeSN}/admin/store/option/modify/{optionId}")
+    public String modifyOptionForm(@PathVariable String storeSN, @PathVariable Long optionId, Model model) {
+        Option option = optionService.findById(optionId);
+
+        OptionFormDto optionFormDto = optionService.getOptionFormDto(option);
+        model.addAttribute("optionForm", optionFormDto);
+        return "option/modify_option";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{storeSN}/admin/store/option/modify/{optionId}")
+    public String modifyOption(@PathVariable String storeSN,
+                               @PathVariable Long optionId,
+                               @Valid OptionFormDto optionFormDto,
+                               BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "option/modify_option";
+        }
+        optionService.modifyOption(optionId, optionFormDto);
+        return "redirect:/%s/admin/store/optionList".formatted(storeSN);
+    }
+
+    /* 옵션 삭제 */
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{storeSN}/admin/store/option/delete/{optionId}")
+    @Transactional
+    public String deleteOption(@PathVariable String storeSN,
+                               @PathVariable Long optionId) {
+        optionAndOptionGroupService.remove(optionId);
+        optionService.remove(optionId);
+        return "redirect:/%s/admin/store/optionList".formatted(storeSN);
     }
 
 }
