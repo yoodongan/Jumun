@@ -10,13 +10,17 @@ import java.time.format.DateTimeFormatter;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class FindByUserDailyDto {
     private LocalDateTime orderedAt;
     private long userNickName;
 
-    public LocalDateTime getOrderedAt(){
-        return orderedAt;
+    public FindByUserDailyDto(LocalDateTime orderedAt, long userNickName) {
+        this.orderedAt =  orderedAt;
+        this.userNickName = userNickName;
+    }
+    public String getOrderedAt(){
+        String orderedAtDaily = orderedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return orderedAtDaily;
     }
     public long getUserNickName(){
         return userNickName;

@@ -1,25 +1,26 @@
 package com.mihak.jumun.storeMgmt.dto;
 
-import com.mihak.jumun.entity.PayType;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+//@AllArgsConstructor
 public class FindListFormDto {
     private LocalDateTime orderedAt;
     private long totalPrice;
 //    private String userNickName;
 
-//    public FindListFormDto(String date, String sum) {
-//        this.date = date;
-//        this.sum = sum;
-//    }
+    public FindListFormDto(LocalDateTime orderedAt, long totalPrice) {
+        this.orderedAt =  orderedAt;
+        this.totalPrice = totalPrice;
+    }
 
-    public LocalDateTime getOrderedAt(){
-        return orderedAt;
+    public String getOrderedAt(){
+        String orderedAtDaily = orderedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return orderedAtDaily;
     }
     public long getTotalPrice(){
         return totalPrice;

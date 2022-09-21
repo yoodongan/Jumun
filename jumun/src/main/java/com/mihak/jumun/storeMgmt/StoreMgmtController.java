@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -92,12 +93,15 @@ public class StoreMgmtController {
         /*정렬방법에 따라 SQL로 원하는 값을 가져온다.*/
         switch (orderBy) {
             case "price":
-                List<FindListFormDto> findList = orderService.findAllbyPriceDaily();
+                List<FindListFormDto> findList1 = orderService.findAllbyPriceDaily();
+                //날짜가 같다면 해당 totalPrice를 더해서 새롭게 리스트를 만드는 수 밖에...
+                Map<String, Long> findList = orderService.sum(findList1);
                 model.addAttribute("findList", findList);
                 break;
             case "user":
                 List<FindByUserDailyDto> findList2 = orderService.findAllbyUserDaily();
-                model.addAttribute("findList2", findList2);
+                Map<String, Long> findList3 = orderService.sumByUser(findList2);
+                model.addAttribute("findList3", findList3);
                 break;
         }
         return "storeMgmt/revenueDetail";

@@ -34,8 +34,10 @@
         <div class="order-body">일간별</div>
         <ul class="list-group list-group-flush" th:each="findValue : ${findList}">
             <li class="list-group-item listDesc">
-                <div class="listDesc"th:text="${#temporals.format(findValue.orderedAt, 'yyyy-MM-dd')}"></div>
-                <div class="listValue"th:text="${#numbers.formatInteger(findValue.totalPrice, 0, 'COMMA')} +'원'"></div>
+                <!-- 타임리프에서 날짜포맷을 변경함-->
+<!--                <div class="listDesc"th:text="${#temporals.format(findValue.orderedAt, 'yyyy-MM-dd')}"></div> -->
+                <div class="listDesc"th:text="${findValue.key}"></div>
+                <div class="listValue"th:text="${#numbers.formatInteger(findValue.value, 0, 'COMMA')} +'원'"></div>
 
             </li>
             <!--
@@ -49,10 +51,10 @@
             </li>
              -->
         </ul>
-        <ul class="list-group list-group-flush" th:each="findValue2 : ${findList2}">
+        <ul class="list-group list-group-flush" th:each="findValue2 : ${findList3}">
             <li class="list-group-item listDesc">
-                <div class="listDesc"th:text="${#temporals.format(findValue2.orderedAt, 'yyyy-MM-dd')}"></div>
-                <div class="listValue"th:text="${findValue2.userNickName}"></div>
+                <div class="listDesc"th:text="${findValue2.key}"></div>
+                <div class="listValue"th:text="${findValue2.value}"></div>
 
             </li>
             <!--
