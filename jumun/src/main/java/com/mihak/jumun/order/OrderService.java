@@ -1,11 +1,12 @@
 package com.mihak.jumun.order;
 
-import com.mihak.jumun.entity.Category;
 import com.mihak.jumun.entity.Order;
 import com.mihak.jumun.entity.PayStatus;
 import com.mihak.jumun.exception.OrderNotFoundException;
 import com.mihak.jumun.order.dto.OrderDtoFromCart;
 import com.mihak.jumun.order.dto.OrderFormDto;
+import com.mihak.jumun.storeMgmt.dto.FindByUserDailyDto;
+import com.mihak.jumun.storeMgmt.dto.FindListFormDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +56,16 @@ public class OrderService {
                 findList.add(list);
             }
         }
+        return findList;
+    }
+
+    public List<FindListFormDto> findAllbyPriceDaily() {
+        List<FindListFormDto> findList = orderRepository.findByPriceDaily();
+        return findList;
+    }
+
+    public List<FindByUserDailyDto> findAllbyUserDaily() {
+        List<FindByUserDailyDto> findList = orderRepository.findByUserDaily();
         return findList;
     }
 }

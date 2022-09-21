@@ -3,6 +3,8 @@ package com.mihak.jumun.storeMgmt;
 import com.mihak.jumun.entity.*;
 import com.mihak.jumun.order.OrderService;
 import com.mihak.jumun.store.StoreService;
+import com.mihak.jumun.storeMgmt.dto.FindByUserDailyDto;
+import com.mihak.jumun.storeMgmt.dto.FindListFormDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,7 +52,7 @@ public class StoreMgmtController {
         Store store = storeService.findBySerialNumber(storeSN);
         model.addAttribute("store", store);
         model.addAttribute("storeSN" , storeSN);
-        /*스토어넘버로 모든 주문 내역을 가져온다. order 테이블의 모든 것을 조회하기 위해 객체를 가져옴*/
+        /*스토어넘버로 모든 주문 내역을 가져온다.*/
         List<Order> orderLists = orderService.findAllbyStoreId(storeSN);
         model.addAttribute("orderLists", orderLists);
         return "storeMgmt/orderList";
@@ -63,7 +65,7 @@ public class StoreMgmtController {
         Store store = storeService.findBySerialNumber(storeSN);
         model.addAttribute("store", store);
         model.addAttribute("storeSN" , storeSN);
-        /*스토어넘버로 모든 주문 내역을 가져온다. order테이블의 모든 것을 조회하기 위해 객체를 가져옴*/
+        /*해당 id의 order 객체만을 가져옴*/
         Order findOrder = orderService.findOrderById(orderId);
         model.addAttribute("findOrder", findOrder);
         return "storeMgmt/orderDetail";
@@ -75,6 +77,29 @@ public class StoreMgmtController {
         Store store = storeService.findBySerialNumber(storeSN);
         model.addAttribute("store", store);
         model.addAttribute("storeSN" , storeSN);
+        /*스토어넘버로 모든 주문 내역을 가져온다. order 테이블의 모든 것을 조회하기 위해 객체를 가져옴*/
+        List<Order> orderLists = orderService.findAllbyStoreId(storeSN);
+        model.addAttribute("orderLists", orderLists);
         return "storeMgmt/revenueList";
+    }
+    /*매출관리 정렬 페이지*/
+    @GetMapping("/{storeSN}/admin/store/management/revenue/{orderBy}")
+    public String totalSalesListByX(Model model , @PathVariable String storeSN, @PathVariable String orderBy){
+        Store store = storeService.findBySerialNumber(storeSN);
+        model.addAttribute("store", store);
+        model.addAttribute("storeSN" , storeSN);
+
+        /*정렬방법에 따라 SQL로 원하는 값을 가져온다.*/
+        switch (orderBy) {
+            case "price":
+                List<FindListFormDto> findList = orderService.findAllbyPriceDaily();
+                model.addAttribute("findList", findList);
+                break;
+            case "user":
+                List<FindByUserDailyDto> findList2 = orderService.findAllbyUserDaily();
+                model.addAttribute("findList2", findList2);
+                break;
+        }
+        return "storeMgmt/revenueDetail";
     }
 }
