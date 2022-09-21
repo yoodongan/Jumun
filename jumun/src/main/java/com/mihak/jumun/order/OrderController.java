@@ -7,6 +7,7 @@ import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.order.dao.OrderDao;
 import com.mihak.jumun.order.dto.OrderDtoFromCart;
 import com.mihak.jumun.order.dto.OrderFormDto;
+import com.mihak.jumun.pay.KaKaoPayService;
 import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,8 +23,8 @@ public class OrderController {
 
     private final OrderService orderService;
     private final StoreService storeService;
-    private final CartService cartService;
     private final OrderDao orderDao;
+    private final KaKaoPayService kaKaoPayService;
 
     @PostMapping("/{storeSN}/order")
     public String order(@PathVariable String storeSN,
@@ -84,6 +85,7 @@ public class OrderController {
     public String cancelOrder(@PathVariable String storeSN, @PathVariable Long orderId,
                               @CookieValue("customerLogin") String customerKey) {
 
+        kaKaoPayService.kakaoPayCancel(orderId);
         orderService.cancelOrderByUser(orderId);
         return "redirect:/{storeSN}/cart";
     }

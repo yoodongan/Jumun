@@ -32,6 +32,7 @@ public class KakaoPayController {
         Order order = orderService.findOrderById(orderId);
         cartService.changeIsOrdered(order);
 
+        kaKaoPayService.kakaoPayApprove(pg_token, orderId);
         KakaoPaySuccessDto kakaoPaySuccessDto = orderService.getKakaoPaySuccessDto(order);
         model.addAttribute("kakaoPaySuccessDto", kakaoPaySuccessDto);
         return "pay/kakaoPaySuccess";
@@ -41,7 +42,7 @@ public class KakaoPayController {
                                   @PathVariable Long orderId) {
 
         orderService.cancelOrderByUser(orderId);
-        model.addAttribute("info", kaKaoPayService.kakaoPayInfo(pg_token, orderId));
+        model.addAttribute("info", kaKaoPayService.kakaoPayApprove(pg_token, orderId));
         return "pay/kakaoPayFail";
     }
 
@@ -50,7 +51,7 @@ public class KakaoPayController {
                                   @PathVariable Long orderId) {
 
         orderService.cancelOrderByPayFail(orderId);
-        model.addAttribute("info", kaKaoPayService.kakaoPayInfo(pg_token, orderId));
+        model.addAttribute("info", kaKaoPayService.kakaoPayApprove(pg_token, orderId));
         return "pay/kakaoPayFail";
     }
 }

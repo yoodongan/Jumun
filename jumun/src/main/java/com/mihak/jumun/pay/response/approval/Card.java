@@ -1,4 +1,4 @@
-package com.mihak.jumun.pay.response;
+package com.mihak.jumun.pay.response.approval;
 
 import lombok.Data;
 
