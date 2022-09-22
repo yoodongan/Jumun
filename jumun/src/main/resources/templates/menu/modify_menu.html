@@ -1,7 +1,8 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container">
+    <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
     <h5 class="my-3 border-bottom pb-2">메뉴 수정하기</h5>
-    <form th:action th:object="${menuForm}" method="post">
+    <form th:action th:object="${menuForm}" method="post" enctype="multipart/form-data">
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
@@ -25,8 +26,8 @@
         <!-- 이미지 폼 추가해야 함 -->
         <div class="mb-3">
             <label for="image"> 메뉴이미지 </label>
-            <input type="file" name="image" accept="image/png, image/jpeg"/>
-            <!--            <img src="" class="img-thumbnail" alt="img-thumbnail">-->
+            <input type="file" name="file" onchange="readURL(this);">
+            <img id="preview" />
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">메뉴 설명</label>
