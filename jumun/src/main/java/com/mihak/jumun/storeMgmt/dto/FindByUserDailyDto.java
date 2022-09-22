@@ -18,6 +18,7 @@ public class FindByUserDailyDto {
         this.userNickName = userNickName;
     }
     public String getChangeOrderedAt(){
+        // 날짜포맷에서 시간초를 제외
         String orderedAtDaily = orderedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         return orderedAtDaily;
     }

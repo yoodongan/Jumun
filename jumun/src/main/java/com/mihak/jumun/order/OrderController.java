@@ -1,10 +1,12 @@
 package com.mihak.jumun.order;
 
+import com.mihak.jumun.entity.Order;
 import com.mihak.jumun.entity.PayType;
 import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.order.dao.OrderDao;
 import com.mihak.jumun.order.dto.OrderDtoFromCart;
 import com.mihak.jumun.order.dto.OrderFormDto;
+import com.mihak.jumun.pay.KaKaoPayService;
 import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ public class OrderController {
     private final OrderService orderService;
     private final StoreService storeService;
     private final OrderDao orderDao;
+    private final KaKaoPayService kaKaoPayService;
 
     @PostMapping("/{storeSN}/order")
     public String order(@PathVariable String storeSN,
@@ -61,14 +64,22 @@ public class OrderController {
 
     @PostMapping("/{storeSN}/pay")
     public String doOrder(@PathVariable String storeSN, HttpServletRequest request,
-                          @CookieValue("customerLogin") String customerKey, @ModelAttribute OrderFormDto orderFormDto) {
+                          @CookieValue("customerLogin") String customerKey, @ModelAttribute OrderFormDto orderFormDto,
+                          Model model) {
 
         HttpSession session = request.getSession(true);
         String userNickname = session.getAttribute(customerKey).toString();
 
         OrderDtoFromCart orderDtoFromCart = orderDao.getOrderDtoFromCart(userNickname);
-        orderService.saveOrder(orderDtoFromCart, orderFormDto);
-        return "order/order_complete"; // 간편결제!
-    }
+        Order order = orderService.saveOrder(orderDtoFromCart, orderFormDto);
 
+        // 간편 결제 호출
+        if (order.getPayType().equals(PayType.KAKAOPAY)) {
+            return "redirect:/kakaopay/" + order.getId();
+        } else if (order.getPayType().equals(PayType.CASH)) {
+            return "redirect:/cashPaySuccess/" + order.getId();
+        } else {
+            return null;
+        }
+    }
 }

@@ -1,14 +1,22 @@
 package com.mihak.jumun.order;
 
+import com.mihak.jumun.cart.CartService;
+import com.mihak.jumun.cart.dto.CartDto;
+
 import com.mihak.jumun.entity.Order;
+import com.mihak.jumun.entity.OrderStatus;
 import com.mihak.jumun.entity.PayStatus;
 import com.mihak.jumun.exception.OrderNotFoundException;
 import com.mihak.jumun.order.dto.OrderDtoFromCart;
 import com.mihak.jumun.order.dto.OrderFormDto;
+
 import com.mihak.jumun.storeMgmt.dto.FindByUserDailyDto;
 import com.mihak.jumun.storeMgmt.dto.FindListFormDto;
+import com.mihak.jumun.pay.dto.PaySuccessDto;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,6 +30,7 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final CartService cartService;
 
     public Order saveOrder(OrderDtoFromCart orderDtoFromCart, OrderFormDto orderFormDto) {
 
@@ -34,6 +43,7 @@ public class OrderService {
                 .payType(orderFormDto.getPayType())
                 .requests(orderFormDto.getRequests())
                 .payStatus(PayStatus.CONTINUE)
+                .orderStatus(OrderStatus.BEFOREORDER)
                 .build();
 
         order.setCreatedDate(LocalDateTime.now());
@@ -50,6 +60,48 @@ public class OrderService {
         return findOrder.get();
     }
 
+    public Order findOrderByUserNickName(String userNickName) {
+        Optional<Order> findOrder = orderRepository.findByUserNickName(userNickName);
+
+        if (findOrder.isEmpty()) {
+            throw new OrderNotFoundException("해당 주문을 찾을 수 없습니다.");
+        }
+
+        return findOrder.get();
+    }
+
+    @Transactional
+    public void cancelOrderByPayFail(Long orderId) {
+        Order order = findOrderById(orderId);
+
+        order.setOrderStatus(OrderStatus.CANCEL);
+        order.setPayStatus(PayStatus.REFUSE);
+    }
+
+    @Transactional
+    public void cancelOrderByUser(Long orderId) {
+        Order order = findOrderById(orderId);
+
+        order.setOrderStatus(OrderStatus.CANCEL);
+        order.setPayStatus(PayStatus.REFUND);
+
+        cartService.cancelOrder(order.getUserNickName());
+    }
+
+    public PaySuccessDto getPaySuccessDto(Order order) {
+
+        List<CartDto> orderHistory = cartService.getCartByUserNickName(order.getUserNickName(), true);
+
+        return PaySuccessDto.builder()
+                .userNickName(order.getUserNickName())
+                .orderId(order.getId())
+                .orderHistory(orderHistory)
+                .orderStatus(order.getOrderStatus())
+                .orderTotalPrice(order.getTotalPrice())
+                .storeSN(order.getStoreSerialNumber())
+                .build();
+    }
+    
     public List<Order> findAllbyStoreId(String storeSN) {
         List<Order> li = orderRepository.findAll();
         List<Order> findList = new ArrayList<>();
@@ -71,8 +123,6 @@ public class OrderService {
         return findList;
     }
 
-// JPQL에서 지원하지 않는 date함수
-// 날짜포맷에서 시간초를 제외
 // 같은 날짜(key)를 갖는다면 value를 합산
     public Map<String, Long> sum(List<FindListFormDto> list) {
         return list.stream().collect(Collectors.toMap(e -> e.getChangeOrderedAt(), e -> e.getTotalPrice(), Long::sum));
