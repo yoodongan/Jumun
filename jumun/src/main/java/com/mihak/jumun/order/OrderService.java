@@ -1,15 +1,19 @@
 package com.mihak.jumun.order;
 
-
 import com.mihak.jumun.cart.CartService;
 import com.mihak.jumun.cart.dto.CartDto;
+
 import com.mihak.jumun.entity.Order;
 import com.mihak.jumun.entity.OrderStatus;
 import com.mihak.jumun.entity.PayStatus;
 import com.mihak.jumun.exception.OrderNotFoundException;
 import com.mihak.jumun.order.dto.OrderDtoFromCart;
 import com.mihak.jumun.order.dto.OrderFormDto;
+
+import com.mihak.jumun.storeMgmt.dto.FindByUserDailyDto;
+import com.mihak.jumun.storeMgmt.dto.FindListFormDto;
 import com.mihak.jumun.pay.dto.PaySuccessDto;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -105,5 +111,24 @@ public class OrderService {
             }
         }
         return findList;
+    }
+
+    public List<FindListFormDto> findAllbyPriceDaily() {
+        List<FindListFormDto> findList = orderRepository.findByPriceDaily();
+        return findList;
+    }
+
+    public List<FindByUserDailyDto> findAllbyUserDaily() {
+        List<FindByUserDailyDto> findList = orderRepository.findByUserDaily();
+        return findList;
+    }
+
+// 같은 날짜(key)를 갖는다면 value를 합산
+    public Map<String, Long> sum(List<FindListFormDto> list) {
+        return list.stream().collect(Collectors.toMap(e -> e.getChangeOrderedAt(), e -> e.getTotalPrice(), Long::sum));
+    }
+
+    public Map<String, Long> sumByUser(List<FindByUserDailyDto> list) {
+        return list.stream().collect(Collectors.toMap(e -> e.getChangeOrderedAt(), e -> e.getUserNickName(), Long::sum));
     }
 }

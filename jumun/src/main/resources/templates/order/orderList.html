@@ -1,14 +1,9 @@
-<!DOCTYPE html>
 <html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-
-
-</head>
 
 <body style="text-align: center;">
 
 <div layout:fragment="content" class="container my-3">
+    <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
     <div>
         주문 현황 페이지 입니다.
     </div>
