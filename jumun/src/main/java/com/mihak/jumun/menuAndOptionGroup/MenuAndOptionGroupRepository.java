@@ -13,5 +13,6 @@ public interface MenuAndOptionGroupRepository extends JpaRepository<MenuAndOptio
     @Transactional
     void deleteByMenuAndOptionGroup(Menu menu, OptionGroup optionGroup);
 
+    @Transactional
     void deleteAllByOptionGroup(OptionGroup optionGroup);
 }
