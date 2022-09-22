@@ -1,7 +1,6 @@
 package com.mihak.jumun.storeMgmt.dto;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +17,7 @@ public class FindByUserDailyDto {
         this.orderedAt =  orderedAt;
         this.userNickName = userNickName;
     }
-    public String getOrderedAt(){
+    public String getChangeOrderedAt(){
         String orderedAtDaily = orderedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         return orderedAtDaily;
     }

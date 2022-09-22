@@ -75,10 +75,10 @@ public class OrderService {
 // 날짜포맷에서 시간초를 제외
 // 같은 날짜(key)를 갖는다면 value를 합산
     public Map<String, Long> sum(List<FindListFormDto> list) {
-        return list.stream().collect(Collectors.toMap(e -> e.getOrderedAt(), e -> e.getTotalPrice(), Long::sum));
+        return list.stream().collect(Collectors.toMap(e -> e.getChangeOrderedAt(), e -> e.getTotalPrice(), Long::sum));
     }
 
     public Map<String, Long> sumByUser(List<FindByUserDailyDto> list) {
-        return list.stream().collect(Collectors.toMap(e -> e.getOrderedAt(), e -> e.getUserNickName(), Long::sum));
+        return list.stream().collect(Collectors.toMap(e -> e.getChangeOrderedAt(), e -> e.getUserNickName(), Long::sum));
     }
 }

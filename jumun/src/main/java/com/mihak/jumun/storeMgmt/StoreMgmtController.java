@@ -94,7 +94,6 @@ public class StoreMgmtController {
         switch (orderBy) {
             case "price":
                 List<FindListFormDto> findList1 = orderService.findAllbyPriceDaily();
-                //날짜가 같다면 해당 totalPrice를 더해서 새롭게 리스트를 만드는 수 밖에...
                 Map<String, Long> findList = orderService.sum(findList1);
                 model.addAttribute("findList", findList);
                 break;

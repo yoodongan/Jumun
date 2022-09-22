@@ -18,7 +18,7 @@ public class FindListFormDto {
         this.totalPrice = totalPrice;
     }
 
-    public String getOrderedAt(){
+    public String getChangeOrderedAt(){
         String orderedAtDaily = orderedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         return orderedAtDaily;
     }
