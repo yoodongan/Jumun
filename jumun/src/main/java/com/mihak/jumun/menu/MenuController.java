@@ -142,8 +142,11 @@ public class MenuController {
         Menu findMenu = menuService.findById(menuId);
         MenuForm menuForm = new MenuForm();
         Category category = findMenu.getCategory();
+        Long categoryId = null;
+        if(category == null) categoryId = null;
+        else categoryId = category.getId();
 
-        menuForm.setMenuInfo(category.getId(), findMenu.getName(), findMenu.getPrice(), findMenu.getImgUrl(), findMenu.getDescription(), findMenu.getStore());
+        menuForm.setMenuInfo(categoryId, findMenu.getName(), findMenu.getPrice(), findMenu.getImgUrl(), findMenu.getDescription(), findMenu.getStore());
 
         model.addAttribute("menuForm", menuForm);
         return "menu/modify_menu";

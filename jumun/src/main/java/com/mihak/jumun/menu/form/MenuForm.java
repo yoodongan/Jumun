@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class MenuForm {
 
-    @NotNull(message = "카테고리를 선택해주세요.")
+    @Nullable
     private Long categoryId;
 
     @NotEmpty(message = "메뉴명을 입력해주세요.")

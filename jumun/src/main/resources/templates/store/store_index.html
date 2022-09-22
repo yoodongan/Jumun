@@ -4,7 +4,7 @@
 
     <h1 th:text="${store.name}">매장 이름</h1>
     <div class="card">
-        <button type="button" class="p-3 btn btn-outline-secondary" th:onclick="|location.href='@{|/${store.serialNumber}/admin/store/menu|}'|">
+        <button type="button" class="p-3 btn btn-outline-secondary" th:onclick="|location.href='@{|/${store.serialNumber}/admin/store/management/menu|}'|">
             메뉴 관리 페이지
         </button>
         <button type="button" class="p-3 btn btn-outline-secondary" th:onclick="|location.href='@{|/${store.serialNumber}/admin/store/order/list|}'|">

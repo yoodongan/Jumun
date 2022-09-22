@@ -83,6 +83,15 @@ public class StoreMgmtController {
         model.addAttribute("orderLists", orderLists);
         return "storeMgmt/revenueList";
     }
+
+    /* 메뉴관리 페이지 */
+    @GetMapping("/{storeSN}/admin/store/management/menu")
+    public String mgmtMenu(Model model , @PathVariable String storeSN) {
+        Store store = storeService.findBySerialNumber(storeSN);
+        model.addAttribute("store", store);
+        return "storeMgmt/mgmtMenu";
+    }
+
     /*매출관리 정렬 페이지*/
     @GetMapping("/{storeSN}/admin/store/management/revenue/{orderBy}")
     public String totalSalesListByX(Model model , @PathVariable String storeSN, @PathVariable String orderBy){

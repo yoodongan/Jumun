@@ -50,4 +50,8 @@ public class MenuAndOptionGroupService {
         menuAndOptionGroupRepository.deleteByMenuAndOptionGroup(menu, optionGroup);
 
     }
+
+    public void removeByOptionGroup(OptionGroup optionGroup) {
+        menuAndOptionGroupRepository.deleteAllByOptionGroup(optionGroup);
+    }
 }

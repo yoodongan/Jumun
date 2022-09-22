@@ -26,7 +26,7 @@ public class CategoryController {
     private final SCService scService;
 
 
-    @GetMapping("{storeSN}/category/create")
+    @GetMapping("{storeSN}/admin/store/category")
     public String create(Model model, @ModelAttribute CategoryForm categoryForm , @PathVariable String storeSN){
         Store store = storeService.findBySerialNumber(storeSN);
 
@@ -34,7 +34,7 @@ public class CategoryController {
         return "category/create_cate";
     }
 
-    @PostMapping("/{storeSN}/category/create")
+    @PostMapping("/{storeSN}/admin/store/category")
     public String createCate(Model model , @Valid CategoryForm categoryForm, BindingResult bindingResult, @PathVariable String storeSN) {
 
         if(bindingResult.hasErrors()){
@@ -53,18 +53,18 @@ public class CategoryController {
                 return "category/create_cate";
             }else{
                 scService.save(storeSN, cate.get().getName());
-                return "redirect:/%s/category/list".formatted(storeSN);
+                return "redirect:/%s/admin/store/categoryList".formatted(storeSN);
             }
         }else{
             categoryService.create(categoryForm);
             Optional<Category> cate2 = categoryService.findByName(categoryForm.getName());
             scService.save(storeSN , cate2.get().getName());
         }
-        return "redirect:/%s/category/list".formatted(storeSN);
+        return "redirect:/%s/admin/store/categoryList".formatted(storeSN);
     }
 
 
-    @GetMapping("/{storeSN}/category/list")
+    @GetMapping("/{storeSN}/admin/store/categoryList")
     public String showCate(Model model,@PathVariable String storeSN){
         Store store = storeService.findBySerialNumber(storeSN);
         List<Category> scList = scService.findAllbyStoreId(store.getId());
@@ -72,7 +72,7 @@ public class CategoryController {
         model.addAttribute("storeSN",storeSN);
         return "/category/cate_list";
     }
-    @GetMapping("/{storeSN}/category/detail/{id}")
+    @GetMapping("/{storeSN}/admin/store/categoryDetail/{id}")
     public String showDetail(Model model , @PathVariable Long id, HttpServletResponse res , @PathVariable String storeSN) throws Exception {
         Optional<Category> cate = categoryService.findById(id);
         if(!(cate.isPresent())) {
@@ -83,7 +83,7 @@ public class CategoryController {
         return "category/cate_detail";
     }
 
-    @GetMapping("/{storeSN}/category/modify/{id}")
+    @GetMapping("/{storeSN}/admin/store/category/modify/{id}")
     public String modify(CategoryForm categoryForm,Model model , @PathVariable Long id,@PathVariable String storeSN){
         Category cate = categoryService.findById(id).get();
 
@@ -91,7 +91,7 @@ public class CategoryController {
         return "category/cate_modify";
     }
 
-    @PostMapping("/{storeSN}/category/modify/{id}")
+    @PostMapping("/{storeSN}/admin/store/category/modify/{id}")
     public String modify(@PathVariable String storeSN, @Valid CategoryForm categoryForm,BindingResult bindingResult ,Model model , @PathVariable Long id){
         Store store = storeService.findBySerialNumber(storeSN);
         if(bindingResult.hasErrors()){
@@ -115,7 +115,7 @@ public class CategoryController {
                 if(count == 0){
                     categoryService.remove(categoryService.findById(id).get());
                 }
-                return "redirect:/%s/category/list".formatted(storeSN);
+                return "redirect:/%s/admin/store/categoryList".formatted(storeSN);
             }
 
         }else{
@@ -127,10 +127,10 @@ public class CategoryController {
             categoryService.remove(categoryService.findById(id).get());
         }
 
-        return "redirect:/%s/category/list".formatted(storeSN);
+        return "redirect:/%s/admin/store/categoryList".formatted(storeSN);
     }
 
-    @GetMapping("/{storeSN}/category/delete/{id}")
+    @GetMapping("/{storeSN}/admin/store/category/delete/{id}")
     public String delete(@PathVariable("id") Long id, @PathVariable String storeSN) {
         //해당 스토어와 삭제하고 싶은 카테고리를 가져온다.
         Store store = storeService.findBySerialNumber(storeSN);
@@ -143,10 +143,6 @@ public class CategoryController {
         if(count == 1){
             categoryService.remove(delCate);
         }
-
-        return "redirect:/%s/category/list".formatted(storeSN);
+        return "redirect:/%s/admin/store/categoryList".formatted(storeSN);
     }
-
-
-
 }
