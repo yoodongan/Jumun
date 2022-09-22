@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/menu_list.css}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
     <title>고객 주문 상세페이지</title>
     <style>
         .field-error {
@@ -12,41 +13,6 @@
             color: #dc3545;
         }
     </style>
-    <script>
-        function incrementValue(e) {
-            e.preventDefault();
-            var fieldName = $(e.target).data('field');
-            var parent = $(e.target).closest('div');
-            var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
-
-            if (!isNaN(currentVal)) {
-                parent.find('input[name=' + fieldName + ']').val(currentVal + 1);
-            } else {
-                parent.find('input[name=' + fieldName + ']').val(0);
-            }
-        }
-
-        function decrementValue(e) {
-            e.preventDefault();
-            var fieldName = $(e.target).data('field');
-            var parent = $(e.target).closest('div');
-            var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
-
-            if (!isNaN(currentVal) && currentVal > 0) {
-                parent.find('input[name=' + fieldName + ']').val(currentVal - 1);
-            } else {
-                parent.find('input[name=' + fieldName + ']').val(0);
-            }
-        }
-
-        $('.input-group').on('click', '.button-plus', function(e) {
-            incrementValue(e);
-        });
-
-        $('.input-group').on('click', '.button-minus', function(e) {
-            decrementValue(e);
-        });
-    </script>
 </head>
 <body>
 <h2>고객 메뉴판</h2>
@@ -95,9 +61,7 @@
                                 <p class="text-dark">개수</p>
                             </div>
                             <div class="input-group w-auto justify-content-end align-items-center">
-                                <input type="button" value="-" class="button-minus border rounded-circle  icon-shape icon-sm mx-1 " data-field="quantity">
-                                <input type="number" step="1" max="10" value="1" th:field="*{count}" class="quantity-field border-0 text-center w-25" >
-                                <input type="button" value="+" class="button-plus border rounded-circle icon-shape icon-sm " data-field="quantity">
+                                <input type="number" step="1" min= "0" max="10" value="1" th:field="*{count}" >
                             </div>
                         </div>
                     </div>
