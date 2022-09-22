@@ -1,5 +1,6 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container">
+    <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
     <h5 class="my-3 border-bottom pb-2">메뉴 등록하기</h5>
     <form th:action th:object="${menuForm}" method="post" enctype="multipart/form-data">
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">

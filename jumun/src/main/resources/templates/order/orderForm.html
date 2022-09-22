@@ -1,5 +1,6 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
+    <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
     <div th:text="${storeName}"></div>
     <div>
         <form th:action th:object="${orderFormDto}" method="POST">

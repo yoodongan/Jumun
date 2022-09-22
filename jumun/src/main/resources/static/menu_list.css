@@ -57,3 +57,13 @@ icon-shape {
     height: 2rem;
 
 }
+.customer-navbar nav{
+    display: flex;
+    position: relative;
+    border-radius: 5px;
+}
+.admin-navbar nav{
+    display: flex;
+    position: relative;
+    border-radius: 5px;
+}

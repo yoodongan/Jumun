@@ -11,11 +11,10 @@ html > body {
 }
 body {
     margin-top : 50px;
-    width: 90%;
+    width: 60%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 100px;
-
 }
 a {
     text-decoration:none
@@ -37,4 +36,9 @@ a {
 }
 .button-group {
 
+}
+.admin-navbar nav{
+    display: flex;
+    position: relative;
+    border-radius: 5px;
 }

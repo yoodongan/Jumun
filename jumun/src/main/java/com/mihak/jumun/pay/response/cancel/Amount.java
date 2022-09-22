@@ -1,5 +1,8 @@
 package com.mihak.jumun.pay.response.cancel;
 
+import lombok.Data;
+
+@Data
 public class Amount {
     private Integer total;
     private Integer tax_free;

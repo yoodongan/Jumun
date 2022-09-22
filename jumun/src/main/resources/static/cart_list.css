@@ -44,3 +44,8 @@ body {
 .admin-cart {
     display: flex;
 }
+.customer-navbar nav{
+    display: flex;
+    position: relative;
+    border-radius: 5px;
+}
