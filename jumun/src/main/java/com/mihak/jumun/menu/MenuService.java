@@ -2,6 +2,7 @@ package com.mihak.jumun.menu;
 
 import com.mihak.jumun.category.CategoryRepository;
 import com.mihak.jumun.entity.*;
+import com.mihak.jumun.exception.CategoryNotFoundException;
 import com.mihak.jumun.exception.MenuNotFoundException;
 import com.mihak.jumun.menu.form.MenuForm;
 import com.mihak.jumun.store.StoreService;
@@ -45,6 +46,11 @@ public class MenuService {
         return findMenu;
     }
 
+    public List<Menu> findByCategoryAndStore(Long categoryId, Store store) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException());
+
+        return menuRepository.findByCategoryAndStore(category, store);
+    }
 
     public void remove(Menu menu) {
         menuRepository.delete(menu);
