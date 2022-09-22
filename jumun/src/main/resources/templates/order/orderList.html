@@ -15,10 +15,10 @@
 
     <div style="margin-bottom: 20px">
         --주문 접수 대기--
-    <div th:each="o : ${orderList}">
-        <div th:if="${o.orderStatus.toString().equals('주문접수전')}">
-        <a th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.id}+'번 주문'"></h1></a>
-        </div>
+        <div th:each="o : ${orderList}">
+            <div th:if="${o.orderStatus.toString().equals('주문접수전')}">
+                <a th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.id}+'번 주문'"></h1></a>
+            </div>
         </div>
     </div>
 
@@ -26,9 +26,9 @@
         -- 조리 중 --
         <div th:each="o : ${orderList}">
             <div th:if="${o.orderStatus.toString().equals('조리중')}">
-            <a th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.id}+'번 주문'"></h1></a>
+                <a th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.id}+'번 주문'"></h1></a>
             </div>
-            </div>
+        </div>
     </div>
 </div>
 
