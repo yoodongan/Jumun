@@ -25,7 +25,8 @@
         <!-- 이미지 폼 추가해야 함 -->
         <div class="mb-3">
             <label for="imageUrl"> 메뉴이미지 </label>
-            <input type="file" name="file">
+            <input type="file" name="file"  onchange="readURL(this);">
+            <img id="preview" />
         </div>
 
         <div class="mb-3">
