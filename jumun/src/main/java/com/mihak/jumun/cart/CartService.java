@@ -147,4 +147,24 @@ public class CartService {
 
         return cartRepository.save(cart);
     }
+
+    @Transactional
+    public void cancelOrder(String userNickName) {
+        List<Cart> cartList= cartRepository.findByUserNickNameAndIsOrdered(userNickName, true);
+
+        for (Cart cart : cartList) {
+            cart.setOrdered(false);
+        }
+    }
+
+    @Transactional
+    public void changeIsOrdered(Order order) {
+
+        String userNickName = order.getUserNickName();
+        List<Cart> carts = cartRepository.findByUserNickNameAndIsOrdered(userNickName, false);
+
+        for (Cart cart : carts) {
+            cart.setOrdered(true);
+        }
+    }
 }
