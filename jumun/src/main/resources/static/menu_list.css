@@ -57,7 +57,15 @@ icon-shape {
     height: 2rem;
 
 }
-.title {
+
+.customer-navbar nav{
     display: flex;
-    justify-content: space-between;
+    position: relative;
+    border-radius: 5px;
+}
+.admin-navbar nav{
+    display: flex;
+    position: relative;
+    border-radius: 5px;
+
 }

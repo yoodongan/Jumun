@@ -19,9 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -159,7 +157,8 @@ public class MenuController {
     public String modifyMenu(@PathVariable("storeSN") String storeSN,
                              @PathVariable Long menuId,
                              @Valid MenuForm menuForm,
-                             BindingResult result) {
+                             BindingResult result,
+                             MultipartFile file) throws IOException {
         // 메뉴명 Null 값, 가격 Null 값 예외 체크
         if (result.hasErrors()) {
             return "menu/modify_menu";
@@ -172,6 +171,14 @@ public class MenuController {
             result.rejectValue("name", "duplicatedMenu", "이미 똑같은 메뉴가 있습니다.");
             return "menu/modify_menu";
         }
+        if (!file.isEmpty()) {
+            /*S3 컨트롤러 부분*/
+            String imgPath = s3Service.upload(file);
+            /*menuForm의 변수에 S3처리 후 리턴된 Url을 넣어주는 코드*/
+            menuForm.setImgUrl(imgPath);
+        }else
+            menuForm.setImgUrl("https://jumun-bucket.s3.ap-northeast-2.amazonaws.com/readyForMenu.png");
+
         menuService.changeMenu(menuId, menuForm);
 
         OptionGroup optionGroup = optionGroupService.findByIdAndStore(menuForm.getOptionGroupId(), store);
