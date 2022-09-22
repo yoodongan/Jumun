@@ -1,17 +1,31 @@
-<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+
+
+</head>
 
 <body style="text-align: center;">
 
 <div layout:fragment="content" class="container my-3">
-    <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
     <div>
         주문 현황 페이지 입니다.
     </div>
 
     <div style="margin-bottom: 20px">
-        --주문 접수 대기--
-        <div th:each="o : ${orderList}">
-            <div th:if="${o.orderStatus.toString().equals('주문접수전')}">
+        --주문 접수 전--
+        <div class="ad" th:each="o : ${orderList}">
+            <div th:if="${o.orderStatus.toString().equals('BEFOREORDER')}">
+                <a th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.id}+'번 주문'"></h1></a>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-bottom: 20px">
+        --주문 접수 중--
+        <div class="ad" th:each="o : ${orderList}">
+            <div th:if="${o.orderStatus.toString().equals('ACCEPTIONORDER')}">
                 <a th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.id}+'번 주문'"></h1></a>
             </div>
         </div>
@@ -20,12 +34,21 @@
     <div style="margin-bottom: 20px" >
         -- 조리 중 --
         <div th:each="o : ${orderList}">
-            <div th:if="${o.orderStatus.toString().equals('조리중')}">
+            <div th:if="${o.orderStatus.toString().equals('COOKING')}">
                 <a th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.id}+'번 주문'"></h1></a>
             </div>
         </div>
     </div>
+    <input onclick="a()" id="butt" value="버튼" type="button">
 </div>
+<script>
+
+    setTimeout(function(){
+        location.reload();
+    }, 10000);
+
+</script>
+
 
 </body>
 
