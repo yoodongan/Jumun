@@ -21,6 +21,7 @@
         <div th:onclick="|location.href='@{|/${storeSN}/admin/store/optionGroupDetail/${optionGroup.id}|}'|" href="#" class="list-group-item list-group-item-action option-group" aria-current="true">
 
             <div th:text="${optionGroup.name}">첫 번째 옵션그룹1</div>
+            <span th:text="${optionGroup.isMultiple} ? '옵션 다중 선택' : '옵션 단일 선택'"></span>
 
         </div>
         <div clas="button-group">

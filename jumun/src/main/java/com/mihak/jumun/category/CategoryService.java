@@ -2,7 +2,8 @@ package com.mihak.jumun.category;
 
 import com.mihak.jumun.category.form.CategoryForm;
 import com.mihak.jumun.entity.Category;
-import com.mihak.jumun.entity.Store;
+import com.mihak.jumun.entity.Menu;
+import com.mihak.jumun.menu.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+    private final MenuRepository menuRepository;
 
     public void create(CategoryForm categoryForm) {
         Category newCate = new Category();
@@ -39,6 +41,10 @@ public class CategoryService {
     }
 
     public void remove(Category delCate) {
+        List<Menu> menuList = menuRepository.findByCategoryId(delCate.getId());
+        for (Menu menu : menuList) {
+            menu.setCategory(null);
+        }
         categoryRepository.delete(delCate);
     }
 }

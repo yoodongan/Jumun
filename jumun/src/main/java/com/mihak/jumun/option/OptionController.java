@@ -42,7 +42,7 @@ public class OptionController {
         Store store = storeService.findBySerialNumber(storeSN);
         optionService.createOption(optionFormDto, store);
 
-        return "redirect:/%s/admin/store/option".formatted(storeSN);   // 스토어 관리 페이지로 이동하면 좋을 것 같다.
+        return "redirect:/%s/admin/store/optionList".formatted(storeSN);
     }
 
     /* 옵션 관리 */

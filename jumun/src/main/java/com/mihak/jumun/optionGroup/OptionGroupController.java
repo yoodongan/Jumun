@@ -3,13 +3,13 @@ package com.mihak.jumun.optionGroup;
 import com.mihak.jumun.entity.Option;
 import com.mihak.jumun.entity.OptionGroup;
 import com.mihak.jumun.entity.Store;
+import com.mihak.jumun.menuAndOptionGroup.MenuAndOptionGroupService;
 import com.mihak.jumun.option.OptionService;
 import com.mihak.jumun.optionAndOptionGroup.OptionAndOptionGroupService;
 import com.mihak.jumun.optionGroup.form.OptionGroupDetailDto;
 import com.mihak.jumun.optionGroup.form.OptionGroupFormDto;
 import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +27,7 @@ public class OptionGroupController {
     private final OptionGroupService optionGroupService;
     private final OptionService optionService;
     private final OptionAndOptionGroupService optionAndOptionGroupService;
+    private final MenuAndOptionGroupService menuAndOptionGroupService;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/optionGroup")
@@ -141,6 +142,7 @@ public class OptionGroupController {
                                     @PathVariable Long optionGroupId) {
         OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, storeService.findBySerialNumber(storeSN));
         optionAndOptionGroupService.deleteAllByOptionGroup(optionGroup);
+        menuAndOptionGroupService.removeByOptionGroup(optionGroup);
         optionGroupService.removeOptionGroup(optionGroup);
 
         return "redirect:/%s/admin/store/optionGroupList".formatted(storeSN, optionGroupId);

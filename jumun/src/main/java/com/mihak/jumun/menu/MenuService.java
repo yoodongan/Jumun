@@ -1,7 +1,6 @@
 package com.mihak.jumun.menu;
 
 import com.mihak.jumun.category.CategoryRepository;
-import com.mihak.jumun.category.CategoryService;
 import com.mihak.jumun.entity.*;
 import com.mihak.jumun.exception.MenuNotFoundException;
 import com.mihak.jumun.menu.form.MenuForm;
@@ -24,8 +23,13 @@ public class MenuService {
 
 
     public Long saveMenu(MenuForm menuForm) {
-        Optional<Category> oCategory = categoryRepository.findById((menuForm.getCategoryId()));
-        Category category = oCategory.get();
+        Category category = null;
+        if(menuForm.getCategoryId() == null) {
+            category = null;
+        } else {
+            Optional<Category> oCategory = categoryRepository.findById((menuForm.getCategoryId()));
+            category = oCategory.get();
+        }
         Menu newMenu = Menu.createMenu(menuForm.getName(), menuForm.getPrice(), menuForm.getDescription(), menuForm.getImgUrl(), category, menuForm.getStore());
         menuRepository.save(newMenu);
         return newMenu.getId();
