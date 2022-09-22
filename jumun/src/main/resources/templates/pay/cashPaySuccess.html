@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/cart_list.css}">
+    <title>장바구니 페이지</title>
+</head>
+<script>
+    $(function() {
+        let orderId = [[${paySuccessDto.orderId}]];
+        timer = setInterval( function () {
+            $.ajax ({
+                "url" : "/cashpay/status/" + orderId,
+                cache : false,
+                success : function (html) {
+                    $("#orderStatus").html(html);
+                }
+            });
+        }, 20000);
+    });
+</script>
+<body>
+<div layout:fragment="content" class="container my-3">
+    카운터에서 결제를 해주셔야 주문이 접수됩니다.!
+    <div th:text="${paySuccessDto.userNickName} + '님의 주문 내역'" class="m-2"></div>
+    <div th:each="order : ${paySuccessDto.orderHistory}" class="row">
+        <div>
+            <span th:text="${order.menu.name}">메뉴명</span>
+            <span th:text="${order.menu.price} +'원'">가격</span>
+        </div>
+        <ui class="list-group list-group-flush" th:each="option : ${order.options}">
+            <li class="list-group-item">
+                <span th:text="'+ '+ ${option.name}">옵션명</span>
+                <span th:text="${option.price} +'원'">옵션가격</span>
+            </li>
+        </ui>
+        <span th:text="${order.count} +'개'">갯수</span>
+        <hr/>
+    </div>
+    <div th:text="'총 금액 : ' + ${paySuccessDto.orderTotalPrice}">전체 가격</div>
+    <div id="orderStatus">
+        <div th:text="'주문 상태 : ' + ${paySuccessDto.orderStatus.getDescription()}">주문 상태</div>
+
+        <div th:if="${paySuccessDto.orderStatus.getDescription().toString().equals('주문접수전')}">
+            <a onclick="if ( !confirm('주문 취소를 수정하시겠습니까?') ) return false;" th:href="@{|/${paySuccessDto.storeSN}/cashpay/cancel/${paySuccessDto.orderId}|}" class="btn btn-primary">주문 취소</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

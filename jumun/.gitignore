@@ -230,3 +230,4 @@ gradle-app.setting
 
 #S3 키값 보호를 위해 application.properties ignore
 application.properties
+application-API-KEY.properties

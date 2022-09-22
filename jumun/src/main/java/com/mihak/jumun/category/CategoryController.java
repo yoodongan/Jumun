@@ -36,11 +36,14 @@ public class CategoryController {
 
     @PostMapping("/{storeSN}/admin/store/category")
     public String createCate(Model model , @Valid CategoryForm categoryForm, BindingResult bindingResult, @PathVariable String storeSN) {
-        Optional<Category> cate = categoryService.findByName(categoryForm.getName());
-        Store store = storeService.findBySerialNumber(storeSN);
+
         if(bindingResult.hasErrors()){
             return "category/create_cate";
         }
+
+        Optional<Category> cate = categoryService.findByName(categoryForm.getName());
+        Store store = storeService.findBySerialNumber(storeSN);
+
 
         if(cate.isPresent()){
             Optional<StoreAndCategory> sc = scService.findByStoreAndCategory(store ,cate.get());

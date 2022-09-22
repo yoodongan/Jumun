@@ -38,4 +38,13 @@ public class Order extends BaseEntity {
 
     private String userNickName;
     private String storeSerialNumber;
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public void setPayStatus(PayStatus payStatus) {
+        this.payStatus = payStatus;
+    }
 }
+
