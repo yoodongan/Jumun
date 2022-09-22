@@ -45,7 +45,7 @@ public class OrderManagementController {
     public String modifyOrderStatus(Model model , @PathVariable String storeSN,@PathVariable Long orderId
     , OrderStatus orderStatus){
         Order order = orderManagementService.findbyOrderId(orderId);
-        order.changeOrderStatus(orderStatus);
+        order.setOrderStatus(orderStatus);
         orderManagementService.update(order);
         return "redirect:/%s/admin/store/order/list".formatted(storeSN);
     }
