@@ -2,10 +2,10 @@ package com.mihak.jumun.cartAndOption;
 
 import com.mihak.jumun.entity.Cart;
 import com.mihak.jumun.entity.CartAndOption;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

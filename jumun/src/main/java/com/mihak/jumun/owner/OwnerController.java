@@ -20,13 +20,13 @@ public class OwnerController {
 
     @GetMapping("/login")
     private String login() {
-        return "login_form";
+        return "store/login_form";
     }
 
     @GetMapping("/new")
     private String signupForm(Model model) {
         model.addAttribute("signupFormDto", new SignupFormDto());
-        return "signup_form";
+        return "store/signup_form";
     }
 
     @PostMapping("/new")
@@ -34,13 +34,13 @@ public class OwnerController {
                           BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "signup_form";
+            return "store/signup_form";
         }
 
         if (!signupFormDto.getPassword1().equals(signupFormDto.getPassword2())) {
             bindingResult.rejectValue("password2", "passwordInCorrect",
                     "2개의 패스워드가 일치하지 않습니다.");
-            return "signup_form";
+            return "store/signup_form";
         }
 
         try {
@@ -48,9 +48,9 @@ public class OwnerController {
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("duplicatedOwnerId", "이미 등록된 아이디 입니다");
-            return "signup_form";
+            return "store/signup_form";
         } catch (Exception e) {
-            return "signup_form";
+            return "store/signup_form";
         }
 
         return "redirect:/admin/login";
