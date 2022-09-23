@@ -68,3 +68,7 @@ icon-shape {
     border-radius: 5px;
 
 }
+.top-title {
+    display: flex;
+    justify-content: space-between;
+}
