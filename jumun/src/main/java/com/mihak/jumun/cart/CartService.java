@@ -88,6 +88,7 @@ public class CartService {
                 .imgUrl(menu.getImgUrl())
                 .description(menu.getDescription())
                 .price(menu.getPrice())
+                .count(cart.getCount())
                 .optionGroups(optionGroupService.getOptionGroupByMenu(menu))
                 .checkOptions(optionService.getOptionsByCart(cart))
                 .build();

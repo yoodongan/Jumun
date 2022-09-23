@@ -102,12 +102,12 @@ public class StoreMgmtController {
         /*정렬방법에 따라 SQL로 원하는 값을 가져온다.*/
         switch (orderBy) {
             case "price":
-                List<FindListFormDto> findList1 = orderService.findAllbyPriceDaily();
+                List<FindListFormDto> findList1 = orderService.findAllbyPriceDaily(storeSN);
                 Map<String, Long> findList = orderService.sum(findList1);
                 model.addAttribute("findList", findList);
                 break;
             case "user":
-                List<FindByUserDailyDto> findList2 = orderService.findAllbyUserDaily();
+                List<FindByUserDailyDto> findList2 = orderService.findAllbyUserDaily(storeSN);
                 Map<String, Long> findList3 = orderService.sumByUser(findList2);
                 model.addAttribute("findList3", findList3);
                 break;
