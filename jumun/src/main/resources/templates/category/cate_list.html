@@ -3,9 +3,12 @@
         layout:decorate="~{layout}">
 <body style="text-align: center;">
 <h1 class="hi">안녕하세요</h1>
-<div layout:fragment="content" class="container my-3">
+<div layout:fragment="content" class="container my-3" style="text-align: center">
     <div th:each="l : ${list}">
         <a th:href="@{|/${storeSN}/admin/store/categoryDetail/${l.id}|}"><h1 th:text="${l.name}"></h1></a>
+    </div>
+    <div class="menu-info-button">
+        <a th:href="@{|/${storeSN}/admin/store/category|}" class="btn btn-primary">카테고리 추가</a>
     </div>
 </div>
 <script th:inline="javascript">
