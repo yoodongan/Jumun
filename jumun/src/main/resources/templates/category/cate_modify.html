@@ -1,14 +1,6 @@
-<html
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        xmlns:th="http://thymeleaf.org"
-        layout:decorate="~{layout}">
+<html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
-    <mid style="text-align: center">
-        <div>
-            <h2>카테고리 수정</h2>
-        </div>
-
-
+    <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
         <div>
             <form class="cate_form" method="POST" th:action="@{''}" th:object="${categoryForm}">
                 <input class="cate" name="name" th:field="*{name}" type="text">
