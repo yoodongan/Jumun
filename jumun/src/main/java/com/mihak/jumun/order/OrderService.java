@@ -6,6 +6,7 @@ import com.mihak.jumun.cart.dto.CartDto;
 import com.mihak.jumun.entity.Order;
 import com.mihak.jumun.entity.OrderStatus;
 import com.mihak.jumun.entity.PayStatus;
+import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.exception.OrderNotFoundException;
 import com.mihak.jumun.order.dto.OrderDtoFromCart;
 import com.mihak.jumun.order.dto.OrderFormDto;
@@ -113,13 +114,13 @@ public class OrderService {
         return findList;
     }
 
-    public List<FindListFormDto> findAllbyPriceDaily() {
-        List<FindListFormDto> findList = orderRepository.findByPriceDaily();
+    public List<FindListFormDto> findAllbyPriceDaily(String storeSN) {
+        List<FindListFormDto> findList = orderRepository.findByPriceDaily(storeSN);
         return findList;
     }
 
-    public List<FindByUserDailyDto> findAllbyUserDaily() {
-        List<FindByUserDailyDto> findList = orderRepository.findByUserDaily();
+    public List<FindByUserDailyDto> findAllbyUserDaily(String storeSN) {
+        List<FindByUserDailyDto> findList = orderRepository.findByUserDaily(storeSN);
         return findList;
     }
 
