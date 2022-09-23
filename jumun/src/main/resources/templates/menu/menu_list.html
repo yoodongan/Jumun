@@ -39,7 +39,12 @@
 </head>
 <body>
 <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
-<h2>관리자 메뉴판</h2>
+<div class="top-title">
+    <h2>관리자 메뉴판</h2>
+    <a th:href="@{|/${storeSN}/admin/store/menu|}">
+        <button type="button" class="btn btn-primary" >+ 메뉴 추가</button>
+    </a>
+</div>
 <!-- 카테고리 바 -->
 <div th:replace="menu/menu_categorybar :: menu_categorybarFragment"></div>
 <div class="row row-cols-1 row-cols-sm-2 g-3">

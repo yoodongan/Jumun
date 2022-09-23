@@ -26,7 +26,7 @@
     <div href="#" class="list-group-item list-group-item-action option-group" aria-current="true">
         <div>
             <div th:text="${option.name}">첫 번째 옵션명</div>
-            <div th:text="${option.price}">1000 원</div>
+            <div th:text="${option.price} +'원'">1000 원</div>
         </div>
         <div>
             <button th:onclick="|location.href='@{|/${storeSN}/admin/store/optionGroupDetail/delete/${optionGroupId}/${option.id}|}'|" type="button" class="btn btn-danger">삭제</button>
