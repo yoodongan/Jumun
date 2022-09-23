@@ -68,6 +68,7 @@ public class CategoryController {
     public String showCate(Model model,@PathVariable String storeSN){
         Store store = storeService.findBySerialNumber(storeSN);
         List<Category> scList = scService.findAllbyStoreId(store.getId());
+        model.addAttribute("store", store);
         model.addAttribute("list" , scList);
         model.addAttribute("storeSN",storeSN);
         return "/category/cate_list";

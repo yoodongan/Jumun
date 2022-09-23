@@ -1,15 +1,9 @@
-<html
-        xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
-        layout:decorate="~{layout}">
-<body style="text-align: center;">
-<h1 class="hi">안녕하세요</h1>
+<html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
+    <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
+    <h1 th:text="${store.name}">매장 이름</h1>
     <div th:each="l : ${list}">
-        <a th:href="@{|/${storeSN}/admin/store/categoryDetail/${l.id}|}"><h1 th:text="${l.name}"></h1></a>
+        <button type="button" class="p-3 btn btn-outline-secondary"  th:text="${l.name}" th:onclick="|location.href='@{|/${storeSN}/admin/store/categoryDetail/${l.id}|}'|"></button>
     </div>
 </div>
-<script th:inline="javascript">
-
-</script>
-</body>
 </html>
