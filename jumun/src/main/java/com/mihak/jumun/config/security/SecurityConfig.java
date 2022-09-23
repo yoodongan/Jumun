@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -23,7 +22,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @AutoConfigureAfter(SecurityAutoConfiguration.class)
 public class SecurityConfig{
-
 
     private final OwnerSecurityService ownerSecurityService;
 
@@ -38,21 +36,24 @@ public class SecurityConfig{
 
                 .and()
                 .rememberMe()
-                .key("key")
-                .tokenValiditySeconds(86400 * 30) // 1달
                 .rememberMeParameter("remember-me")
-//                .userDetailsService(userDetailsService)
+                .key("key")
+                .alwaysRemember(false)
+                .tokenValiditySeconds(86400 * 30) // 1달
+                .userDetailsService(ownerSecurityService)
 
                 .and()
                 .authorizeRequests()
-                .mvcMatchers("/","/css/**","/scripts/**","/plugin/**","/fonts/**")
-                .permitAll()
+                .mvcMatchers("/","/css/**","/scripts/**","/plugin/**","/fonts/**").permitAll()
+                .antMatchers("/admin/login", "/admin/new", "/admin/store", "/admin/store/new").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+
 
                 .and()
                 .logout()
-                .deleteCookies("JSESSIONID")
-                .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"))
+                .logoutUrl("/admin/logout")
                 .logoutSuccessUrl("/admin/login")
+                .deleteCookies("JSESSIONID", "remember-me")
                 .invalidateHttpSession(true);
 
         return httpSecurity.build();

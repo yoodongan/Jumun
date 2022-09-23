@@ -32,7 +32,7 @@ public class OwnerSecurityService implements UserDetailsService {
 
         Owner owner = loginOwner.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("admin"));
+        authorities.add(new SimpleGrantedAuthority("ADMIN"));
 
         return new User(owner.getLoginId(), owner.getPassword(), authorities);
     }

@@ -24,9 +24,9 @@
             </div>
             <form method="GET" th:action="@{|/${order.storeSerialNumber}/admin/store/order/modify/${order.id}|}">
 
-                    <input type="radio" name="orderStatus" value="조리완료" >조리완료
-                    <input type="radio" name="orderStatus" value="조리중" >조리중
-                    <input type="radio" name="orderStatus" value="주문접수전" >주문접수전
+                    <input type="radio" name="orderStatus" value="COMPLETE" >조리완료
+                    <input type="radio" name="orderStatus" value="COOKING" >조리중
+                    <input type="radio" name="orderStatus" value="BEFOREORDER" >주문접수전
                 <input type="submit">
             </form>
         </div>

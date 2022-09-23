@@ -1,7 +1,6 @@
 package com.mihak.jumun.customer.form;
 
 import com.mihak.jumun.entity.Option;
-import com.mihak.jumun.entity.OptionAndOptionGroup;
 import com.mihak.jumun.entity.OptionGroup;
 import lombok.*;
 
