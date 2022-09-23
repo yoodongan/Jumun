@@ -25,18 +25,24 @@
                 </div>
             </div>
             <div th:if="${!optionGroup.isMultiple}">
-                    <div th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}">
-                        <input type="radio" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
-                               th:value="${optionAndOptionGroup.option.getId()}" th:checked="${#lists.contains(cartFormDto.checkOptions, optionAndOptionGroup.option)}">
-                        <label th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
-                        <span th:text="${optionAndOptionGroup.option.price} +'원'">옵션가격</span>
-                    </div>
+                <div th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}" class="form-check form-check-inline">
+                    <input type="checkbox" th:class="isNotMultipleCheckbox+${optionAndOptionGroup.optionGroup.getId()}" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
+                           th:value="${optionAndOptionGroup.option.getId()}" >
+                    <label th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
+                </div>
+                <script type="text/javascript">
+                    /*<![CDATA[*/
+                    $(".isNotMultipleCheckbox[[${optionGroup.getId()}]]").on('change', function() {
+                        $(".isNotMultipleCheckbox[[${optionGroup.getId()}]]").not(this).prop('checked', false);
+                    });
+                    /*]]>*/
+                </script>
                 </div>
             <br/><br/><br/>
         </div>
         <div>
             <p class="text-dark">개수</p>
-            <input type="number" step="1" min= "0" max="10" th:name="${cartFormDto.getCount()}" th:value="${cartFormDto.getCount()}" >
+            <input type="number" step="1" min= "0" max="10" th:field="*{count}" th:name="${cartFormDto.count}" th:value="${cartFormDto.count}" >
         </div>
         <button type="submit" class="float-end btn btn-info btn-sm my-2">메뉴 수정</button>
     </form>
