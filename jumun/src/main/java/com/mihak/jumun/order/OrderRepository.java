@@ -4,9 +4,10 @@ import com.mihak.jumun.entity.Order;
 import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.storeMgmt.dto.FindByUserDailyDto;
 import com.mihak.jumun.storeMgmt.dto.FindListFormDto;
-import org.apache.ibatis.annotations.Param;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
