@@ -24,6 +24,7 @@ h2 {
     justify-content : space-between;
 }
 .option-head {
+    margin-top : 10px;
     display : flex;
     justify-content : space-between;
 }
