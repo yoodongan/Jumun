@@ -1,6 +1,5 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
-    <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
     <form th:action="@{/admin/store/new}" th:object="${createFormDto}" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
