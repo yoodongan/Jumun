@@ -1,6 +1,6 @@
 <div th:fragment="customer_categorybarFragment" class="admin-menu">
     <form th:action method="post">
-        <ul class="list-group list-group-horizontal btn-group">
+        <ul class="list-group list-group-horizontal btn-group category">
             <!-- 기본 카테고리를 링크를 걸어놓고 만들면  -->
             <li class="list-group-item btn btn-primary" id="defaultCategory" th:onclick="|location.href='@{|/${storeSN}/menu|}'|">기본카테고리</li>
             <div th:each="category : ${categoryList}">

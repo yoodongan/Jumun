@@ -72,3 +72,6 @@ icon-shape {
     display: flex;
     justify-content: space-between;
 }
+.category{
+    flex-wrap: wrap;
+}
