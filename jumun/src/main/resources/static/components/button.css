@@ -38,3 +38,8 @@
 .delete {
     background-color : #86b6fe;
 }
+
+/* float-right */
+.float-right {
+    float: right;
+}
