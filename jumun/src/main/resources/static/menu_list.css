@@ -18,10 +18,11 @@ body {
 }
 
 .card {
+    width: 100%;
 }
 .card img {
-    width : auto;
-    height : 300px;
+    max-width: 100%;
+    height: auto;
 
 }
 .menu-info-top {
