@@ -2,7 +2,7 @@
 <div layout:fragment="content" class="container my-3">
     <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
     <h1 th:text="${store.name}">매장 이름</h1>
-    <div class="card">
+    <div class="admin-index">
         <button type="button" class="p-3 btn btn-outline-secondary" th:onclick="|location.href='@{|/${store.serialNumber}/admin/store/management/order|}'|">
             주문 내역 페이지
         </button>
