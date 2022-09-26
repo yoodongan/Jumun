@@ -6,11 +6,11 @@
 
     <form th:action="@{/admin/login}" method="post">
         <div class="mb-3">
-            <label for="username" class="form-label">사용자ID</label>
+            <label for="username" class="form-label font-weight-bold h5">관리자 ID</label>
             <input type="text" name="username" id="username" th:value="${session.ownerId}" class="form-control">
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label">비밀번호</label>
+            <label for="password" class="form-label font-weight-bold h5">비밀번호</label>
             <input type="password" name="password" id="password" class="form-control">
         </div>
         <div th:if="${param.error}">
@@ -22,7 +22,7 @@
             <input type="checkbox" name="remember-me"> 자동 로그인 </input>
         </div>
         <div class="joinAndlogin-button">
-            <button href="/admin/new" class="button-blue button-outline create">회원가입</button>
+            <button type="button" class="button-blue button-outline create" onclick="location.href='/admin/new'">회원가입</button>
             <button type="submit" class="button-blue button-outline create">로그인</button>
         </div>
     </form>

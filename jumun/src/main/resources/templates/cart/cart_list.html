@@ -28,8 +28,8 @@
                 <div th:text="|수량 :  ${cart.count}개|" class="card-title">갯수</div>
             </div>
             <div class="cart-button">
-                <a onclick="if ( !confirm('메뉴를 수정하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/cart/modify/${cart.cartId}|}" class="button-blue button-outline delete float-right">수정</a>
-                <a onclick="if ( !confirm('메뉴를 삭제하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/cart/delete/${cart.cartId}|}" class="button-blue button-outline delete float-right">삭제</a>
+                <a onclick="if ( !confirm('장바구니를 수정하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/cart/modify/${cart.cartId}|}" class="button-blue button-outline delete float-right">수정</a>
+                <a onclick="if ( !confirm('장바구니를 삭제하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/cart/delete/${cart.cartId}|}" class="button-blue button-outline delete float-right">삭제</a>
             </div>
             </div>
         </div>

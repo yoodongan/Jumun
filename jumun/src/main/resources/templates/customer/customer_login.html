@@ -1,26 +1,21 @@
-<!-- 관련 Namespace 선언 및 layout: decorate 추가 -->
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
     <div class="brand-logo">
         <img class="brand-logo__image" src="/images/brand_logo.png">
     </div>
-    <div class="my-3 border-bottom">
-        <div>
-            <h4>고객 로그인</h4>
-        </div>
+    <div>
+        <h4 class="customer-page-name">고객 로그인</h4>
     </div>
     <form th:action th:object="${customerCreateForm}" method="post">
         <div class="mb-3">
-            <label for="nickname" class="form-label">닉네임 입력</label>
+            <label for="nickname" class="form-label customer-label-name">닉네임 입력</label>
             <input type="text" th:field="*{nickname}" class="form-control" placeholder="닉네임을 입력해주세요.">
             <!--<label class="alert alert-danger " role="alert" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">닉네임이 중복되었습니다.</label>-->
             <div th:fragment="formErrorsFragment" class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
                 <div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
             </div>
         </div>
-        <div class="joinAndlogin-button">
-        <button type="submit" class="button-blue button-outline create">완료</button>
-        </div>
+        <button type="submit" class="button-blue button-outline create float-end">완료</button>
     </form>
 </div>
 
