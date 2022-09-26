@@ -1,8 +1,8 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
 <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
-    <div>
-        <h5 class="admin-page-name">주문 내역 목록</h5>
+    <div class="page-name-head">
+        <h2 class="admin-page-name">주문 내역 목록</h2>
     </div>
     <span class="border-bottom"></span>
     <div th:each="orderList : ${orderLists}" class="list-group mt-3">

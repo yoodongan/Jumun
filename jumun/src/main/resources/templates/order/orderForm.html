@@ -1,15 +1,15 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
-    <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
-    <h5 class="my-3 border-bottom pb-2" th:text="${storeName} + ' 주문하기'"></h5>
+    <div th:replace ="customer_navbar :: customer_navbarFragment"></div>
+    <h5 class="customer-page-name" th:text="${storeName} + ' 주문하기'"></h5>
     <div>
         <form th:action th:object="${orderFormDto}" method="POST">
             <div class="mb-3">
-                <label class="requests h4"><b>요청 사항</b></label>
+                <label class="requests customer-label-name"><b>요청 사항</b></label>
                 <textarea th:field="*{requests}" class="w-100" rows="5"/>
             </div>
 
-            <label class="type h4"><b>결제 방법</b></label>
+            <label class="type customer-label-name"><b>결제 방법</b></label>
             <div th:each="type : ${payTypes}">
                 <div>
                     <input type="radio" th:field="*{payType}" th:value="${type.name()}" class="form-check-input"/>

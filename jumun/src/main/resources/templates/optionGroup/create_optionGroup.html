@@ -1,7 +1,9 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container">
     <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
-    <h5 class="admin-page-name">옵션그룹 추가</h5>
+    <div class="page-name-head">
+        <h2 class="admin-page-name">옵션 그룹 추가</h2>
+    </div>
     <form th:action th:object="${optionGroupFormDto}" method="post">
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />

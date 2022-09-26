@@ -51,6 +51,7 @@ public class KakaoPayController {
     public String getOrderStatus(@PathVariable Long orderId, Model model) {
 
         Order order = orderService.findOrderById(orderId);
+        model.addAttribute("userNickName", order.getUserNickName());
         model.addAttribute("orderId", order.getId());
         model.addAttribute("orderStatus", order.getOrderStatus());
         model.addAttribute("storeSN", order.getStoreSerialNumber());

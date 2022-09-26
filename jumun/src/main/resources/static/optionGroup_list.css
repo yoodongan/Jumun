@@ -19,7 +19,7 @@ body {
 a {
     text-decoration:none
 }
-.option-head {
+.page-name-head {
     display : flex;
     justify-content : space-between;
 }

@@ -1,7 +1,9 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
 <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
-<h5 class="admin-page-name">주문 내역 상세</h5>
+<div class="page-name-head">
+    <h2 class="admin-page-name">주문 내역 상세</h2>
+</div>
 <div>
     <p th:text="${findOrder.userNickName}" class="order-head">결제자 이름</p>
     <h3 th:text="${#numbers.formatInteger(findOrder.totalPrice, 0, 'COMMA')} + '원'" class="price">전체가격</h3>

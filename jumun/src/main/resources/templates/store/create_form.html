@@ -3,14 +3,15 @@
     <form th:action="@{/admin/store/new}" th:object="${createFormDto}" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
-        <!-- 매장 생성페이지 텍스트+로고 -->
-        <div class="create-store">
+        <div class="brand-logo">
             <img class="brand-logo__image" src="/images/brand_logo.png">
-            <span>매장 생성하기</span>
+        </div>
+        <div class="page-name-head">
+            <h2 class="admin-page-name">매장 생성</h2>
         </div>
 
         <div class="mb-3">
-            <label for="username"  class="form-label">매장명 </label>
+            <label for="username" class="form-label admin-label-name">매장명 </label>
             <input type="text" name="name" id="name" th:field="*{name}"  class="form-control">
         </div>
         <div class="mb-3">
@@ -18,7 +19,6 @@
             <input type="button" onclick="postalCodeService()" value="우편번호 찾기"><br>
         </div>
         <div class="mb-3">
-            <input type="text" th:field="*{streetAdr}" placeholder="주소"><br>
             <input type="text" th:field="*{streetAdr}" placeholder="주소"><br>
         </div>
         <div class="mb-3">

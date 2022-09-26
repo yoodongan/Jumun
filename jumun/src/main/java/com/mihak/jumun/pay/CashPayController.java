@@ -44,6 +44,7 @@ public class CashPayController {
 
         Order order = orderService.findOrderById(orderId);
         model.addAttribute("orderId", order.getId());
+        model.addAttribute("userNickName", order.getUserNickName());
         model.addAttribute("orderStatus", order.getOrderStatus());
         model.addAttribute("storeSN", order.getStoreSerialNumber());
         return "pay/orderStatusByCashPay";

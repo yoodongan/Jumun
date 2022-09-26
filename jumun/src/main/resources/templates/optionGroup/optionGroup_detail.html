@@ -1,14 +1,17 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container">
 <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
-<h5 class="my-3 border-bottom pb-2" th:text="${optionGroupName}">옵션 그룹 상세명</h5>
+<div class="page-name-head">
+    <h2 class="admin-page-name">옵션 그룹 상세</h2>
+</div>
+<div class="my-3 h4" th:text="${optionGroupName}">옵션 그룹 상세명</div>
 <form th:action th:object="${OptionGroupDetailDto}" method="post">
-    <label class="form-label">옵션 선택</label>
+    <label class="form-label admin-label-name">옵션 선택</label>
     <select th:field="*{optionId}" class="form-select">
         <option value="">==옵션 선택==</option>
         <option th:each="option : ${options}" th:value="${option.id}" th:text="${option.name}">카테고리옵션</option>
     </select>
-    <input class="button-blue button-outline create my-2" onclick="if ( !confirm('옵션을 추가하시겠습니까?') ) return false;" type="submit" value="옵션 추가">
+    <input class="button-blue button-outline create float-right my-3" style="width: 11%; margin: auto;" onclick="if ( !confirm('옵션을 추가하시겠습니까?') ) return false;" type="submit" value="옵션 추가">
 </form>
 
 <hr/>

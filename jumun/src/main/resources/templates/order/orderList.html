@@ -1,7 +1,9 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
     <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
-    <h5 class="my-3 border-bottom pb-2">주문 상태 목록</h5>
+    <div class="page-name-head">
+        <h2 class="admin-page-name">주문 상태 목록</h2>
+    </div>
     <div style="margin: 20px 0">
         <div class="status">주문 접수 전</div>
         <div class="ad" th:each="o : ${orderList}">
