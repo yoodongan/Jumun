@@ -8,13 +8,13 @@
     </a>
 </div>
 <div th:each="optionGroup : ${optionGroups}" class="list-group mt-3">
-        <div th:onclick="|location.href='@{|/${storeSN}/admin/store/optionGroupDetail/${optionGroup.id}|}'|" href="#" class="list-group-item list-group-item-action option-group" aria-current="true">
+        <div href="#" class="list-group-item list-group-item-action option-group" aria-current="true">
             <div class="option-info d-flex w-100">
-                <div>
+                <div class="w-75" th:onclick="|location.href='@{|/${storeSN}/admin/store/optionGroupDetail/${optionGroup.id}|}'|">
                     <div th:text="${optionGroup.name}">첫 번째 옵션그룹1</div>
                     <small style="color:rgba(224,102,102)"; th:text="${optionGroup.isMultiple} ? '옵션 다중 선택' : '옵션 단일 선택'"></small>
                 </div>
-                <div class="pt-2">
+                <div class="pt-2 w-25">
                     <a onclick="if ( !confirm('메뉴를 삭제하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/admin/store/optionGroup/delete/${optionGroup.id}|}" class="button-blue button-outline delete float-right">삭제</a>
                     <button type="button" class="button-blue button-outline delete float-right" th:onclick="|location.href='@{|/${storeSN}/admin/store/optionGroup/modify/${optionGroup.id}|}'|">수정</button>
                 </div>

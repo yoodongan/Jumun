@@ -6,19 +6,18 @@
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
-        <div class="mb-3">
+        <div class="my-2">
             <label class="form-label">옵션그룹명</label>
             <input type="text" th:field="*{name}" class="form-control" placeholder="옵션그룹명을 입력해주세요.">
         </div>
-        <div class="form-group mb-3">
+        <div class="form-group my-4">
             <label class="form-label">옵션 다중 선택 여부</label>
             <div>
-            <input type="radio" th:value=true th:field="${optionGroupFormDto.isMultiple}" >옵션 여러 개 선택 가능
-            <input type="radio" th:value=false th:field="${optionGroupFormDto.isMultiple}" >옵션 하나만 선택 가능
+                <input type="radio" style="margin-right: 10px" th:value=true th:field="${optionGroupFormDto.isMultiple}" >옵션 여러 개 선택 가능
+                <input type="radio" style="margin-left: 5%; margin-right: 10px" th:value=false th:field="${optionGroupFormDto.isMultiple}" >옵션 하나만 선택 가능
             </div>
-
         </div>
-        <input onclick="if ( !confirm('옵션 그룹을 추가하시겠습니까?') ) return false;" type="submit" value="옵션 그룹 추가" class="btn btn-primary my-2 float-end">
+        <input onclick="if ( !confirm('옵션 그룹을 추가하시겠습니까?') ) return false;" type="submit" value="추가하기" class="button-blue button-outline create float-right">
     </form>
 </div>
 </html>

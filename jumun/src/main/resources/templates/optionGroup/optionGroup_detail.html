@@ -1,9 +1,7 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container">
 <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
-<div>
-    <h2 th:text="${optionGroupName}">옵션 그룹 상세명</h2>
-</div>
+<h5 class="my-3 border-bottom pb-2" th:text="${optionGroupName}">옵션 그룹 상세명</h5>
 <form th:action th:object="${OptionGroupDetailDto}" method="post">
     <label class="form-label">옵션 선택</label>
     <select th:field="*{optionId}" class="form-select">

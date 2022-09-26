@@ -8,7 +8,7 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">- 카테고리</label>
+            <label class="form-label">카테고리</label>
             <select th:field="*{categoryId}" class="form-select">
                 <option value="">==카테고리 선택==</option>
                 <option th:each="category : ${categoryList}" th:value="${category.id}" th:text="${category.name}">카테고리옵션</option>
@@ -16,26 +16,26 @@
         </div>
 
         <div class="mb-3">
-            <label for="name" class="form-label">- 메뉴명</label>
+            <label for="name" class="form-label">메뉴명</label>
             <input type="text" th:field="*{name}" class="form-control" placeholder="메뉴명을 입력해주세요.">
         </div>
         <div class="mb-3">
-            <label for="price" class="form-label">- 가격</label>
+            <label for="price" class="form-label">가격</label>
             <input type="number" th:field="*{price}" class="form-control" >
         </div>
         <!-- 이미지 폼 추가해야 함 -->
         <div class="mb-3">
-            <label for="image" class="form-label">- 메뉴이미지</label>
+            <label for="image" class="form-label">메뉴이미지</label>
             <input type="file" name="file" onchange="readURL(this);">
             <img id="preview" />
         </div>
         <div class="mb-3">
-            <label for="description" class="form-label">- 메뉴 설명</label>
+            <label for="description" class="form-label">메뉴 설명</label>
             <textarea th:field="*{description}" class="form-control" rows="6" placeholder="메뉴 상세 설명입니다."></textarea>
         </div>
         <!-- 메뉴 수정 시, 옵션 그룹 추가할 수 있도록. -->
         <div class="mb-3">
-            <label class="form-label">- 옵션 그룹 선택</label>
+            <label class="form-label">옵션 그룹 선택</label>
             <select th:field="*{optionGroupId}" class="form-select">
                 <option value="">==옵션그룹 선택==</option>
                 <option th:each="optionGroup : ${optionGroupList}" th:value="${optionGroup.id}" th:text="${optionGroup.name}">옵션그룹선택</option>
@@ -46,16 +46,16 @@
             <div href="#" class="list-group-item list-group-item-action option-group" aria-current="true">
                 <div class="float-start">
                     <div th:text="${optionGroup.name}">첫 번째 옵션명</div>
-                    <div th:if="${optionGroup.isMultiple == True}">다중(여러개) 선택 가능</div>
-                    <div th:if="${optionGroup.isMultiple == False}">단일(하나만) 선택 가능</div>
+                    <small style="color:rgba(224,102,102)"; th:if="${optionGroup.isMultiple == True}">다중(여러개) 선택 가능</small>
+                    <small style="color:rgba(224,102,102)";  th:if="${optionGroup.isMultiple == False}">단일(하나만) 선택 가능</small>
                 </div>
-                <div class="float-end">
-                    <button th:onclick="|location.href='@{|/${storeSN}/admin/store/menu/deleteOptionGroup/${menuId}/${optionGroup.id}|}'|" type="button" class="btn btn-danger">삭제</button>
+                <div class="float-end pt-2">
+                    <button th:onclick="|location.href='@{|/${storeSN}/admin/store/menu/deleteOptionGroup/${menuId}/${optionGroup.id}|}'|" type="button" class="button-blue button-outline delete">삭제</button>
                 </div>
             </div>
         </div>
 
-        <input onclick="if ( !confirm('정말로 수정하시겠습니까?') ) return false;" type="submit" value="메뉴 수정" class="btn btn-primary my-2 float-end">
+        <input onclick="if ( !confirm('정말로 수정하시겠습니까?') ) return false;" type="submit" value="수정하기" class="button-blue button-outline delete float-right mt-3">
     </form>
 </div>
 </html>
