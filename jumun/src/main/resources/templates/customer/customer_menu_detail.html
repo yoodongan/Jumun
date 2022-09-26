@@ -34,7 +34,6 @@
     }
 </script>
 <body>
-<h2>고객 메뉴판</h2>
 <div th:replace ="customer_navbar :: customer_navbarFragment" style="background-attachment:scroll;" ></div>
 <form th:action th:object="${customerMenuForm}" method="post">
     <div class="card">
@@ -105,7 +104,7 @@
                 </div>
             </div>
         </div>
-    <button type="submit" class=" button-blue button-outline delete float-right btn-sm my-2">장바구니 담기</button>
+    <button type="submit" class=" button-blue button-outline create float-right btn-sm my-2">장바구니 담기</button>
     </div>
     </div>
 </form>

@@ -1,0 +1,29 @@
+/* admin/store  -> store_index.html */
+.admin-index {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.admin-index button {
+    width : 900px;
+    height: 130px;
+    margin-bottom: 30px;
+    font-size: 25px;
+}
+
+.admin-store-name {
+    font-size: 35px;
+    border-bottom: 1px solid rgba(0,0,0,0.4);
+}
+
+.admin-page-name {
+    font-size: 30px;
+    border-bottom: 1px solid rgba(0,0,0,0.4);
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.admin-label-name {
+    font-size: 20px;
+}

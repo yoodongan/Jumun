@@ -1,47 +1,32 @@
-<!doctype html>
-<html lang="ko">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/menu_list.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/components/button.css}">
-    <title>고객 메뉴 페이지</title>
-    <style>
-        .field-error {
-            border-color: #dc3545;
-            color: #dc3545;
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+<script th:inline="javascript">
+    <!--만약 다른 categoryId값이 들어온다면 해당 div class 속성에 active 주기 -->
+    /*<![CDATA[*/
+    window.onload = function giveActive() {
+
+        var defaultCategory = document.getElementById("defaultCategory");
+        var categoryIdIsNull = /*[[${categoryId}]]*/;
+
+        <!-- 백틱을 사용한 템플릿 리터럴사용-->
+        let targetId = `category[[${categoryId}]]`;
+
+        var target = document.getElementById(targetId);
+        //새로고침되기 때문에 속성값이 알아서 초기화 된다.
+
+        //넘어온 categoryId값이 null이라면 기본 카테고리 버튼 active
+        if(categoryIdIsNull==null) {
+            defaultCategory.setAttribute('class', 'list-group-item btn btn-primary active');
         }
-    </style>
-    <script th:inline="javascript">
-        <!--만약 다른 categoryId값이 들어온다면 해당 div class 속성에 active 주기 -->
-        /*<![CDATA[*/
-        window.onload = function giveActive() {
-
-            var defaultCategory = document.getElementById("defaultCategory");
-            var categoryIdIsNull = /*[[${categoryId}]]*/;
-
-            <!-- 백틱을 사용한 템플릿 리터럴사용-->
-            let targetId = `category[[${categoryId}]]`;
-
-            var target = document.getElementById(targetId);
-            //새로고침되기 때문에 속성값이 알아서 초기화 된다.
-
-            //넘어온 categoryId값이 null이라면 기본 카테고리 버튼 active
-            if(categoryIdIsNull==null) {
-                defaultCategory.setAttribute('class', 'list-group-item btn btn-primary active');
-            }
-            //클릭된 카테고리만 속성 값 부여
-            target.setAttribute('class', 'list-group-item btn btn-primary active');
-        }
-        /*]]>*/
-    </script>
+        //클릭된 카테고리만 속성 값 부여
+        target.setAttribute('class', 'list-group-item btn btn-primary active');
+    }
+    /*]]>*/
+</script>
 </head>
-<body>
 <!-- 네비바-->
 <div th:replace ="customer_navbar :: customer_navbarFragment"></div>
-    <h2>고객 메뉴판</h2>
+    <h2 class="customer-page-name">메뉴판</h2>
     <!-- 카테고리 바 -->
     <div th:replace="customer/customer_categorybar :: customer_categorybarFragment"></div>
     <!-- 새롭게 추가한 메뉴판 -->
@@ -58,6 +43,5 @@
             <div th:id="${menu.category.getId()}" style=" cursor: pointer;" th:onclick="|location.href='@{|/${storeSN}/menu/${menu.id}/option|}'|" class="button-blue button-outline delete float-right">주문하기</div>
         </div>
     </div>
-
-</body>
+</div>
 </html>
