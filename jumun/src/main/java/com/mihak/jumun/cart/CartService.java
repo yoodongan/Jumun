@@ -51,6 +51,7 @@ public class CartService {
                     .menu(cart.getMenu())
                     .count(cart.getCount())
                     .options(optionService.getOptionsByCart(cart))
+                    .eachMenuTotalPrice(getEachMenuTotalPrice(cart))
                     .build();
             cartDtoList.add(cartDto);
         }
@@ -121,6 +122,18 @@ public class CartService {
             totalPrice += (price * cartDto.getCount());
         }
         return totalPrice;
+    }
+
+    public int getEachMenuTotalPrice(Cart cart) {
+        int menuTotalPrice = 0;
+        int price = cart.getMenu().getPrice();
+        // 장바구니_옵션 테이블에서 장바구니를 통해 옵션정보들을 가져온다.
+        List<CartAndOption> cartAndOptions = cartAndOptionService.getOptionsByCart(cart);
+        for (CartAndOption cartAndOption : cartAndOptions) {
+            price += cartAndOption.getOptions().getPrice();
+        }
+        menuTotalPrice += price;
+        return menuTotalPrice;
     }
 
     public void deleteCartById(Long id) {
