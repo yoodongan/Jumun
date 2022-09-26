@@ -54,7 +54,7 @@
                                         <input class=" button-gray button-outline float-right btn-sm my-2 mx-1 col" type='button'
                                                th:onclick='countValue("minus")'
                                                value='-'/>
-                                        <div class="col" id='result' >0</div>
+                                        <div class="col" id='result' th:text="*{count}">0</div>
                                         <input class=" button-gray button-outline float-right btn-sm my-2 mx-1 col" type='button'
                                                th:onclick='countValue("plus")'
                                                value='+'/>
