@@ -16,23 +16,6 @@
         }
     </style>
 </head>
-<script>
-    function count(type)  {
-        // 결과를 표시할 element
-        const resultElement = document.getElementById('result');
-
-        // 현재 화면에 표시된 값
-        let number = resultElement.innerText;
-        // 더하기/빼기
-        if(type === 'plus') {
-            number = parseInt(number) + 1;
-        }else if(type === 'minus')  {
-            number = parseInt(number) - 1;
-        }
-        // 결과 출력
-        resultElement.innerText = number;
-    }
-</script>
 <body>
 <div th:replace ="customer_navbar :: customer_navbarFragment" style="background-attachment:scroll;" ></div>
 <form th:action th:object="${customerMenuForm}" method="post">
@@ -88,23 +71,53 @@
                             <div>
                                 <p class="text-dark">개수</p>
                             </div>
-                            <div class="input-group w-auto justify-content-end align-items-center m-3">
-                                <div class="mx-3">
-                                <input class=" button-blue button-outline delete float-right btn-sm my-2 mx-1" type='button'
-                                       onclick='count("plus")'
-                                       value='+'/>
-                                <input class=" button-blue button-outline delete float-right btn-sm my-2 mx-1" type='button'
-                                       onclick='count("minus")'
-                                       value='-'/>
+                                <div class="row count mx-2">
+                                    <input class=" button-gray button-outline float-right btn-sm my-2 mx-1 col" type='button'
+                                           th:onclick='countValue("minus")'
+                                           value='-'/>
+                                    <div class="col" id='result' >0</div>
+                                    <input class=" button-gray button-outline float-right btn-sm my-2 mx-1 col" type='button'
+                                           th:onclick='countValue("plus")'
+                                           value='+'/>
                                 </div>
-                                <input type="number" step="1" min= "0" max="10" th:value="1" th:id='result' th:field="*{count}" >
+                                <!-- div로는 개수 값만 띄워주고 실제로 모델에 넘겨주는 값은 hidden처리-->
+                                <input type="hidden" th:field="*{count}" value="">
                             </div>
+                            <script>
+                                function countValue(type)  {
+                                    // 결과를 표시할 element
+                                    const resultElement = document.getElementById('result');
+
+                                    // 현재 화면에 표시된 값
+                                    let number = resultElement.innerText;
+                                    // 더하기/빼기
+                                    if(type === 'plus') {
+                                        if(number != '10'){
+                                            number = parseInt(number) + 1;
+                                        }
+                                    }else if(type === 'minus')  {
+                                        if(number != '0'){
+                                            number = parseInt(number) - 1;
+                                        }
+                                    }
+                                    // 결과 출력
+                                    resultElement.innerText = number;
+                                }
+
+                                function change_go2() {
+
+                                    var getCount = document.getElementById('result').innerHTML;
+                                    console.log(getCount);
+                                    document.getElementById("count").value = getCount;
+
+                                }
+                            </script>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    <button type="submit" class=" button-blue button-outline create float-right btn-sm my-2">장바구니 담기</button>
+    <button type="submit" class=" button-blue button-outline create float-right btn-sm my-2" th:onclick="change_go2()">장바구니 담기</button>
     </div>
     </div>
 </form>

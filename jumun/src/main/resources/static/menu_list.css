@@ -134,3 +134,9 @@ hr {
     border-radius : 10px;
 
 }
+.count {
+    display: flex;
+    flex-flow: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
