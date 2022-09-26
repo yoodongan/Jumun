@@ -1,9 +1,7 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
     <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
-        <div>
-            <h2>카테고리 추가</h2>
-        </div>
+        <h5 class="my-3 border-bottom pb-2">카테고리 추가</h5>
         <div>
             <form class="cate_form" method="POST" th:action="@{''}" th:object="${categoryForm}">
                 <input class="cate" th:field="*{name}" type="text" placeholder="추가하고 싶은 카테고리를 입력하세요">
@@ -12,7 +10,7 @@
                     <div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
                 </div>
 
-                <input type="submit" style="width: 15%; margin: auto;" value="추가하기">
+                <input type="submit" class="button-blue button-outline create float-right" style="width: 15%; margin: auto;" value="추가하기">
             </form>
         </div>
     </mid>

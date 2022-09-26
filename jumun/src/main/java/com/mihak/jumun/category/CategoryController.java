@@ -73,16 +73,16 @@ public class CategoryController {
         model.addAttribute("storeSN",storeSN);
         return "/category/cate_list";
     }
-    @GetMapping("/{storeSN}/admin/store/categoryDetail/{id}")
-    public String showDetail(Model model , @PathVariable Long id, HttpServletResponse res , @PathVariable String storeSN) throws Exception {
-        Optional<Category> cate = categoryService.findById(id);
-        if(!(cate.isPresent())) {
-            return "redirect:/%s/category/list".formatted(storeSN);
-        }
-        model.addAttribute("storeSN",storeSN);
-        model.addAttribute("cate",cate.get());
-        return "category/cate_detail";
-    }
+//    @GetMapping("/{storeSN}/admin/store/categoryDetail/{id}")
+//    public String showDetail(Model model , @PathVariable Long id, HttpServletResponse res , @PathVariable String storeSN) throws Exception {
+//        Optional<Category> cate = categoryService.findById(id);
+//        if(!(cate.isPresent())) {
+//            return "redirect:/%s/category/list".formatted(storeSN);
+//        }
+//        model.addAttribute("storeSN",storeSN);
+//        model.addAttribute("cate",cate.get());
+//        return "category/cate_detail";
+//    }
 
     @GetMapping("/{storeSN}/admin/store/category/modify/{id}")
     public String modify(CategoryForm categoryForm,Model model , @PathVariable Long id,@PathVariable String storeSN){

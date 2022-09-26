@@ -1,6 +1,5 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
-    <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
     <form th:action="@{/admin/store/new}" th:object="${createFormDto}" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
@@ -19,6 +18,7 @@
             <input type="button" onclick="postalCodeService()" value="우편번호 찾기"><br>
         </div>
         <div class="mb-3">
+            <input type="text" th:field="*{streetAdr}" placeholder="주소"><br>
             <input type="text" th:field="*{streetAdr}" placeholder="주소"><br>
         </div>
         <div class="mb-3">
