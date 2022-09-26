@@ -43,3 +43,9 @@
 .float-right {
     float: right;
 }
+/* 개수 추가 감소 버튼*/
+.create{
+    background-color : #3d8bfd;
+    padding : 10px;
+    border-radius : 10px;
+}
