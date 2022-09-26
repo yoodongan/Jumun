@@ -1,8 +1,14 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
-    <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
     <form th:action="@{/admin/store/new}" th:object="${createFormDto}" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
+        <!-- 매장 생성페이지 텍스트+로고 -->
+        <div class="create-store">
+            <img class="brand-logo__image" src="/images/brand_logo.png">
+            <span>매장 생성하기</span>
+        </div>
+
         <div class="mb-3">
             <label for="username"  class="form-label">매장명 </label>
             <input type="text" name="name" id="name" th:field="*{name}"  class="form-control">
@@ -13,11 +19,12 @@
         </div>
         <div class="mb-3">
             <input type="text" th:field="*{streetAdr}" placeholder="주소"><br>
+            <input type="text" th:field="*{streetAdr}" placeholder="주소"><br>
         </div>
         <div class="mb-3">
             <input type="text" th:field="*{detailAdr}" placeholder="상세주소">
         </div>
-        <button type="submit" class="float-end btn btn-info btn-sm my-2">생성</button>
+        <button type="submit" class="button-blue button-outline create float-right">매장 생성</button>
     </form>
 </div>
 </html>

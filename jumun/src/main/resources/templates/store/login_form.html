@@ -1,5 +1,9 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
+    <div class="brand-logo">
+        <img class="brand-logo__image" src="/images/brand_logo.png">
+    </div>
+
     <form th:action="@{/admin/login}" method="post">
         <div class="mb-3">
             <label for="username" class="form-label">사용자ID</label>
@@ -17,8 +21,11 @@
         <div>
             <input type="checkbox" name="remember-me"> 자동 로그인 </input>
         </div>
-        <button type="submit" class="float-end btn btn-info btn-sm my-2">로그인</button>
+        <div class="joinAndlogin-button">
+            <button href="/admin/new" class="button-blue button-outline create">회원가입</button>
+            <button type="submit" class="button-blue button-outline create">로그인</button>
+        </div>
     </form>
-    <a href="/admin/new" class="btn btn-primary">회원가입</a>
+
 </div>
 </html>

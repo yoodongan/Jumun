@@ -21,9 +21,10 @@ body {
     width: 100%;
 }
 .card img {
-    max-width: 100%;
+    max-width: 60%;
     height: auto;
-
+    margin-left: auto;
+    margin-right: auto;
 }
 .menu-info-top {
     display : flex;
@@ -73,6 +74,63 @@ icon-shape {
     display: flex;
     justify-content: space-between;
 }
-.category{
+.category {
     flex-wrap: wrap;
+}
+
+hr {
+    width: 100%;
+}
+/* 새롭게 추가한 관리자 메뉴판 css */
+.menu-box {
+    background-color : rgba(207,226,243, 0.5);
+    /*box-shadow: 6px 6px 1px 1px rgba(61, 139 ,253, .3);*/
+    border-radius : 20px;
+    display : flex;
+    padding : 15px;
+    width : 100%;
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.menu-info {
+    padding-top : 5px;
+    display : flex;
+    flex-direction :column;
+    margin-left : 15px;
+    width : 70%;
+}
+.menu-info div:first-child {
+    font-size: 23px;
+}
+.menu-info div:nth-child(2) {
+    word-break : break-all;
+
+}
+.menu-info div:last-child {
+    color : rgba(224,102,102);
+}
+
+.menu-button {
+    position : relative;
+    display : flex;
+    position: absolute;
+    right : 20px;
+    bottom: 15px;
+}
+.menu-button a{
+    display: inline-block;
+    flex-wrap: wrap;
+    margin-right: 6px;
+
+}
+
+.menu-box img {
+    display: block;
+    display: flex;
+    align-items: center;
+    width : 200px;
+    height : 200px;
+    border-radius : 10px;
+
 }

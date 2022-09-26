@@ -1,0 +1,13 @@
+/* admin/store  -> store_index.html */
+.admin-index {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.admin-index button {
+    width : 600px;
+    height: 130px;
+    margin-bottom: 30px;
+    font-size: 25px;
+}

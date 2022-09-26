@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/menu_list.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/components/button.css}">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
     <title>관리자 메뉴 페이지</title>
     <style>
@@ -42,27 +43,24 @@
 <div class="top-title">
     <h2>관리자 메뉴판</h2>
     <a th:href="@{|/${storeSN}/admin/store/menu|}">
-        <button type="button" class="btn btn-primary" >+ 메뉴 추가</button>
+        <button type="button" class="button-blue button-outline create" >+ 메뉴 추가</button>
     </a>
 </div>
 <!-- 카테고리 바 -->
 <div th:replace="menu/menu_categorybar :: menu_categorybarFragment"></div>
-<div class="row row-cols-1 row-cols-sm-2 g-3">
-    <div th:each="menu : ${menuList}" class="col">
-        <div class="card">
-            <img th:src= "@{${menu.imgUrl}}" class="card-img-top" alt="card-grid-image">
-            <div class="card-body">
-                <div class="menu-info-top">
-                    <h5 th:text="${menu.name}" class="card-title">떡볶이(메뉴명)</h5>
-                    <h5 th:text="${menu.price} +'원'" class="card-title">1500원(가격)</h5>
-                </div>
-                <p th:text="${menu.description}" class="card-text">메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.</p>
-                <div class="menu-info-button">
-                    <a onclick="if ( !confirm('메뉴를 수정하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/admin/store/menu/modify/${menu.id}|}" class="btn btn-primary">메뉴수정</a>
-                    <a onclick="if ( !confirm('메뉴를 삭제하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/admin/store/menu/delete/${menu.id}|}" class="btn btn-danger">메뉴삭제</a>
-                </div>
-            </div>
-        </div>
+
+<div th:each="menu : ${menuList}" class="menu-box">
+    <img th:src= "@{${menu.imgUrl}}" class="card-img-top" alt="card-grid-image">
+    <div class="menu-info">
+        <div th:text="${menu.name}"></div>
+        <div th:text="${menu.description}">메뉴 설명</div>
+        <div th:text="${#numbers.formatInteger(menu.price, 0, 'COMMA')} + '원'">가격</div>
+<!--        <h5 th:text="${menu.price} +'원'">가격</h5>-->
+<!--        "${#numbers.formatInteger(menu.price, 0, 'COMMA')} + '원'"-->
+    </div>
+    <div class="menu-button">
+        <a onclick="if ( !confirm('메뉴를 수정하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/admin/store/menu/modify/${menu.id}|}" class="button-blue button-outline delete float-right">수정</a>
+        <a onclick="if ( !confirm('메뉴를 삭제하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/admin/store/menu/delete/${menu.id}|}" class="button-blue button-outline delete float-right">삭제</a>
     </div>
 
 </div>
