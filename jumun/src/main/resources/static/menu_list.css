@@ -18,11 +18,13 @@ body {
 }
 
 .card {
+    width: 100%;
 }
 .card img {
-    width : auto;
-    height : 300px;
-
+    max-width: 60%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 .menu-info-top {
     display : flex;
@@ -76,7 +78,9 @@ icon-shape {
     flex-wrap: wrap;
 }
 
-
+hr {
+    width: 100%;
+}
 /* 새롭게 추가한 관리자 메뉴판 css */
 .menu-box {
     background-color : rgba(207,226,243, 0.5);

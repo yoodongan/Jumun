@@ -1,6 +1,9 @@
 <!-- 관련 Namespace 선언 및 layout: decorate 추가 -->
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
+    <div class="brand-logo">
+        <img class="brand-logo__image" src="/images/brand_logo.png">
+    </div>
     <div class="my-3 border-bottom">
         <div>
             <h4>고객 로그인</h4>
@@ -15,7 +18,9 @@
                 <div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">완료</button>
+        <div class="joinAndlogin-button">
+        <button type="submit" class="button-blue button-outline create">완료</button>
+        </div>
     </form>
 </div>
 
