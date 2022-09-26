@@ -1,33 +1,39 @@
-<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/order_detail.css}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <title>관리자 메뉴 페이지</title>
+</head>
+    <body class="order_first_box">
 
-    <body style="text-align: center;">
-
-    <div layout:fragment="content" class="container my-3">
+    <div layout:fragment="content">
         <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
-        <div>
-            주문 디테일입니다. 조리중, 주문 취소 , 조리 완료로 바꿀 수 있는 페이지
-        </div>
 
+        <div class="order_main_box">
+            <div class="menu_number" th:text="${order.id}+'번 주문'"></div>
 
-        <div style="border:1px solid black">
-            <div th:text="${order.id}+'번 주문'"></div>
             <div th:each="cart : ${cartListDto.cartDtos}">
-                <div style="margin-bottom: 20px">
-                <div th:text="${cart.menu.name}"></div>
-                <div th:text="${cart.count}+'개'"></div>
-                <ui class="list-group list-group-flush" th:each="option : ${cart.options}">
-                    <li class="list-group-item">
-                        <span th:text="'+ '+ ${option.name}" class="card-title">옵션명</span>
-                    </li>
-                </ui>
+                <div style="margin-bottom: 5px">
+
+                    <div th:text="${cart.menu.name}+'x'+${cart.count}"></div>
+                        <ui class="list-group list-group-flush" th:each="option : ${cart.options}">
+                            <li class="list-group-item">
+                                <span th:text="'-'+ ${option.name}" class="card-title"></span>
+                            </li>
+                        </ui>
+                </div>
+                <div style="border-top-color: rgba(0,0,0,0.5); border-top: 1px solid"></div>
             </div>
-            </div>
+
             <form method="GET" th:action="@{|/${order.storeSerialNumber}/admin/store/order/modify/${order.id}|}">
 
                     <input type="radio" name="orderStatus" value="COMPLETE" >조리완료
                     <input type="radio" name="orderStatus" value="COOKING" >조리중
                     <input type="radio" name="orderStatus" value="BEFOREORDER" >주문접수전
-                <input type="submit">
+                <input type="submit" value="변경">
             </form>
         </div>
     </div>

@@ -126,8 +126,11 @@ hr {
 }
 
 .menu-box img {
-    width : 100px;
-    height : 100px;
+    display: block;
+    display: flex;
+    align-items: center;
+    width : 200px;
+    height : 200px;
     border-radius : 10px;
 
 }

@@ -1,22 +1,22 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
     <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
-    <div th:text="${storeName}"></div>
+    <h5 class="my-3 border-bottom pb-2" th:text="${storeName} + ' 주문하기'"></h5>
     <div>
         <form th:action th:object="${orderFormDto}" method="POST">
-            <textarea th:field="*{requests}" cols="30" rows="5"/>
+            <div class="mb-3">
+                <label class="requests h4"><b>요청 사항</b></label>
+                <textarea th:field="*{requests}" class="w-100" rows="5"/>
+            </div>
 
+            <label class="type h4"><b>결제 방법</b></label>
             <div th:each="type : ${payTypes}">
                 <div>
                     <input type="radio" th:field="*{payType}" th:value="${type.name()}" class="form-check-input"/>
                     <label th:for="${#ids.prev('payType')}" th:text="${type.description}" class="form-check-label"></label>
                 </div>
             </div>
-            <div>
-                <span>결제 금액 : </span>
-                <span th:text="${totalPrice} + ' 원'"></span>
-            </div>
-            <input type="submit" th:value="${totalPrice} + '결제하기'"/>
+            <input class="button-blue button-outline create w-100 my-3" type="submit" th:value="${totalPrice} + '원 결제하기'"/>
         </form>
     </div>
 </div>

@@ -16,4 +16,5 @@ public class CartDto {
     private Menu menu;
     private int count;
     private List<Option> options;
+    private int eachMenuTotalPrice;
 }
