@@ -47,59 +47,62 @@
                 사용자 휴대폰 번호 오류
             </div>
         </div>
-        <div class="mb-3">
-            <label for="agree" class="form-label font-weight-bold h5">약관 사항</label>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-                약관 보기
-            </button>
-        </div>
+        <div class="terms">
+            <div class="mb-3">
+                <label for="agree" class="form-label font-weight-bold h5 agree">약관 사항</label>
+                <button type="button" class="button-blue button-outline create agree-button" data-bs-toggle="modal" data-bs-target="#myModal">
+                    약관 보기
+                </button>
+            </div>
 
-        <!-- The Modal -->
-        <div class="modal" id="myModal">
-            <div class="modal-dialog modal-dialog-scrollable">
-                <div class="modal-content">
+            <!-- The Modal -->
+            <div class="modal" id="myModal">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
 
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">약관</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">약관</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            제1조 (목적)</br>
+                            본 약관은 주문의 미학를 통하여 인터넷상에서 제공하는 서비스(이하 ‘서비스’)를 이용하는 고객 (이하 '고객')간의 권리와 의무 및 책임 등 기타 제반사항을 규정함을 목적으로 합니다.</br>
+                            </br>
+                            제2조 (용어의 정의)</br>
+                            이 약관에서 사용하는 용어의 정의는 다음과 같습니다.</br>
+                            가. '회원'이라 함은 이 약관에 동의하고 회원가입을 통하여 이용자ID(고유번호)와 비밀번호를 발급받은 자로서, 회사가 제공하는 서비스를 이용할 수 있는 이용자를 말합니다.</br>
+                            나. '이용자ID'라 함은 회원의 식별 및 서비스 이용을 위하여 회원의 신청에 따라 회사가 회원 별로 부여하는 고유한 문자와 숫자의 조합을 말합니다.</br>
+                            다. '비밀번호'라 함은 이용자ID로 식별되는 회원의 본인 여부를 검증하기 위하여 회원이 설정하여 회사에 등록한 고유의 문자와 숫자의 조합을 말합니다.</br>
+                            라. ‘로그인’이라 함은 이용자ID와 비밀번호를 통하여 서비스 신청 및 사용 중 서비스의 세부정보를 확인할 수 있는 행위를 말합니다.</br>
+                            마. '탈퇴'라 함은 회원이 서비스 이용을 해지하는 것을 말합니다.</br>
+                            바. ‘휴면ID’ 라 함은 회사에서 정한 일정 기간 동안 사이트 접속 및 미 로그인 시 고객의 정보 악용방지를 위하여 보호되는 계정입니다.</br>
+                            이 약관에서 사용하는 용어 중 제1항에서 정하지 아니한 것은 관계 법령 및 서비스 별 안내에서 정하는 바에 따르며, 그 외에는 일반 관례에 따릅니다.
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">확인</button>
+                        </div>
+
                     </div>
+                </div>
+            </div>
 
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        제1조 (목적)</br>
-                        본 약관은 주문의 미학를 통하여 인터넷상에서 제공하는 서비스(이하 ‘서비스’)를 이용하는 고객 (이하 '고객')간의 권리와 의무 및 책임 등 기타 제반사항을 규정함을 목적으로 합니다.</br>
-                        </br>
-                        제2조 (용어의 정의)</br>
-                        이 약관에서 사용하는 용어의 정의는 다음과 같습니다.</br>
-                        가. '회원'이라 함은 이 약관에 동의하고 회원가입을 통하여 이용자ID(고유번호)와 비밀번호를 발급받은 자로서, 회사가 제공하는 서비스를 이용할 수 있는 이용자를 말합니다.</br>
-                        나. '이용자ID'라 함은 회원의 식별 및 서비스 이용을 위하여 회원의 신청에 따라 회사가 회원 별로 부여하는 고유한 문자와 숫자의 조합을 말합니다.</br>
-                        다. '비밀번호'라 함은 이용자ID로 식별되는 회원의 본인 여부를 검증하기 위하여 회원이 설정하여 회사에 등록한 고유의 문자와 숫자의 조합을 말합니다.</br>
-                        라. ‘로그인’이라 함은 이용자ID와 비밀번호를 통하여 서비스 신청 및 사용 중 서비스의 세부정보를 확인할 수 있는 행위를 말합니다.</br>
-                        마. '탈퇴'라 함은 회원이 서비스 이용을 해지하는 것을 말합니다.</br>
-                        바. ‘휴면ID’ 라 함은 회사에서 정한 일정 기간 동안 사이트 접속 및 미 로그인 시 고객의 정보 악용방지를 위하여 보호되는 계정입니다.</br>
-                        이 약관에서 사용하는 용어 중 제1항에서 정하지 아니한 것은 관계 법령 및 서비스 별 안내에서 정하는 바에 따르며, 그 외에는 일반 관례에 따릅니다.
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">확인</button>
-                    </div>
-
+            <div class="form-group agree-disagree">
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option1" name="option1" class="custom-control-input" value="true" th:field="*{agree}">
+                    <label class="custom-control-label" for="option1">동의</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="option2" name="option2" class="custom-control-input" value="false" th:field="*{agree}">
+                    <label class="custom-control-label" for="option2">비동의</label>
                 </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="option1" name="option1" class="custom-control-input" value="true" th:field="*{agree}">
-                <label class="custom-control-label" for="option1">동의</label>
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="option2" name="option2" class="custom-control-input" value="false" th:field="*{agree}">
-                <label class="custom-control-label" for="option2">비동의</label>
-            </div>
-        </div>
         <button type="submit" class="float-right button-blue button-outline create">회원가입</button>
     </form>
 </div>
