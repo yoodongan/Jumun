@@ -5,13 +5,13 @@
     <h2 class="admin-page-name">주문 내역 상세</h2>
 </div>
 <div>
-    <p th:text="${findOrder.userNickName}" class="order-head">결제자 이름</p>
+    <p>결제금액</p>
     <h3 th:text="${#numbers.formatInteger(findOrder.totalPrice, 0, 'COMMA')} + '원'" class="price">전체가격</h3>
     <hr size="30" noshade>
     <ul class="list-group list-group-flush">
         <li class="list-group-item listDesc">
             <div class="listDesc">주문 일시</div>
-            <div class="listValue"th:text="${findOrder.orderedAt}"></div>
+            <div class="listValue"th:text="${#temporals.format(findOrder.orderedAt, 'yyyy-MM-dd HH:mm')}"></div>
         </li>
         <li class="list-group-item listDesc">
             <div class="listDesc">주문 타입</div>
@@ -27,17 +27,12 @@
         </li>
         <li class="list-group-item listDesc">
             <div class="listDesc">결제 상태</div>
-            <div class="listValue"th:text="${findOrder.payStatus.getDescription()}"> </div>
+            <div class="listValue"th:text="${findOrder.payStatus.getDescription()}"></div>
         </li>
-        <li class="list-group-item">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">요구 사항</h5>
-                    <p class="card-text" th:text="${findOrder.requests}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-            </div>
+        <li class="list-group-item listDesc">
+            <div class="listDesc">요청 사항</div>
+            <div class="listValue"th:text="${findOrder.requests}"></div>
         </li>
     </ul>
-</div>
 </div>
 </html>

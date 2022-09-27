@@ -45,6 +45,8 @@ a {
     font-size: large;
     display :flex;
     justify-content : space-between;
+    max-width: 75%;
+    float : right;
 }
 .admin-navbar nav{
     display: flex;
