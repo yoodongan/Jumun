@@ -5,12 +5,6 @@
     background-color : #5599fd;
 }
 
-.button-gray {
-    border: none;
-    color: #F8F9FA;
-    background-color : #9FA6B2;
-}
-
 /* 버튼 호버시 변화*/
 .button-blue:hover {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
@@ -31,27 +25,18 @@
 .create{
     background-color : #3d8bfd;
     padding : 10px;
+    width : 100px;
+
 }
 
 /* 수정 버튼 */
 .modify {
     background-color : #6da8fd;
     padding : 10px;
+    width : 100px;
 }
 
 /* 삭제 버튼 */
 .delete {
-    margin-left: 5px;
     background-color : #86b6fe;
-}
-
-/* float-right */
-.float-right {
-    float: right;
-}
-/* 개수 추가 감소 버튼*/
-.create{
-    background-color : #3d8bfd;
-    padding : 10px;
-    border-radius : 10px;
 }
