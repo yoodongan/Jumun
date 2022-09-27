@@ -16,7 +16,7 @@
                     <label th:for="${#ids.prev('payType')}" th:text="${type.description}" class="form-check-label"></label>
                 </div>
             </div>
-            <input class="button-blue button-outline create w-100 my-3" type="submit" th:value="${totalPrice} + '원 결제하기'"/>
+            <input class="button-blue button-outline create w-100 my-3" type="submit" th:value="${#numbers.formatInteger(totalPrice, 0, 'COMMA')} + '원 결제하기'"/>
         </form>
     </div>
 </div>

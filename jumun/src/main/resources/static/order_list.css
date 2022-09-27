@@ -9,10 +9,9 @@
 }
 .order_box{
     background-color: #9cc4ff;
-    padding: 0 5px;
     border-radius: 10px;
     text-align: center;
-    margin-top: 5px;
+    margin-top: 10px;
 }
 .order_font{
     color: black;

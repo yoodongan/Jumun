@@ -110,6 +110,19 @@ public class CartService {
         return cartListDto;
     }
 
+    public CartListDto getCartListForOrder(String userNickname) {
+
+        List<CartDto> cartDtos = getCartByUserNickName(userNickname, true);
+
+        CartListDto cartListDto = CartListDto.builder()
+                .cartDtos(cartDtos)
+                .orderType(null)
+                .totalPrice(getTotalPrice(cartDtos))
+                .build();
+
+        return cartListDto;
+    }
+
     private int getTotalPrice(List<CartDto> cartDtos) {
         int totalPrice = 0;
 

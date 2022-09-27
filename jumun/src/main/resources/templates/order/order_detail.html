@@ -1,17 +1,19 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
     <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
-
+    <div class="page-name-head">
+        <h2 class="admin-page-name">주문 내역 상세</h2>
+    </div>
     <div class="order_main_box">
-        <div class="menu_number" th:text="${order.userNickName}+'님 주문'"></div>
+        <div class="menu_number h3" th:text="${order.userNickName}+'님 주문'"></div>
 
         <div th:each="cart : ${cartListDto.cartDtos}">
-            <div style="margin-bottom: 5px">
+            <div class="my-2">
 
                 <div class="name" th:text="${cart.menu.name}+'x'+${cart.count}"></div>
                 <ui class="list-group list-group-flush" th:each="option : ${cart.options}">
                     <li class="list-group-item">
-                        <span th:text="'-'+ ${option.name}" class="card-title"></span>
+                        <span th:text="'- '+ ${option.name}" class="card-title"></span>
                     </li>
                 </ui>
             </div>
@@ -19,12 +21,25 @@
         </div>
 
         <form class="detail_status" method="GET" th:action="@{|/${order.storeSerialNumber}/admin/store/order/modify/${order.id}|}">
-
-            <input type="radio" name="orderStatus" value="BEFOREORDER" >주문접수전
-            <input type="radio" name="orderStatus" value="ACCEPTIONORDER" >주문접수중
-            <input type="radio" name="orderStatus" value="COOKING" >조리중
-            <input type="radio" name="orderStatus" value="COMPLETE" >조리완료
-            <input type="submit" value="변경">
+            <div class="form-check">
+                <input class="form-check-input" id="orderStatus1" type="radio" name="orderStatus" value="BEFOREORDER" >
+                <label class="form-check-label" for="orderStatus1">
+                    주문접수전
+                </label>
+                <input class="form-check-input" id="orderStatus2" type="radio" name="orderStatus" value="ACCEPTIONORDER"  >
+                <label class="form-check-label" for="orderStatus2">
+                    주문접수중
+                </label>
+                <input class="form-check-input" id="orderStatus3" type="radio" name="orderStatus" value="COOKING">
+                <label class="form-check-label" for="orderStatus3">
+                    조리중
+                </label>
+                <input class="form-check-input"id="orderStatus4" type="radio" name="orderStatus" value="COMPLETE">
+                <label class="form-check-label" for="orderStatus4">
+                    조리완료
+                </label>
+            </div>
+            <input type="submit" class="button-blue button-outline create" value="변경">
         </form>
     </div>
 </div>

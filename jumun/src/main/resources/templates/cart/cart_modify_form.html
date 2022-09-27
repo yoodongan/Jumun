@@ -23,7 +23,7 @@
         <div class="card">
             <img th:src="*{imgUrl}" class="card-img-top border p-1" alt="card-grid-image">
             <input type="hidden" name="imgUrl" th:value="${cartFormDto.imgUrl}"/>
-                <div class="card-body">
+                <div class="card-body" style="display: flex;height : 30%;max-height: 220px;">
                     <div class="menu-info-top-edit">
                         <div th:text="*{name}" class="card-title h4" style="display: flex; justify-content: space-between; font-weight: bold ">떡볶이(메뉴명)</div>
                         <input type="hidden" name="name" th:value="${cartFormDto.name}"/>
@@ -78,7 +78,7 @@
                                         <input class=" button-gray button-outline float-right btn-sm my-2 mx-1 col" type='button'
                                                th:onclick='countValue("minus")'
                                                value='-'/>
-                                        <div class="col" id='result' th:text="*{count}">0</div>
+                                        <div class="col" id='result' th:text="*{count}">1</div>
                                         <input class=" button-gray button-outline float-right btn-sm my-2 mx-1 col" type='button'
                                                th:onclick='countValue("plus")'
                                                value='+'/>

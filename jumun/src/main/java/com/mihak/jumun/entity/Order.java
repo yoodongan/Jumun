@@ -40,6 +40,9 @@ public class Order extends BaseEntity {
     private String storeSerialNumber;
 
     public void setOrderStatus(OrderStatus orderStatus) {
+        if (orderStatus.equals(OrderStatus.COOKING) || orderStatus.equals(OrderStatus.COMPLETE)) {
+            this.payStatus = PayStatus.COMPLETE;
+        }
         this.orderStatus = orderStatus;
     }
 
