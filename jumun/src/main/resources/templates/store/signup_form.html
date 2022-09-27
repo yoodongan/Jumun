@@ -3,45 +3,44 @@
     <div class="brand-logo">
         <img class="brand-logo__image" src="/images/brand_logo.png">
     </div>
-    <div class="my-3 border-bottom">
-        <div>
-            <h4>회원가입</h4>
-        </div>
+    <div class="page-name-head">
+        <h2 class="admin-page-name">회원가입</h2>
     </div>
+
     <form th:action="@{/admin/new}" th:object="${signupFormDto}" method="post">
         <div th:if="${#fields.hasGlobalErrors()}">
             <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
         </div>
         <div class="mb-3">
-            <label for="loginId" class="form-label font-weight-bold h5">사용자ID</label>
+            <label for="loginId" class="form-label admin-label-name">사용자ID</label>
             <input type="text" th:field="*{loginId}" th:errorclass="field-error" class="form-control">
             <div th:if="${#fields.hasErrors('loginId')}" th:errorclass="field-error" th:errors="*{loginId}">
                 사용자ID 오류
             </div>
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label font-weight-bold h5">비밀번호</label>
+            <label for="password" class="form-label admin-label-name">비밀번호</label>
             <input type="password" th:field="*{password1}" th:errorclass="field-error" class="form-control">
             <div th:if="${#fields.hasErrors('password1')}" th:errorclass="field-error" th:errors="*{password1}">
                 비밀번호 오류
             </div>
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label font-weight-bold h5">비밀번호 확인</label>
+            <label for="password" class="form-label admin-label-name">비밀번호 확인</label>
             <input type="password" th:field="*{password2}" th:errorclass="field-error" class="form-control">
             <div th:if="${#fields.hasErrors('password2')}" th:errorclass="field-error" th:errors="*{password2}">
                 비밀번호 오류
             </div>
         </div>
         <div class="mb-3">
-            <label for="name" class="form-label font-weight-bold h5">사용자 이름</label>
+            <label for="name" class="form-label admin-label-name">사용자 이름</label>
             <input type="text" th:field="*{name}" th:errorclass="field-error" class="form-control">
             <div th:if="${#fields.hasErrors('name')}" th:errorclass="field-error" th:errors="*{name}">
                 사용자 이름 오류
             </div>
         </div>
         <div class="mb-3">
-            <label for="phoneNumber" class="form-label font-weight-bold h5">사용자 휴대폰 번호</label>
+            <label for="phoneNumber" class="form-label admin-label-name">사용자 휴대폰 번호</label>
             <input type="text" th:field="*{phoneNumber}" th:errorclass="field-error" class="form-control">
             <div th:if="${#fields.hasErrors('phoneNumber')}" th:errorclass="field-error" th:errors="*{phoneNumber}">
                 사용자 휴대폰 번호 오류
@@ -86,7 +85,6 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">확인</button>
                         </div>
-
                     </div>
                 </div>
             </div>

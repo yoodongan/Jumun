@@ -1,13 +1,15 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container">
     <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
-    <h5 class="my-3 border-bottom pb-2">메뉴 등록하기</h5>
+    <div class="page-name-head">
+        <h2 class="admin-page-name">메뉴 추가</h2>
+    </div>
     <form th:action th:object="${menuForm}" method="post" enctype="multipart/form-data">
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
         <div class="mb-3">
-            <label class="form-label">카테고리</label>
+            <label class="form-label admin-label-name">카테고리</label>
             <select th:field="*{categoryId}" class="form-select">
                 <option value="">==카테고리 선택==</option>
                 <option th:each="category : ${categoryList}" th:value="${category.id}" th:text="${category.name}">카테고리옵션</option>
@@ -15,25 +17,25 @@
         </div>
 
         <div class="mb-3">
-            <label for="name" class="form-label">메뉴명</label>
+            <label for="name" class="form-label admin-label-name">메뉴명</label>
             <input type="text" th:field="*{name}" class="form-control" placeholder="메뉴명을 입력해주세요.">
         </div>
         <div class="mb-3">
-            <label for="price" class="form-label">가격</label>
+            <label for="price" class="form-label admin-label-name">가격</label>
             <input type="number" th:field="*{price}" class="form-control" >
         </div>
         <!-- 이미지 폼 추가해야 함 -->
         <div class="mb-3">
-            <label for="imageUrl"> 메뉴이미지 </label>
+            <label for="imageUrl" class="form-label admin-label-name"> 메뉴이미지 </label>
             <input type="file" name="file"  onchange="readURL(this);">
             <img id="preview" />
         </div>
 
         <div class="mb-3">
-            <label for="description" class="form-label">메뉴 설명</label>
+            <label for="description" class="form-label admin-label-name">메뉴 설명</label>
             <textarea th:field="*{description}" class="form-control" rows="6" placeholder="메뉴 상세 설명입니다."></textarea>
         </div>
-        <input onclick="if ( !confirm('메뉴를 등록하시겠습니까?') ) return false;" type="submit" value="메뉴 등록" class="btn btn-primary my-2">
+        <input onclick="if ( !confirm('메뉴를 추가하시겠습니까?') ) return false;" type="submit" value="추가하기" class="button-blue button-outline create float-right"  style="width: 15%; margin: auto;">
     </form>
 </div>
 </html>

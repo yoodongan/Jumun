@@ -14,10 +14,11 @@
         }, 20000);
     });
 </script>
-<div>
-    <div class="h6"><b>카운터에서 결제를 해주셔야 합니다.</b></div>
+<div class="customer-page-name"><b>카운터에서 결제를 해주셔야 합니다.</b></div>
 
-    <div id="orderStatus" style="display : flex; justify-content : space-between;">
+<div id="orderStatus">
+    <div th:text="${paySuccessDto.userNickName} + '님의 주문'" class="h5 my-2"></div>
+    <div style="display : flex; justify-content : space-between;">
         <div th:text="'주문 상태 : ' + ${paySuccessDto.orderStatus.getDescription()}">주문 상태</div>
 
         <div th:if="${paySuccessDto.orderStatus.getDescription().toString().equals('주문접수전')}">
@@ -25,23 +26,26 @@
         </div>
     </div>
 </div>
-<hr/>
-<div th:text="${paySuccessDto.userNickName} + '님의 주문 내역'" class="h5 my-2"></div>
-<div th:each="order : ${paySuccessDto.orderHistory}" class="row">
-    <div>
-        <span th:text="${order.menu.name}">메뉴명</span>
-        <span th:text="${order.menu.price} +'원'">가격</span>
-    </div>
-    <div class="mb-3">
-        <ui th:each="option : ${order.options}">
-            <li style="list-style:none; padding-left: 15px;">
-                <small th:text="'+ '+ ${option.name}">옵션명</small>
-                <small th:text="${option.price} +'원'">옵션가격</small>
-            </li>
-        </ui>
-        <small class="float-end" th:text="${order.count} +'개'">갯수</small>
+
+<div class="card mt-3">
+    <div class="card-body h-100 w-100">
+        <div th:each="order : ${paySuccessDto.orderHistory}" class="row">
+            <div>
+                <span th:text="${order.menu.name}">메뉴명</span>
+                <span th:text="${order.menu.price} +'원'">가격</span>
+            </div>
+            <div class="mb-3">
+                <ui th:each="option : ${order.options}">
+                    <li style="list-style:none; padding-left: 15px;">
+                        <small th:text="'+ '+ ${option.name}">옵션명</small>
+                        <small th:text="${option.price} +'원'">옵션가격</small>
+                    </li>
+                </ui>
+                <small class="float-end" th:text="${order.count} +'개'">갯수</small>
+            </div>
+        </div>
+        <div th:text="'총 금액 : ' + ${paySuccessDto.orderTotalPrice}" class="float-end">전체 가격</div>
     </div>
 </div>
-<div th:text="'총 금액 : ' + ${paySuccessDto.orderTotalPrice}" class="float-end">전체 가격</div>
 </div>
 </html>
