@@ -23,7 +23,7 @@
         <div class="card">
             <img th:src="*{imgUrl}" class="card-img-top border p-1" alt="card-grid-image">
             <input type="hidden" name="imgUrl" th:value="${cartFormDto.imgUrl}"/>
-                <div class="card-body" style="display: flex;height : 30%;max-height: 220px;">
+                <div class="card-body" style="display: inline-block;height : 30%;max-height: 220px;">
                     <div class="menu-info-top-edit">
                         <div th:text="*{name}" class="card-title h4" style="display: flex; justify-content: space-between; font-weight: bold ">떡볶이(메뉴명)</div>
                         <input type="hidden" name="name" th:value="${cartFormDto.name}"/>

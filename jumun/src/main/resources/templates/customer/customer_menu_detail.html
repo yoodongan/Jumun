@@ -22,7 +22,7 @@
     <div class="card">
             <img th:src= "*{imgUrl}" class="card-img-top border p-1" alt="card-grid-image" style="background-attachment:scroll;">
     <div class="g-2">
-            <div class="card-body" style="display: flex;height : 30%;max-height: 220px;">
+            <div class="card-body" style="display: inline-block;height : 30%;max-height: 220px;">
                 <div class="menu-info-top-edit">
                     <div th:text="*{name}" class="card-title h4" style="display: flex; justify-content: space-between; font-weight: bold ">떡볶이(메뉴명)</div>
                     <div th:text="*{#numbers.formatInteger(price, 0, 'COMMA')} +'원'" class="card-title h4" style="display: flex; justify-content: space-between; font-weight: bold; color:rgba(224,102,102)">1500원(가격)</div>
