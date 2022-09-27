@@ -141,7 +141,8 @@ hr {
     /*box-shadow: 6px 6px 1px 1px rgba(61, 139 ,253, .3);*/
     border-radius : 20px;
     display : flex;
-    padding : 15px;
+    flex-direction: column;
+    padding : 15px 15px;
     width : 100%;
     position: relative;
     margin-top: 10px;
@@ -151,8 +152,7 @@ hr {
     padding-top : 5px;
     display : flex;
     flex-direction :column;
-    margin-left : 10px;
-    width : 70%;
+
     position: relative;
 }
 .customer-menu-info div:first-child {
@@ -168,16 +168,15 @@ hr {
 }
 
 .customer-menu-info__price {
-    position: absolute;
-    bottom: 0px;
+
+    text-align: right;
+    margin-top: 5px;
+    margin-bottom: 6px;
 }
 
 .customer-menu-button {
-    position : relative;
     display : flex;
-    position: absolute;
-    right : 20px;
-    bottom: 15px;
+    justify-content: flex-end;
 }
 .customer-menu-button a{
     display: inline-block;
@@ -200,4 +199,25 @@ hr {
     justify-content: flex-start;
     align-items: center;
 
+}
+.customer-menu-box__info {
+    display: flex;
+    justify-content: space-between;
+}
+.customer-menu-info__description {
+
+    display: inline-block;
+    width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    white-space: normal;
+    line-height: 1.2;
+    height: 3.6em;
+    text-align: left;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
