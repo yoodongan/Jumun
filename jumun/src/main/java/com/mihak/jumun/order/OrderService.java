@@ -16,14 +16,12 @@ import com.mihak.jumun.storeMgmt.dto.FindListFormDto;
 import com.mihak.jumun.pay.dto.PaySuccessDto;
 
 import lombok.RequiredArgsConstructor;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -111,6 +109,10 @@ public class OrderService {
                 findList.add(list);
             }
         }
+            //최신순 정렬
+        Comparator<Order> comparator = Comparator.comparing(Order::getOrderedAt);
+        Collections.sort(findList, comparator.reversed());
+
         return findList;
     }
 
