@@ -19,18 +19,27 @@
         <div class="cart-info">
             <div>
                 <span th:text="${cart.menu.name}" >메뉴명</span>
-                <span th:text="${#numbers.formatInteger(cart.menu.price, 0, 'COMMA')} +'원'">가격</span>
+                <span class="cart-price" th:text="${#numbers.formatInteger(cart.menu.price, 0, 'COMMA')} +' 원'">가격</span>
                 <div class="cart-option" th:each="option : ${cart.options}">
-                    <span th:text="'+ '+ ${option.name}" class="card-title">옵션명</span>
-                    <span th:text="${#numbers.formatInteger(option.price, 0, 'COMMA')} +'원'">옵션가격</span>
+                    <span th:text="'+ '+ ${option.name}" class="cart-option-name">옵션명</span>
+                    <span class = "cart-price" th:text="${#numbers.formatInteger(option.price, 0, 'COMMA')} +' 원'">옵션가격</span>
                 </div>
-                <div th:text="|가격 :  ${#numbers.formatInteger(cart.eachMenuTotalPrice, 0, 'COMMA')} 원|" class="cart-menu-price">갯수</div>   <!-- 각 메뉴 별 총 가격 -->
-                <div th:text="|수량 :  ${cart.count}개|" class="card-title">갯수</div>
+                <div class="cart-red-name">
+                    <div>
+                        <span>가격 : </span>
+                        <span class="cart-menu-price" th:text="|${#numbers.formatInteger(cart.eachMenuTotalPrice, 0, 'COMMA')} 원|">가격</span>
+                    </div>
+<!--                <div th:text="|가격 :  ${#numbers.formatInteger(cart.eachMenuTotalPrice, 0, 'COMMA')} 원|" class="cart-menu-price">갯수</div>   &lt;!&ndash; 각 메뉴 별 총 가격 &ndash;&gt;-->
+                    <div>
+                        <span>수량 : </span>
+                        <span class="cart-menu-count" th:text="|${cart.count} 개|">개수</span>
+                    </div>
+<!--                    <div th:text="|수량 :  ${cart.count} 개|" class="cart-menu-count" >갯수</div>-->
+                </div>
             </div>
             <div class="cart-button">
                 <a onclick="if ( !confirm('장바구니를 수정하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/cart/modify/${cart.cartId}|}" class="button-blue button-outline delete float-right">수정</a>
                 <a onclick="if ( !confirm('장바구니를 삭제하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/cart/delete/${cart.cartId}|}" class="button-blue button-outline delete float-right">삭제</a>
-            </div>
             </div>
         </div>
     </div>
