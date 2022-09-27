@@ -118,12 +118,21 @@ hr {
     flex-direction :column;
     margin-left : 15px;
     width : 70%;
+    position: relative;
 }
+.menu-info__price {
+    position: absolute;
+    bottom: 10px;
+    font-size: 20px;
+}
+
+
 .menu-info div:first-child {
-    font-size: 23px;
+    font-size: 25px;
 }
 .menu-info div:nth-child(2) {
     word-break : break-all;
+    font-size : 15px;
 
 }
 .menu-info div:last-child {
@@ -152,9 +161,70 @@ hr {
     border-radius : 10px;
 
 }
+
+/* 새롭게 추가한 소비자 메뉴판 css */
+.customer-menu-box {
+    background-color : rgba(207,226,243, 0.5);
+    /*box-shadow: 6px 6px 1px 1px rgba(61, 139 ,253, .3);*/
+    border-radius : 20px;
+    display : flex;
+    padding : 15px;
+    width : 100%;
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.customer-menu-info {
+    padding-top : 5px;
+    display : flex;
+    flex-direction :column;
+    margin-left : 10px;
+    width : 70%;
+    position: relative;
+}
+.customer-menu-info div:first-child {
+    font-size: 19px;
+    margin-bottom: 5px;
+}
+.customer-menu-info div:nth-child(2) {
+    word-break : break-all;
+
+}
+.customer-menu-info div:last-child {
+    color : rgba(224,102,102);
+}
+
+.customer-menu-info__price {
+    position: absolute;
+    bottom: 0px;
+}
+
+.customer-menu-button {
+    position : relative;
+    display : flex;
+    position: absolute;
+    right : 20px;
+    bottom: 15px;
+}
+.customer-menu-button a{
+    display: inline-block;
+    flex-wrap: wrap;
+    margin-right: 6px;
+
+}
+
+.customer-menu-box img {
+    display: block;
+    display: flex;
+    align-items: center;
+    width : 110px;
+    height : 110px;
+    border-radius : 10px;
+
 .count {
     display: flex;
     flex-flow: nowrap;
     justify-content: flex-start;
     align-items: center;
+
 }

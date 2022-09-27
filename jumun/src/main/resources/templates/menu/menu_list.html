@@ -1,28 +1,28 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container">
-    <script th:inline="javascript">
-        <!--만약 다른 categoryId값이 들어온다면 해당 div class 속성에 active 주기 -->
-        /*<![CDATA[*/
-        window.onload = function giveActive() {
+<script th:inline="javascript">
+    <!--만약 다른 categoryId값이 들어온다면 해당 div class 속성에 active 주기 -->
+    /*<![CDATA[*/
+    window.onload = function giveActive() {
 
-            var defaultCategory = document.getElementById("defaultCategory");
-            var categoryIdIsNull = /*[[${categoryId}]]*/;
+        var defaultCategory = document.getElementById("defaultCategory");
+        var categoryIdIsNull = /*[[${categoryId}]]*/;
 
-            <!-- 백틱을 사용한 템플릿 리터럴사용-->
-            let targetId = `category[[${categoryId}]]`;
+        <!-- 백틱을 사용한 템플릿 리터럴사용-->
+        let targetId = `category[[${categoryId}]]`;
 
-            var target = document.getElementById(targetId);
-            //새로고침되기 때문에 속성값이 알아서 초기화 된다.
+        var target = document.getElementById(targetId);
+        //새로고침되기 때문에 속성값이 알아서 초기화 된다.
 
-            //넘어온 categoryId값이 null이라면 기본 카테고리 버튼 active
-            if(categoryIdIsNull==null) {
-                defaultCategory.setAttribute('class', 'list-group-item btn btn-primary active');
-            }
-            //클릭된 카테고리만 속성 값 부여
-            target.setAttribute('class', 'list-group-item btn btn-primary active');
+        //넘어온 categoryId값이 null이라면 기본 카테고리 버튼 active
+        if(categoryIdIsNull==null) {
+            defaultCategory.setAttribute('class', 'list-group-item btn btn-primary active');
         }
-        /*]]>*/
-    </script>
+        //클릭된 카테고리만 속성 값 부여
+        target.setAttribute('class', 'list-group-item btn btn-primary active');
+    }
+    /*]]>*/
+</script>
 <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
 <div class="page-name-head">
     <h2 class="admin-page-name">메뉴 관리</h2>
@@ -38,7 +38,7 @@
     <div class="menu-info">
         <div th:text="${menu.name}"></div>
         <div th:text="${menu.description}">메뉴 설명</div>
-        <div th:text="${#numbers.formatInteger(menu.price, 0, 'COMMA')} + '원'">가격</div>
+        <div class="menu-info__price" th:text="${#numbers.formatInteger(menu.price, 0, 'COMMA')} + '원'">가격</div>
 <!--        <h5 th:text="${menu.price} +'원'">가격</h5>-->
 <!--        "${#numbers.formatInteger(menu.price, 0, 'COMMA')} + '원'"-->
     </div>
