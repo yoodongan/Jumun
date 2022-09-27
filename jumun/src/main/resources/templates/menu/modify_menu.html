@@ -28,10 +28,17 @@
         <!-- 이미지 폼 추가해야 함 -->
         <div class="mb-3 row">
             <label for="imageUrl" class="form-label admin-label-name">메뉴이미지</label>
-            <img th:src= "@{${menuForm.imgUrl}}" class="modify-img" alt="card-grid-image">
-            <input type="file" name="file" onchange="readURL(this);">
+            <input type="file" name="file" th:onclick="hiddenImg()" onchange="readURL(this);">
+            <img th:src= "@{${menuForm.imgUrl}}" class="modify-img" alt="card-grid-image" id="dis">
             <img id="preview" />
         </div>
+        <script>
+            function hiddenImg() {
+                if ($('#dis').css('display') != 'none') {
+                    $('#dis').hide();
+                }
+            }
+        </script>
         <div class="mb-3">
             <label for="description" class="form-label admin-label-name">메뉴 설명</label>
             <textarea th:field="*{description}" class="form-control" rows="6" placeholder="메뉴 상세 설명입니다."></textarea>

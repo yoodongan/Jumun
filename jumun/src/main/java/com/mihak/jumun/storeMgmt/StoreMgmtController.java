@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -103,13 +103,21 @@ public class StoreMgmtController {
         switch (orderBy) {
             case "price":
                 List<FindListFormDto> findList1 = orderService.findAllbyPriceDaily(storeSN);
+                //맵으로 정렬
                 Map<String, Long> findList = orderService.sum(findList1);
-                model.addAttribute("findList", findList);
+                //최신순 정렬
+                Map<String, Long> treeMap = new TreeMap<>(Collections.reverseOrder());
+                treeMap.putAll(findList);
+                model.addAttribute("findList", treeMap);
                 break;
             case "user":
                 List<FindByUserDailyDto> findList2 = orderService.findAllbyUserDaily(storeSN);
+                //맵으로 정렬
                 Map<String, Long> findList3 = orderService.sumByUser(findList2);
-                model.addAttribute("findList3", findList3);
+                //최신순 정렬
+                Map<String, Long> treeMap2 = new TreeMap<>(Collections.reverseOrder());
+                treeMap2.putAll(findList3);
+                model.addAttribute("findList3", treeMap2);
                 break;
         }
         return "storeMgmt/revenueDetail";
