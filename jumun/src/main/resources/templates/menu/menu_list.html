@@ -34,9 +34,9 @@
 <div th:replace="menu/menu_categorybar :: menu_categorybarFragment"></div>
 
 <div th:each="menu : ${menuList}" class="menu-box">
-    <img th:src= "@{${menu.imgUrl}}" class="card-img-top" alt="card-grid-image">
+    <img th:src= "@{${menu.imgUrl}}" alt="card-grid-image">
     <div class="menu-info">
-        <div class="mb-3" th:text="${menu.name}"></div>
+        <div th:text="${menu.name}"></div>
         <div th:text="${menu.description}">메뉴 설명</div>
         <div th:text="${#numbers.formatInteger(menu.price, 0, 'COMMA')} + '원'">가격</div>
 <!--        <h5 th:text="${menu.price} +'원'">가격</h5>-->
@@ -46,7 +46,6 @@
         <a onclick="if ( !confirm('메뉴를 수정하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/admin/store/menu/modify/${menu.id}|}" class="button-blue button-outline delete float-right">수정</a>
         <a onclick="if ( !confirm('메뉴를 삭제하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/admin/store/menu/delete/${menu.id}|}" class="button-blue button-outline delete float-right">삭제</a>
     </div>
-
 </div>
 </div>
 </html>

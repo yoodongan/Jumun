@@ -5,6 +5,12 @@
     background-color : #5599fd;
 }
 
+.button-gray {
+    border: none;
+    color: #F8F9FA;
+    background-color : #9FA6B2;
+}
+
 /* 버튼 호버시 변화*/
 .button-blue:hover {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
@@ -30,6 +36,7 @@
 /* 수정 버튼 */
 .modify {
     background-color : #6da8fd;
+    padding : 10px;
 }
 
 /* 삭제 버튼 */

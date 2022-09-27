@@ -24,13 +24,11 @@
             <label for="price" class="form-label admin-label-name">가격</label>
             <input type="number" th:field="*{price}" class="form-control" >
         </div>
-        <!-- 이미지 폼 추가해야 함 -->
-        <div class="mb-3">
-            <label for="imageUrl" class="form-label admin-label-name"> 메뉴이미지 </label>
-            <input type="file" name="file"  onchange="readURL(this);">
+        <div class="mb-3 row">
+            <label for="imageUrl"> 메뉴이미지 </label>
+            <input type="file" name="file" onchange="readURL(this);">
             <img id="preview" />
         </div>
-
         <div class="mb-3">
             <label for="description" class="form-label admin-label-name">메뉴 설명</label>
             <textarea th:field="*{description}" class="form-control" rows="6" placeholder="메뉴 상세 설명입니다."></textarea>

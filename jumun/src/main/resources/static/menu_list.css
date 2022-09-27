@@ -26,14 +26,33 @@ body {
     margin-left: auto;
     margin-right: auto;
 }
+.modify-img {
+    max-width: 60%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+#preview{
+    max-width: 60%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
 .menu-info-top {
     display : flex;
     justify-content : space-between;
     margin-bottom : 10px;
 }
+.menu-info-top-edit {
+    display : flex;
+    justify-content : space-between;
+    margin-bottom : 10px;
+    width: 100%;
+}
 .card-body {
-    height : 220px;
-
+    display: flex;
+    height : 30%;
+    max-height: 220px;
 }
 .menu-info-button {
     margin-top: 80px;
@@ -112,7 +131,6 @@ hr {
 }
 
 .menu-button {
-    position : relative;
     display : flex;
     position: absolute;
     right : 20px;
@@ -133,4 +151,10 @@ hr {
     height : 200px;
     border-radius : 10px;
 
+}
+.count {
+    display: flex;
+    flex-flow: nowrap;
+    justify-content: flex-start;
+    align-items: center;
 }
