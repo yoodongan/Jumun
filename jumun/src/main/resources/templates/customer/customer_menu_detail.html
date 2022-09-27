@@ -21,14 +21,11 @@
 <form th:action th:object="${customerMenuForm}" method="post">
     <div class="card">
             <img th:src= "*{imgUrl}" class="card-img-top" alt="card-grid-image" style="background-attachment:scroll;">
-            <div style="color: silver;">
-            <h5 th:text="*{category}" class="card-title">카테고리</h5>
-            </div>
-    <div class="row row-cols-1 row-cols-sm-2 g-2">
+    <div class="g-2">
             <div class="card-body">
-                <div class="menu-info-top">
-                    <h4 th:text="*{name}" class="card-title">떡볶이(메뉴명)</h4>
-                    <h4 th:text="*{#numbers.formatInteger(price, 0, 'COMMA')} +'원'" class="card-title">1500원(가격)</h4>
+                <div class="menu-info-top-edit">
+                    <div th:text="*{name}" class="card-title h4" style="display: flex; justify-content: space-between; font-weight: bold ">떡볶이(메뉴명)</div>
+                    <div th:text="*{#numbers.formatInteger(price, 0, 'COMMA')} +'원'" class="card-title h4" style="display: flex; justify-content: space-between; font-weight: bold; color:rgba(224,102,102)">1500원(가격)</div>
                 </div>
                 <p th:text="*{description}" class="card-text">메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.</p>
             </div>
