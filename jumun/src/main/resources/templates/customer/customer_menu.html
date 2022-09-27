@@ -30,16 +30,16 @@
     <!-- 카테고리 바 -->
     <div th:replace="customer/customer_categorybar :: customer_categorybarFragment"></div>
     <!-- 새롭게 추가한 메뉴판 -->
-    <div th:each="menu : ${menuList}" class="menu-box">
+    <div th:each="menu : ${menuList}" class="customer-menu-box">
         <img th:src= "@{${menu.imgUrl}}" alt="card-grid-image">
-        <div class="menu-info">
+        <div class="customer-menu-info">
             <div th:text="${menu.name}"></div>
             <div th:text="${menu.description}">메뉴 설명</div>
-            <div th:text="${#numbers.formatInteger(menu.price, 0, 'COMMA')} + '원'">가격</div>
+            <div class="customer-menu-info__price" th:text="${#numbers.formatInteger(menu.price, 0, 'COMMA')} + ' 원'">가격</div>
             <!--        <h5 th:text="${menu.price} +'원'">가격</h5>-->
             <!--        "${#numbers.formatInteger(menu.price, 0, 'COMMA')} + '원'"-->
         </div>
-        <div class="menu-button">
+        <div class="customer-menu-button">
             <div th:id="${menu.category.getId()}" style=" cursor: pointer;" th:onclick="|location.href='@{|/${storeSN}/menu/${menu.id}/option|}'|" class="button-blue button-outline delete float-right">주문하기</div>
         </div>
     </div>
