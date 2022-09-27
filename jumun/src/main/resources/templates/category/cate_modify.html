@@ -1,7 +1,9 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
     <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
-    <h5 class="my-3 border-bottom pb-2">카테고리 수정</h5>
+    <div class="page-name-head">
+        <h2 class="admin-page-name">카테고리 수정</h2>
+    </div>
         <div>
             <form class="cate_form" method="POST" th:action="@{''}" th:object="${categoryForm}">
                 <input class="cate" name="name" th:field="*{name}" type="text">
