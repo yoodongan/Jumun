@@ -20,7 +20,7 @@
 <div th:replace ="customer_navbar :: customer_navbarFragment" style="background-attachment:scroll;" ></div>
 <form th:action th:object="${customerMenuForm}" method="post">
     <div class="card">
-            <img th:src= "*{imgUrl}" class="card-img-top" alt="card-grid-image" style="background-attachment:scroll;">
+            <img th:src= "*{imgUrl}" class="card-img-top border p-1" alt="card-grid-image" style="background-attachment:scroll;">
     <div class="g-2">
             <div class="card-body">
                 <div class="menu-info-top-edit">
@@ -93,7 +93,7 @@
                                             number = parseInt(number) + 1;
                                         }
                                     }else if(type === 'minus')  {
-                                        if(number != '0'){
+                                        if(number != '1'){
                                             number = parseInt(number) - 1;
                                         }
                                     }
