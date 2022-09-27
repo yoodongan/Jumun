@@ -1,15 +1,15 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
 <div th:replace ="admin_navbar :: admin_navbarFragment"></div>
-    <div>
-        <h5 class="admin-page-name">주문 내역 목록</h5>
+    <div class="page-name-head">
+        <h2 class="admin-page-name">주문 내역 목록</h2>
     </div>
     <span class="border-bottom"></span>
     <div th:each="orderList : ${orderLists}" class="list-group mt-3">
         <a th:href="@{|/${storeSN}/admin/store/management/order/${orderList.id}|}">
             <div href="#" class="list-group-item list-group-item-action" aria-current="true">
                 <div class="option-group">
-                <div th:text="${orderList.orderedAt}" >주문 처리 일시</div>
+                <div class="h5" th:text="${#temporals.format(orderList.orderedAt, 'yyyy-MM-dd')}" >주문 처리 일시</div>
                 <div th:text="${#numbers.formatInteger(orderList.totalPrice, 0, 'COMMA')} +'원'" class="p-2 mb-2 bg-secondary text-white">주문 가격</div>
                 </div>
                 <h5 th:text="${orderList.payStatus.description}" class="payStatus">결제 상태</h5>

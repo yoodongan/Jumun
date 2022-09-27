@@ -1,4 +1,6 @@
 <div layout:fragment="content">
+    <div th:text="${userNickName} + '님의 주문'" class="h5 my-2"></div>
+
     <div style="display : flex; justify-content : space-between;">
         <div th:text="'주문 상태 : ' + ${orderStatus.getDescription()}">주문 상태</div>
 
@@ -7,3 +9,4 @@
         </div>
     </div>
 </div>
+

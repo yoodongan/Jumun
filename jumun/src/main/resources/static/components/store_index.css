@@ -14,12 +14,13 @@
 
 .admin-store-name {
     font-size: 35px;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
     border-bottom: 1px solid rgba(0,0,0,0.4);
 }
 
 .admin-page-name {
     font-size: 30px;
-    border-bottom: 1px solid rgba(0,0,0,0.4);
     padding-bottom: 5px;
     margin-bottom: 15px;
 }
