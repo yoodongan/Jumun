@@ -1,5 +1,6 @@
 package com.mihak.jumun.category.form;
 
+import com.mihak.jumun.entity.Owner;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.UniqueElements;
@@ -12,4 +13,6 @@ public class CategoryForm {
 
     @NotEmpty(message = "카테고리명은 필수항목입니다.")
     private String name;
+
+    private Owner owner;
 }

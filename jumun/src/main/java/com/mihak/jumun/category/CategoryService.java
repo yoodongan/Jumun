@@ -3,11 +3,11 @@ package com.mihak.jumun.category;
 import com.mihak.jumun.category.form.CategoryForm;
 import com.mihak.jumun.entity.Category;
 import com.mihak.jumun.entity.Menu;
+import com.mihak.jumun.entity.Owner;
 import com.mihak.jumun.menu.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,9 +17,10 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final MenuRepository menuRepository;
 
-    public void create(CategoryForm categoryForm) {
+    public void create(CategoryForm categoryForm, Owner owner) {
         Category newCate = new Category();
         newCate.setName(categoryForm.getName());
+        newCate.setOwner(owner);
         categoryRepository.save(newCate);
     }
 
@@ -27,8 +28,8 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Optional<Category> findById(Long id) {
-        return categoryRepository.findById(id);
+    public Category findById(Long id) {
+        return categoryRepository.findById(id).orElseThrow(()->new RuntimeException("해당 객체 없음"));
     }
 
     public void modify(Category cate , String name){
@@ -40,11 +41,15 @@ public class CategoryService {
         return categoryRepository.findByName(name);
     }
 
-    public void remove(Category delCate) {
-        List<Menu> menuList = menuRepository.findByCategoryId(delCate.getId());
+    public void remove(Long id) {
+        List<Menu> menuList = menuRepository.findByCategoryId(id);
         for (Menu menu : menuList) {
             menu.setCategory(null);
         }
-        categoryRepository.delete(delCate);
+        categoryRepository.deleteById(id);
+    }
+
+    public Optional<Category> findByNameAndOwner(String name , Owner owner) {
+        return categoryRepository.findByNameAndOwner(name,owner);
     }
 }

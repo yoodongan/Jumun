@@ -12,7 +12,7 @@ html > body {
 .order_main_box{
     border:5px solid rgb(9, 9, 110);
     border-radius:10px;
-    padding: 50px;
+    padding: 20px;
 }
 .order_first_box{
     display: flex;
@@ -22,5 +22,12 @@ html > body {
 .menu_number{
     text-align: center;
     margin-bottom: 10px;
-    font-weight: bolder;
+
+}
+.name{
+    font-weight: bold;
+    font-size: 25px;
+}
+.detail_status{
+    text-align: right;
 }

@@ -6,7 +6,7 @@
         <div class="status">주문 접수 전</div>
         <div class="ad" th:each="o : ${orderList}">
             <div th:if="${o.orderStatus.toString().equals('BEFOREORDER')}" class="order_box">
-                <a th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.id}+'번 주문'"></h1></a>
+                <a class="order_font" th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.userNickName}+'님의 주문'"></h1></a>
             </div>
         </div>
     </div>
@@ -15,7 +15,7 @@
         <div class="status">주문 접수 중</div>
         <div class="ad" th:each="o : ${orderList}">
             <div th:if="${o.orderStatus.toString().equals('ACCEPTIONORDER')}" class="order_box">
-                <a th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.id}+'번 주문'"></h1></a>
+                <a class="order_font" th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.userNickName}+'님의 주문'"></h1></a>
             </div>
         </div>
     </div>
@@ -24,11 +24,10 @@
         <div class="status">조리중</div>
         <div th:each="o : ${orderList}">
             <div th:if="${o.orderStatus.toString().equals('COOKING')}" class="order_box">
-                <a th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.id}+'번 주문'"></h1></a>
+                <a class="order_font" th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><h1 th:text="${o.userNickName}+'님의 주문'"></h1></a>
             </div>
         </div>
     </div>
-</div>
 <script>
 
     setTimeout(function(){
@@ -36,4 +35,5 @@
     }, 10000);
 
 </script>
+</div>
 </html>
