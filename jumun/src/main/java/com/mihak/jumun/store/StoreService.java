@@ -29,6 +29,7 @@ public class StoreService {
         return storeRepository.save(store);
     }
 
+
     public Store findBySerialNumber(String serialNumber) {
         return storeRepository.findByserialNumber(serialNumber);
     }

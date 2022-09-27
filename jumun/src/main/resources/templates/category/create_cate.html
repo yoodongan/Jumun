@@ -7,8 +7,7 @@
         <div>
             <form class="cate_form" method="POST" th:action="@{''}" th:object="${categoryForm}">
                 <input class="cate" th:field="*{name}" type="text" placeholder="카테고리를 입력하세요.">
-                <div th:fragment="formErrorsFragment" class="alert alert-danger" role="alert"
-                     th:if="${#fields.hasAnyErrors()}">
+                <div th:fragment="formErrorsFragment" class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}" style="margin-top: 10px;">
                     <div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
                 </div>
 

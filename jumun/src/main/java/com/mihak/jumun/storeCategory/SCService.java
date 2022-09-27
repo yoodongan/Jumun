@@ -21,20 +21,20 @@ public class SCService {
     private final CategoryService categoryService;
     private final SCRepository scRepository;
 
-    public void save(String storeSN, String name) {
+
+
+    public void save(String storeSN, Long id) {
         StoreAndCategory sc = new StoreAndCategory();
         Store store = storeService.findBySerialNumber(storeSN);
-        Optional<Category> category = categoryService.findByName(name);
+        Category category = categoryService.findById(id);
         sc.setStore(store);
-        sc.setCategory(category.get());
+        sc.setCategory(category);
         scRepository.save(sc);
     }
 
     public List<Category> findAllbyStoreId(Long id) {
         List<StoreAndCategory> li = scRepository.findAll();
-        for(StoreAndCategory d : li){
-            System.out.println(d);
-        }
+
         List<Category> cList = new ArrayList<>();
         for (StoreAndCategory sc : li) {
             if (sc.getStore().getId() == id) {
@@ -57,7 +57,7 @@ public class SCService {
     }
 
     public List<StoreAndCategory> findAllByCategory(Long id) {
-        Category category = categoryService.findById(id).get();
+        Category category = categoryService.findById(id);
         List<StoreAndCategory> li = scRepository.findAllByCategory(category);
         return li;
     }

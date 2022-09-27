@@ -1,6 +1,7 @@
 package com.mihak.jumun.category;
 
 import com.mihak.jumun.category.form.CategoryForm;
+import com.mihak.jumun.entity.Owner;
 import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.entity.StoreAndCategory;
 import com.mihak.jumun.store.StoreService;
@@ -35,31 +36,24 @@ public class CategoryController {
     }
 
     @PostMapping("/{storeSN}/admin/store/category")
-    public String createCate(Model model , @Valid CategoryForm categoryForm, BindingResult bindingResult, @PathVariable String storeSN) {
+    public String createCate(@Valid CategoryForm categoryForm, BindingResult bindingResult, @PathVariable String storeSN) {
 
         if(bindingResult.hasErrors()){
             return "category/create_cate";
         }
 
-        Optional<Category> cate = categoryService.findByName(categoryForm.getName());
-        Store store = storeService.findBySerialNumber(storeSN);
-
+        Owner owner = getOwner(storeSN);
+        Optional<Category> cate = categoryService.findByNameAndOwner(categoryForm.getName(),owner);
 
         if(cate.isPresent()){
-            Optional<StoreAndCategory> sc = scService.findByStoreAndCategory(store ,cate.get());
-            if(sc.isPresent()){
-                bindingResult.rejectValue("name", "duplicate",
-                        "중복임");
+            //cateform은 자동으로 모델에 담김
+                bindingResult.rejectValue("name", "duplicate", "중복됨");
                 return "category/create_cate";
-            }else{
-                scService.save(storeSN, cate.get().getName());
-                return "redirect:/%s/admin/store/categoryList".formatted(storeSN);
-            }
-        }else{
-            categoryService.create(categoryForm);
-            Optional<Category> cate2 = categoryService.findByName(categoryForm.getName());
-            scService.save(storeSN , cate2.get().getName());
         }
+        categoryService.create(categoryForm,owner);
+        Optional<Category> newCategory = categoryService.findByNameAndOwner(categoryForm.getName(),owner);
+        scService.save(storeSN , newCategory.get().getId());
+
         return "redirect:/%s/admin/store/categoryList".formatted(storeSN);
     }
 
@@ -73,77 +67,50 @@ public class CategoryController {
         model.addAttribute("storeSN",storeSN);
         return "/category/cate_list";
     }
-//    @GetMapping("/{storeSN}/admin/store/categoryDetail/{id}")
-//    public String showDetail(Model model , @PathVariable Long id, HttpServletResponse res , @PathVariable String storeSN) throws Exception {
-//        Optional<Category> cate = categoryService.findById(id);
-//        if(!(cate.isPresent())) {
-//            return "redirect:/%s/category/list".formatted(storeSN);
-//        }
-//        model.addAttribute("storeSN",storeSN);
-//        model.addAttribute("cate",cate.get());
-//        return "category/cate_detail";
-//    }
+
 
     @GetMapping("/{storeSN}/admin/store/category/modify/{id}")
-    public String modify(CategoryForm categoryForm,Model model , @PathVariable Long id,@PathVariable String storeSN){
-        Category cate = categoryService.findById(id).get();
+    public String modify(CategoryForm categoryForm, @PathVariable Long id,@PathVariable String storeSN){
+        Category cate = categoryService.findById(id);
 
         categoryForm.setName(cate.getName());
         return "category/cate_modify";
     }
 
     @PostMapping("/{storeSN}/admin/store/category/modify/{id}")
-    public String modify(@PathVariable String storeSN, @Valid CategoryForm categoryForm,BindingResult bindingResult ,Model model , @PathVariable Long id){
-        Store store = storeService.findBySerialNumber(storeSN);
-        if(bindingResult.hasErrors()){
+    public String modify(@PathVariable String storeSN, @Valid CategoryForm categoryForm,BindingResult bindingResult ,Model model , @PathVariable Long id) {
+        if (bindingResult.hasErrors()) {
             return "category/cate_modify";
         }
-
-        Optional<Category> beforeModifyCate = categoryService.findById(id);
-        Optional<Category> wantModifyCate = categoryService.findByName(categoryForm.getName());
-
+        Owner owner = getOwner(storeSN);
+        Category beforeModifyCate = categoryService.findById(id);
+        Optional<Category> wantModifyCate = categoryService.findByNameAndOwner(categoryForm.getName(),owner);
 
         if(wantModifyCate.isPresent()){
-            Optional<StoreAndCategory> sc = scService.findByStoreAndCategory(store,wantModifyCate.get());
-            if(sc.isPresent()){
-                bindingResult.rejectValue("name", "duplicate",
-                        "중복임");
-
-                return "category/cate_modify";
-            }else {
-                scService.modify(storeSN,beforeModifyCate.get(),wantModifyCate.get());
-                long count = scService.findAllByCategory(id).size();
-                if(count == 0){
-                    categoryService.remove(categoryService.findById(id).get());
-                }
-                return "redirect:/%s/admin/store/categoryList".formatted(storeSN);
-            }
-
-        }else{
-            createCate(model,categoryForm,bindingResult,storeSN);
-            scService.remove(scService.findByStoreAndCategory(store,beforeModifyCate.get()).get());
+            bindingResult.rejectValue("name", "duplicate", "중복임");
+            return "category/cate_modify";
         }
-        long count = scService.findAllByCategory(id).size();
-        if(count == 0){
-            categoryService.remove(categoryService.findById(id).get());
-        }
-
+        categoryService.modify(beforeModifyCate, categoryForm.getName());
         return "redirect:/%s/admin/store/categoryList".formatted(storeSN);
+
+
     }
 
     @GetMapping("/{storeSN}/admin/store/category/delete/{id}")
     public String delete(@PathVariable("id") Long id, @PathVariable String storeSN) {
         //해당 스토어와 삭제하고 싶은 카테고리를 가져온다.
         Store store = storeService.findBySerialNumber(storeSN);
-        Category delCate = categoryService.findById(id).get();
+        Category delCate = categoryService.findById(id);
 
-        //StoreAndCategory 테이블에 해당 카테고리를 참조하는 스토어 갯수를 가져온다.
-        long count = scService.findAllByCategory(id).size();
         scService.remove(scService.findByStoreAndCategory(store,delCate).get());
 
-        if(count == 1){
-            categoryService.remove(delCate);
-        }
+        categoryService.remove(delCate.getId());
         return "redirect:/%s/admin/store/categoryList".formatted(storeSN);
+    }
+
+    private Owner getOwner(String storeSN) {
+        Store store = storeService.findBySerialNumber(storeSN);
+        Owner owner = store.getOwner();
+        return owner;
     }
 }
