@@ -31,19 +31,19 @@
     <div th:replace="customer/customer_categorybar :: customer_categorybarFragment"></div>
     <!-- 새롭게 추가한 메뉴판 -->
     <div th:each="menu : ${menuList}" class="customer-menu-box">
-        <div class="customer-menu-box__info">
+        <div class="customer-menu-box__info" th:onclick="|location.href='@{|/${storeSN}/menu/${menu.id}/option|}'|" >
             <img th:src= "@{${menu.imgUrl}}" alt="card-grid-image">
             <div class="customer-menu-info">
-                <div th:text="${menu.name}"></div>
+                <div style="font-size: 15px" th:text="${menu.name}"></div>
                 <div class="customer-menu-info__description" th:text="${menu.description}">메뉴 설명</div>
                 <div class="customer-menu-info__price" th:text="'가격 : ' + ${#numbers.formatInteger(menu.price, 0, 'COMMA')} + ' 원'">가격</div>
                 <!--        <h5 th:text="${menu.price} +'원'">가격</h5>-->
                 <!--        "${#numbers.formatInteger(menu.price, 0, 'COMMA')} + '원'"-->
             </div>
         </div>
-        <div class="customer-menu-button">
-            <div th:id="${menu.category.getId()}" style=" cursor: pointer;" th:onclick="|location.href='@{|/${storeSN}/menu/${menu.id}/option|}'|" class="button-blue button-outline delete float-right">주문하기</div>
-        </div>
+<!--        <div class="customer-menu-button">-->
+<!--            <div th:id="${menu.category.getId()}" style=" cursor: pointer; font-size: 13px;" th:onclick="|location.href='@{|/${storeSN}/menu/${menu.id}/option|}'|" class="button-blue button-outline delete float-right">주문하기</div>-->
+<!--        </div>-->
     </div>
 </div>
 </html>

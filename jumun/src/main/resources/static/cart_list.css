@@ -54,7 +54,7 @@ body {
     width : 100%;
     position: relative;
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 .cart-info {
     padding-top : 5px;
@@ -114,7 +114,6 @@ body {
     display: flex;
     flex-direction: column;
     float: right;
-
 }
 
 .order-type {
@@ -139,9 +138,7 @@ body {
     display: flex;
     flex-direction: column;
 }
-.cart-price {
-    float : right;
-}
+
 .cart-option-name {
     font-size : 15px;
 }

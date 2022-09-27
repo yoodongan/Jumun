@@ -1,60 +1,51 @@
-<!doctype html>
-<html lang="ko">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/cart_list.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/components/button.css}">
-    <title>장바구니 페이지</title>
-</head>
-<body>
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container">
 <div th:replace ="customer_navbar :: customer_navbarFragment"></div>
-<h2>장바구니</h2>
+<h2 class="customer-page-name">장바구니</h2>
 <div class="row row-cols-1 row-cols-sm-2 g-3">
     <div th:each="cart : ${cartListDto.cartDtos}" class="cart-box" >
-<!--     장바구니 상세 링크 일단 주석처리. th:onclick="|location.href='@{|/${storeSN}/cart/detail/${cart.cartId}|}'|"-->
         <img th:src="${cart.menu.imgUrl}" class="card-img-top" alt="card-grid-image">
         <div class="cart-info">
             <div>
-                <span th:text="${cart.menu.name}" >메뉴명</span>
-                <span class="cart-price" th:text="${#numbers.formatInteger(cart.menu.price, 0, 'COMMA')} +' 원'">가격</span>
-                <div class="cart-option" th:each="option : ${cart.options}">
-                    <span th:text="'+ '+ ${option.name}" class="cart-option-name">옵션명</span>
-                    <span class = "cart-price" th:text="${#numbers.formatInteger(option.price, 0, 'COMMA')} +' 원'">옵션가격</span>
+                <div style="display :flex;justify-content : space-between;">
+                    <span style="font-size: 15px; " th:text="${cart.menu.name}" >메뉴명</span>
+                    <span style="font-size: 15px;"  th:text="${#numbers.formatInteger(cart.menu.price, 0, 'COMMA')} +' 원'">가격</span>
                 </div>
+                <div style="display :flex;justify-content : space-between;" th:each="option : ${cart.options}">
+                    <span style="font-size: 11px" th:text="'+ '+ ${option.name}" class="cart-option-name">옵션명</span>
+                    <span style="font-size: 11px" class = "cart-price" th:text="${#numbers.formatInteger(option.price, 0, 'COMMA')} +' 원'">옵션가격</span>
+                </div>
+
                 <div class="cart-red-name">
-                    <div>
-                        <span>가격 : </span>
-                        <span class="cart-menu-price" th:text="|${#numbers.formatInteger(cart.eachMenuTotalPrice, 0, 'COMMA')} 원|">가격</span>
+                    <div style="display :flex;justify-content : space-between;">
+                        <span style="font-size: 13px">가격 : </span>
+                        <span style="font-size: 13px" class="cart-menu-price" th:text="|${#numbers.formatInteger(cart.eachMenuTotalPrice, 0, 'COMMA')} 원|">가격</span>
                     </div>
 <!--                <div th:text="|가격 :  ${#numbers.formatInteger(cart.eachMenuTotalPrice, 0, 'COMMA')} 원|" class="cart-menu-price">갯수</div>   &lt;!&ndash; 각 메뉴 별 총 가격 &ndash;&gt;-->
-                    <div>
-                        <span>수량 : </span>
-                        <span class="cart-menu-count" th:text="|${cart.count} 개|">개수</span>
+                    <div style="display :flex;justify-content : space-between;">
+                        <span style="font-size: 13px">수량 : </span>
+                        <span style="font-size: 13px" class="cart-menu-count" th:text="|${cart.count} 개|">개수</span>
                     </div>
 <!--                    <div th:text="|수량 :  ${cart.count} 개|" class="cart-menu-count" >갯수</div>-->
                 </div>
             </div>
             <div class="cart-button">
-                <a onclick="if ( !confirm('장바구니를 수정하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/cart/modify/${cart.cartId}|}" class="button-blue button-outline delete float-right">수정</a>
-                <a onclick="if ( !confirm('장바구니를 삭제하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/cart/delete/${cart.cartId}|}" class="button-blue button-outline delete float-right">삭제</a>
+                <a onclick="if ( !confirm('장바구니를 수정하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/cart/modify/${cart.cartId}|}" style="font-size: 13px" class="button-blue button-outline delete float-right">수정</a>
+                <a onclick="if ( !confirm('장바구니를 삭제하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/cart/delete/${cart.cartId}|}" style="font-size: 13px" class="button-blue button-outline delete float-right">삭제</a>
             </div>
         </div>
     </div>
     <form th:action="@{|/${storeSN}/order|}" th:object="${orderDtoFromCart}" method="post">
-
-        <h5 th:text="'총 주문 금액 : '+ ${#numbers.formatInteger(cartListDto.totalPrice, 0, 'COMMA')} + '원'" class="cart-total-price">전체 가격</h5>
-        <input type="hidden" th:name="totalPrice" th:value="${cartListDto.totalPrice}"/>
+        <h5 style="font-size: 18px" th:text="'총 주문 금액 : '+ ${#numbers.formatInteger(cartListDto.totalPrice, 0, 'COMMA')} + '원'" class="cart-total-price">전체 가격</h5>
+        <input type="hidden" style="font-size: 18px" th:name="totalPrice" th:value="${cartListDto.totalPrice}"/>
         <div class="order-type">
             <div th:each="type : ${orderTypes}" class="order-type__item">
                 <input type="radio" th:field="*{orderType}" th:value="${type.name()}" class="form-check-input"/>
-                <span th:for="${#ids.prev('orderType')}" th:text="${type.description}" class="form-check-label"></span>
+                <span th:for="${#ids.prev('orderType')}" style="font-size: 14px" th:text="${type.description}" class="form-check-label"></span>
             </div>
         </div>
-        <button type="submit" class="button-blue button-outline create float-right">주문하기</button>
+        <button type="submit" class="button-blue button-outline create float-right" style="font-size: 13px;">주문하기</button>
     </form>
 </div>
-</body>
+</div>
 </html>
