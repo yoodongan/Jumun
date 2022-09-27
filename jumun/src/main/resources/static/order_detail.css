@@ -31,3 +31,9 @@ html > body {
 .detail_status{
     text-align: right;
 }
+.choice{
+    margin-left: 10px;
+}
+.font{
+    margin:1px 0px 0px 3px;
+}

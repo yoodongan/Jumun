@@ -22,22 +22,11 @@
 
         <form class="detail_status" method="GET" th:action="@{|/${order.storeSerialNumber}/admin/store/order/modify/${order.id}|}">
             <div class="form-check">
-                <input class="form-check-input" id="orderStatus1" type="radio" name="orderStatus" value="BEFOREORDER" >
-                <label class="form-check-label" for="orderStatus1">
-                    주문접수전
-                </label>
-                <input class="form-check-input" id="orderStatus2" type="radio" name="orderStatus" value="ACCEPTIONORDER"  >
-                <label class="form-check-label" for="orderStatus2">
-                    주문접수중
-                </label>
-                <input class="form-check-input" id="orderStatus3" type="radio" name="orderStatus" value="COOKING">
-                <label class="form-check-label" for="orderStatus3">
-                    조리중
-                </label>
-                <input class="form-check-input"id="orderStatus4" type="radio" name="orderStatus" value="COMPLETE">
-                <label class="form-check-label" for="orderStatus4">
-                    조리완료
-                </label>
+                <input class="choice" type="radio" name="orderStatus" value="BEFOREORDER"><span class="font">주문접수전</span>
+                <input class="choice" type="radio" name="orderStatus" value="ACCEPTIONORDER"><span class="font">주문접수중</span>
+                <input class="choice" type="radio" name="orderStatus" value="COOKING"><span class="font">조리중</span>
+                <input class="choice" type="radio" name="orderStatus" value="COMPLETE"><span class="font">조리완료</span>
+
             </div>
             <input type="submit" class="button-blue button-outline create" value="변경">
         </form>
