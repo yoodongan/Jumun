@@ -30,21 +30,21 @@
 <div class="card mt-3">
     <div class="card-body h-100 w-100">
         <div th:each="order : ${paySuccessDto.orderHistory}" class="row">
-            <div>
+            <div class="order-head">
                 <span th:text="${order.menu.name}">메뉴명</span>
-                <span th:text="${order.menu.price} +'원'">가격</span>
+                <span th:text="${#numbers.formatInteger(order.menu.price, 0, 'COMMA')} +' 원'">가격</span>
             </div>
             <div class="mb-3">
                 <ui th:each="option : ${order.options}">
-                    <li style="list-style:none; padding-left: 15px;">
+                    <li style="list-style:none; padding-left: 15px;" class="order-head">
                         <small th:text="'+ '+ ${option.name}">옵션명</small>
-                        <small th:text="${option.price} +'원'">옵션가격</small>
+                        <small th:text="${#numbers.formatInteger(option.price, 0, 'COMMA')} +' 원'">옵션가격</small>
                     </li>
                 </ui>
-                <small class="float-end" th:text="${order.count} +'개'">갯수</small>
+                <small class="pt-1 float-end border-bottom" th:text="'수량 : ' + ${order.count} +' 개'">갯수</small>
             </div>
         </div>
-        <div th:text="'총 금액 : ' + ${paySuccessDto.orderTotalPrice}" class="float-end">전체 가격</div>
+        <div th:text="'총 금액 : ' + ${#numbers.formatInteger(paySuccessDto.orderTotalPrice, 0, 'COMMA')} + ' 원'" class="float-end">전체 가격</div>
     </div>
 </div>
 </div>

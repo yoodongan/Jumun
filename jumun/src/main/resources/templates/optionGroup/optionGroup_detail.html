@@ -19,7 +19,7 @@
     <li class="list-group-item d-flex justify-content-between align-items-start mb-2">
         <div>
             <div th:text="${option.name}">첫 번째 옵션명</div>
-            <small style="color:rgba(224,102,102)"; th:text="${option.price} +'원'">1000 원</small>
+            <small style="color:rgba(224,102,102)"; th:text="${#numbers.formatInteger(option.price, 0, 'COMMA')} +' 원'">1000 원</small>
         </div>
         <div class="pt-2">
             <button th:onclick="|location.href='@{|/${storeSN}/admin/store/optionGroupDetail/delete/${optionGroupId}/${option.id}|}'|" type="button" class="button-blue button-outline delete">삭제</button>

@@ -13,7 +13,7 @@
         <div class="option-info d-flex w-100">
             <div>
                 <h5 class="mb-1" th:text="${option.name}">옵션명</h5>
-                <small style="color:rgba(224,102,102)"; th:text="${option.price} +'원'">옵션가격</small>
+                <small style="color:rgba(224,102,102)"; th:text="${#numbers.formatInteger(option.price, 0, 'COMMA')} +' 원'">옵션가격</small>
             </div>
             <div class="pt-2">
                 <a onclick="if ( !confirm('옵션을 삭제하시겠습니까?') ) return false;" th:href="@{|/${storeSN}/admin/store/option/delete/${option.id}|}" class="button-blue button-outline delete float-right">삭제</a>

@@ -39,7 +39,7 @@ public class OrderManagementService {
 
 
     public CartListDto getCartList(String userNickName) {
-        return cartService.getCartListBy(userNickName);
+        return cartService.getCartListForOrder(userNickName);
     }
 }
 

@@ -27,7 +27,7 @@
         </div>
         <!-- 이미지 폼 추가해야 함 -->
         <div class="mb-3 row">
-            <label for="imageUrl" class="form-label">메뉴이미지</label>
+            <label for="imageUrl" class="form-label admin-label-name">메뉴이미지</label>
             <img th:src= "@{${menuForm.imgUrl}}" class="modify-img" alt="card-grid-image">
             <input type="file" name="file" onchange="readURL(this);">
             <img id="preview" />
