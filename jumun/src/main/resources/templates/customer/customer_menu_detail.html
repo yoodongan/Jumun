@@ -8,6 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/menu_list.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/components/button.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/revenue_list.css}">
     <title>고객 주문 상세페이지</title>
     <style>
         .field-error {
@@ -20,13 +21,15 @@
 <div th:replace ="customer_navbar :: customer_navbarFragment" style="background-attachment:scroll;" ></div>
 <form th:action th:object="${customerMenuForm}" method="post">
     <div class="card">
-            <img th:src= "*{imgUrl}" class="card-img-top border p-1" alt="card-grid-image" style="background-attachment:scroll;">
+            <img th:src= "*{imgUrl}" class="card-img-top border p-1" alt="card-grid-image" style="background-attachment:scroll; margin-top: 3px">
     <div class="g-2">
-            <div class="card-body" style="display: inline-block;height : 30%;max-height: 220px;">
+            <div class="card-body" style="display: flex;">
                 <div class="menu-info-top-edit">
                     <div th:text="*{name}" class="card-title h4" style="display: flex; justify-content: space-between; font-weight: bold ">떡볶이(메뉴명)</div>
                     <div th:text="*{#numbers.formatInteger(price, 0, 'COMMA')} +'원'" class="card-title h4" style="display: flex; justify-content: space-between; font-weight: bold; color:rgba(224,102,102)">1500원(가격)</div>
                 </div>
+            </div>
+        <div style="height : 30%;max-height: 220px;">
                 <p th:text="*{description}" class="card-text">메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.</p>
             </div>
     </div>
@@ -36,16 +39,18 @@
                     <!-- 중복가능여부를 판단하는 로직-->
                     <div th:if="${optionGroup.isMultiple}" class="row row-cols-1 row-cols-sm-2 g-2">
                         <div th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}">
-                            <input type = "checkbox" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
+                            <input style="margin-top: 5px" type = "checkbox" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
                                    th:value="${optionAndOptionGroup.option.getId()}" >
-                            <label th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
+                            <label style="margin-top: 5px" class="listDesc " th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
+                            <div class="listValue"th:text="${optionAndOptionGroup.option.getPrice()}"></div>
                         </div>
                     </div>
                     <div th:if="${!optionGroup.isMultiple}" class="row row-cols-1 row-cols-sm-2 g-2">
                         <div th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}" class="form-check form-check-inline">
-                            <input type="checkbox" th:class="isNotMultipleCheckbox+${optionAndOptionGroup.optionGroup.getId()}" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
+                            <input style="margin-top: 5px" type="checkbox" th:class="isNotMultipleCheckbox+${optionAndOptionGroup.optionGroup.getId()}" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
                                    th:value="${optionAndOptionGroup.option.getId()}" >
-                            <label th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
+                            <label style="display: inline;margin-top: 5px;" class="listDesc" th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
+                            <div class="listValue"th:text="${#numbers.formatInteger(optionAndOptionGroup.option.getPrice(), 0, 'COMMA')} +'원'"></div>
                         </div>
                         <script type="text/javascript">
                             /*<![CDATA[*/
