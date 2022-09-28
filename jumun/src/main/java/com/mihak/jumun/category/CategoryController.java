@@ -65,7 +65,7 @@ public class CategoryController {
         model.addAttribute("store", store);
         model.addAttribute("list" , scList);
         model.addAttribute("storeSN",storeSN);
-        return "/category/cate_list";
+        return "category/cate_list";
     }
 
 

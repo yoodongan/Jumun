@@ -74,12 +74,7 @@ public class SecurityConfig{
     }
 
     @Bean
-    public HttpFirewall defaultHttpFirewall() {
-        return new DefaultHttpFirewall();
-    }
-
-    @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> { web.ignoring().antMatchers("/resources/**"); web.httpFirewall(defaultHttpFirewall());};
+        return (web) -> { web.ignoring().antMatchers("/resources/**"); };
     }
 }
