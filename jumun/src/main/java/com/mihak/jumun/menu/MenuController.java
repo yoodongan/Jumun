@@ -199,6 +199,7 @@ public class MenuController {
     public String deleteMenu(@PathVariable("storeSN") String storeSN, @PathVariable Long menuId) {
         Menu menu = menuService.findById(menuId);
         Store store = menu.getStore();
+        menuAndOptionGroupService.removeAllOptionGroup(menu);
         menuService.remove(menu);
 
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
