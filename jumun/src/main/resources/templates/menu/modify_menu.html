@@ -30,12 +30,18 @@
             <label for="imageUrl" class="form-label admin-label-name">메뉴이미지</label>
             <input type="file" name="file" th:onclick="hiddenImg()" onchange="readURL(this);">
             <img th:src= "@{${menuForm.imgUrl}}" class="modify-img" alt="card-grid-image" id="dis">
-            <img id="preview" />
+            <img id="preview" style="border:0;">
         </div>
         <script>
+            window.onload = function () {
+                if ($('#preview').css('display') != 'none') {
+                    $('#preview').hide();
+                }
+            }
             function hiddenImg() {
                 if ($('#dis').css('display') != 'none') {
                     $('#dis').hide();
+                    $('#preview').show();
                 }
             }
         </script>
