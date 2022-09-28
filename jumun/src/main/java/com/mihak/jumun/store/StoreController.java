@@ -49,14 +49,14 @@ public class StoreController {
     public String showCreateForm(Model model) {
         model.addAttribute("createFormDto", new CreateFormDto());
 
-        return "/store/create_form";
+        return "store/create_form";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/admin/store/new")
     public String create(@Validated @ModelAttribute CreateFormDto createFormDto, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
-            return "/store/create_form";
+            return "store/create_form";
         }
 
         Owner owner = ownerService.findByOwnerId(principal.getName());
