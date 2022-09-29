@@ -49,7 +49,7 @@
                 <div style="display: inline-block" th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}"class="form-check form-check-inline">
                     <input style="margin-top: 5px;" type="checkbox" th:class="isNotMultipleCheckbox+${optionAndOptionGroup.optionGroup.getId()}" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
                            th:value="${optionAndOptionGroup.option.getId()}" >
-                    <label style="display: inline;margin-top: 5px;" class="listDesc" th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
+                    <label style="display: inline;margin-top: 5px;" th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
                     <div class="listValue"th:text="${#numbers.formatInteger(optionAndOptionGroup.option.getPrice(), 0, 'COMMA')} +'원'"></div>
                 </div>
                 <script type="text/javascript">
