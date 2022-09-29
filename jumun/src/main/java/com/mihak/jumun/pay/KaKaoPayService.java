@@ -67,7 +67,7 @@ public class KaKaoPayService {
         try {
             kakaoPayResponse = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayResponse.class);
             log.info("kakaoPayReady tid : {}", kakaoPayResponse.getTid());
-            return kakaoPayResponse.getNext_redirect_pc_url();
+            return kakaoPayResponse.getNext_redirect_mobile_url();
 
         } catch (RestClientException e) {
             // TODO Auto-generated catch block
