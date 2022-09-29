@@ -5,125 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/menu_list.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/components/button.css}">
-    <title>고객 주문 상세페이지</title>
-    <style>
-        .field-error {
-            border-color: #dc3545;
-            color: #dc3545;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/cart_list.css}">
+    <title>장바구니 페이지</title>
 </head>
 <body>
-    <div th:replace ="customer_navbar :: customer_navbarFragment" style="background-attachment:scroll;" ></div>
-    <form th:action th:object="${cartFormDto}" method="post">
+<div th:replace ="customer_navbar :: customer_navbarFragment"></div>
+<h2>장바구니 details</h2>
+<div>
+    <img th:src="${cartDetailDto.imgUrl}" class="card-img-top" alt="card-grid-image">
+    <h3>장바구니 속성</h3>
+    <hr/>
+    <h5 th:text="${cartDetailDto.name}" class="card-title">메뉴명</h5>
+    <h5 th:text="${cartDetailDto.description}" class="card-title">상세보기</h5>
+    <h5 th:text="${cartDetailDto.price} +'원'" class="card-title">가격</h5>
+    <h5 th:text="${cartDetailDto.count} +'개'" class="card-title">갯수</h5>
+    <br/>
+    <h3>선택한 옵션</h3>
+    <hr/>
 
-        <div class="card">
-            <img th:src="*{imgUrl}" class="card-img-top border p-1" alt="card-grid-image">
-            <input type="hidden" name="imgUrl" th:value="${cartFormDto.imgUrl}"/>
-                <div class="card-body" style="display: inline-block;height : 30%;max-height: 220px;">
-                    <div class="menu-info-top-edit">
-                        <div th:text="*{name}" class="card-title h4" style="display: flex; justify-content: space-between; font-weight: bold ">떡볶이(메뉴명)</div>
-                        <input type="hidden" name="name" th:value="${cartFormDto.name}"/>
-                        <div th:text="*{#numbers.formatInteger(price, 0, 'COMMA')} +'원'" class="card-title h4" style="display: flex; justify-content: space-between; font-weight: bold; color:rgba(224,102,102)">1500원(가격)</div>
-                        <input type="hidden" th:name="price" th:value="${cartFormDto.price}" />
-                    </div>
-                    <p th:text="*{description}" class="card-text">메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.</p>
-                    <input type="hidden" th:name="description" th:value="${cartFormDto.description}"/>
-                </div>
-                <hr size="15" noshade>
-
-        <div th:each="optionGroup : *{optionGroups}" class="row row-cols-1 row-cols-sm-2 g-2">
-            <h5 class="m-2" th:text="${optionGroup.name}">옵션그룹이름</h5>
-
-            <div th:if="${optionGroup.isMultiple}" class="row row-cols-1 row-cols-sm-2 g-2">
-                <div th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}">
-                    <input type = "checkbox" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
-                           th:value="${optionAndOptionGroup.option.getId()}" th:checked="${#lists.contains(cartFormDto.checkOptions, optionAndOptionGroup.option)}">
-                    <label th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
-                    <span th:text="${optionAndOptionGroup.option.price} +'원'">옵션가격</span>
-                </div>
+    <div th:each="optionGroup : ${cartDetailDto.optionGroups}" class="form-check">
+        <h5 th:text="${optionGroup.name}">옵션그룹이름</h5>
+        <hr/>
+        <div th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}">
+            <div th:if="${#lists.contains(cartDetailDto.checkOptions, optionAndOptionGroup.option)}">
+                <span th:text="${optionAndOptionGroup.option.name}"></span>
+                <span th:text="${optionAndOptionGroup.option.price}+'원'"></span>
             </div>
-
-            <div th:if="${!optionGroup.isMultiple}" class="row row-cols-1 row-cols-sm-2 g-2">
-                <div th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}" class="form-check form-check-inline">
-                    <input type="checkbox" th:class="isNotMultipleCheckbox+${optionAndOptionGroup.optionGroup.getId()}" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
-                           th:value="${optionAndOptionGroup.option.getId()}" >
-                    <label th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
-                </div>
-                <script type="text/javascript">
-                    /*<![CDATA[*/
-                    $(".isNotMultipleCheckbox[[${optionGroup.getId()}]]").on('change', function() {
-                        $(".isNotMultipleCheckbox[[${optionGroup.getId()}]]").not(this).prop('checked', false);
-                    });
-                    /*]]>*/
-                </script>
-                </div>
-            </br>
-            <hr size="5" noshade>
         </div>
-
-            <div class="container">
-                <div class="row mb-8 justify-content-center ">
-                    <div class="col-md-6 col-12">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <p class="text-dark">개수</p>
-                                    </div>
-                                    <div class="row count mx-2">
-                                        <input class=" button-gray button-outline float-right btn-sm my-2 mx-1 col" type='button'
-                                               th:onclick='countValue("minus")'
-                                               value='-'/>
-                                        <div class="col" id='result' th:text="*{count}">1</div>
-                                        <input class=" button-gray button-outline float-right btn-sm my-2 mx-1 col" type='button'
-                                               th:onclick='countValue("plus")'
-                                               value='+'/>
-                                    </div>
-                                    <!-- div로는 개수 값만 띄워주고 실제로 모델에 넘겨주는 값은 hidden처리-->
-                                    <input type="hidden" th:field="*{count}" value="">
-                                </div>
-                                <script>
-                                    function countValue(type)  {
-                                        // 결과를 표시할 element
-                                        const resultElement = document.getElementById('result');
-
-                                        // 현재 화면에 표시된 값
-                                        let number = resultElement.innerText;
-                                        // 더하기/빼기
-                                        if(type === 'plus') {
-                                            if(number != '10'){
-                                                number = parseInt(number) + 1;
-                                            }
-                                        }else if(type === 'minus')  {
-                                            if(number != '1'){
-                                                number = parseInt(number) - 1;
-                                            }
-                                        }
-                                        // 결과 출력
-                                        resultElement.innerText = number;
-                                    }
-
-                                    function change_go2() {
-
-                                        var getCount = document.getElementById('result').innerHTML;
-                                        console.log(getCount);
-                                        document.getElementById("count").value = getCount;
-
-                                    }
-                                </script>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <button type="submit" class="button-blue button-outline float-right btn-sm my-2 modify " th:onclick="change_go2()">장바구니 수정</button>
-        </div>
-    </form>
-</div>
+        <br/><br/><br/>
+    </div>
 </div>
 </body>
 </html>

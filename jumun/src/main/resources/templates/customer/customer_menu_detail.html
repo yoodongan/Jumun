@@ -21,58 +21,58 @@
 <div th:replace ="customer_navbar :: customer_navbarFragment" style="background-attachment:scroll;" ></div>
 <form th:action th:object="${customerMenuForm}" method="post">
     <div class="card">
-            <img th:src= "*{imgUrl}" class="card-img-top border p-1" alt="card-grid-image" style="background-attachment:scroll; margin-top: 3px">
-    <div class="g-2">
-            <div class="card-body" style="display: flex;">
+        <img th:src= "*{imgUrl}" class="card-img-top border p-1" alt="card-grid-image">
+        <div class="g-2">
+            <div class="card-body">
                 <div class="menu-info-top-edit">
                     <div th:text="*{name}" class="card-title h4" style="display: flex; justify-content: space-between; font-weight: bold ">떡볶이(메뉴명)</div>
                     <div th:text="*{#numbers.formatInteger(price, 0, 'COMMA')} +'원'" class="card-title h4" style="display: flex; justify-content: space-between; font-weight: bold; color:rgba(224,102,102)">1500원(가격)</div>
                 </div>
-            </div>
-        <div style="height : 30%;max-height: 220px;">
-                <p th:text="*{description}" class="card-text">메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.</p>
-            </div>
-    </div>
-        <hr size="15" noshade>
-                <div th:each="optionGroup : *{optionGroups}" class="row row-cols-1 row-cols-sm-2 g-2">
-                    <h5 class = "m-1 customer-label-name" th:text="${optionGroup.name}">옵션그룹이름</h5>
-                    <!-- 중복가능여부를 판단하는 로직-->
-                    <div th:if="${optionGroup.isMultiple}" class="row row-cols-1 row-cols-sm-2 g-2">
-                        <div th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}">
-                            <input style="margin-top: 5px" type = "checkbox" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
-                                   th:value="${optionAndOptionGroup.option.getId()}" >
-                            <label style="margin-top: 5px" class="listDesc " th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
-                            <div class="listValue"th:text="${optionAndOptionGroup.option.getPrice()}"></div>
-                        </div>
-                    </div>
-                    <div th:if="${!optionGroup.isMultiple}" class="row row-cols-1 row-cols-sm-2 g-2">
-                        <div th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}" class="form-check form-check-inline">
-                            <input style="margin-top: 5px" type="checkbox" th:class="isNotMultipleCheckbox+${optionAndOptionGroup.optionGroup.getId()}" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
-                                   th:value="${optionAndOptionGroup.option.getId()}" >
-                            <label style="display: inline;margin-top: 5px;" class="listDesc" th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
-                            <div class="listValue"th:text="${#numbers.formatInteger(optionAndOptionGroup.option.getPrice(), 0, 'COMMA')} +'원'"></div>
-                        </div>
-                        <script type="text/javascript">
-                            /*<![CDATA[*/
-                            $(".isNotMultipleCheckbox[[${optionGroup.getId()}]]").on('change', function() {
-                                $(".isNotMultipleCheckbox[[${optionGroup.getId()}]]").not(this).prop('checked', false);
-                            });
-                            /*]]>*/
-                        </script>
-                    </div>
-                    <br/>
-                    <hr size="5" noshade>
+                <div style="height : 30%;">
+                    <p th:text="*{description}" class="card-text">메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.메뉴 설명부분인 description 이 들어갑니다.</p>
                 </div>
-     <!--bootstrap increment buttons -->
-    <div class="container">
-        <div class="row mb-8 justify-content-center ">
-            <div class="col-md-6 col-12">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h2 class="customer-label-name">개수</h2>
-                            </div>
+            </div>
+        </div>
+        <hr size="15" noshade>
+        <div th:each="optionGroup : *{optionGroups}" class="row row-cols-1 row-cols-sm-2 g-2">
+            <h5 class = "m-1 customer-label-name" th:text="${optionGroup.name}">옵션그룹이름</h5>
+            <!-- 중복가능여부를 판단하는 로직-->
+            <div th:if="${optionGroup.isMultiple}" class="row row-cols-1 row-cols-sm-2 g-2">
+                <div style="display: inline-block"th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}" class="form-check form-check-inline">
+                    <input style="margin-top: 5px;" type = "checkbox" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
+                           th:value="${optionAndOptionGroup.option.getId()}" >
+                    <label style="margin-top: 5px" th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
+                    <div class="listValue" style="margin-top: 5px; margin-right:5px;float:right; display:flex;"th:text="${optionAndOptionGroup.option.getPrice()} +'원'"></div>
+                </div>
+            </div>
+            <div th:if="${!optionGroup.isMultiple}" class="row row-cols-1 row-cols-sm-2 g-2">
+                <div style="display: inline-block" th:each="optionAndOptionGroup : ${optionGroup.optionAndOptionGroups}"class="form-check form-check-inline">
+                    <input style="margin-top: 5px;" type="checkbox" th:class="isNotMultipleCheckbox+${optionAndOptionGroup.optionGroup.getId()}" th:field="*{checkOptions}" th:id="${optionAndOptionGroup.option.getId()}"
+                           th:value="${optionAndOptionGroup.option.getId()}" >
+                    <label style="display: inline;margin-top: 5px;" class="listDesc" th:for="${optionAndOptionGroup.option.Id}" th:text="${optionAndOptionGroup.option.name}">옵션이름</label>
+                    <div class="listValue"th:text="${#numbers.formatInteger(optionAndOptionGroup.option.getPrice(), 0, 'COMMA')} +'원'"></div>
+                </div>
+                <script type="text/javascript">
+                    /*<![CDATA[*/
+                    $(".isNotMultipleCheckbox[[${optionGroup.getId()}]]").on('change', function() {
+                        $(".isNotMultipleCheckbox[[${optionGroup.getId()}]]").not(this).prop('checked', false);
+                    });
+                    /*]]>*/
+                </script>
+            </div>
+            <br/>
+            <hr size="5" noshade>
+        </div>
+        <!--bootstrap increment buttons -->
+        <div class="container">
+            <div class="row mb-8 justify-content-center ">
+                <div class="col-md-6 col-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h2 class="customer-label-name">개수</h2>
+                                </div>
                                 <div class="row count mx-2">
                                     <input class=" button-gray button-outline float-right btn-sm my-2 mx-1 col" type='button'
                                            th:onclick='countValue("minus")'
@@ -119,7 +119,7 @@
                 </div>
             </div>
         </div>
-    <button type="submit" class=" button-blue button-outline create float-right btn-sm my-2" th:onclick="change_go2()">장바구니 담기</button>
+        <button type="submit" class=" button-blue button-outline create float-right btn-sm my-2" th:onclick="change_go2()">장바구니 담기</button>
     </div>
     </div>
 </form>
