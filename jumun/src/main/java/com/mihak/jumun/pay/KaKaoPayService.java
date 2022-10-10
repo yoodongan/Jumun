@@ -29,17 +29,16 @@ public class KaKaoPayService {
 
     private static final String HOST = "https://kapi.kakao.com";
 
+    private final RestTemplate restTemplate;
+    private final OrderService orderService;
     private KakaoPayResponse kakaoPayResponse;
     private KakaoPayApproval kakaoPayApproval;
-    private final OrderService orderService;
     private KakaoPayCancel kakaoPayCancel;
 
     @Value("${kakao-admin-key}")
     private String kakao_admin_key;
 
-    public String kakaoPayReady(Long orderId) {
-
-        RestTemplate restTemplate = new RestTemplate();
+    public String doKakaoPay(Long orderId) {
 
         Order order = orderService.findOrderById(orderId);
 
@@ -66,13 +65,8 @@ public class KaKaoPayService {
 
         try {
             kakaoPayResponse = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayResponse.class);
-            log.info("kakaoPayReady tid : {}", kakaoPayResponse.getTid());
-            return kakaoPayResponse.getNext_redirect_mobile_url();
-
-        } catch (RestClientException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
+            return kakaoPayResponse.getNext_redirect_pc_url();
+        } catch (RestClientException | URISyntaxException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -80,9 +74,7 @@ public class KaKaoPayService {
     }
 
     @Transactional
-    public KakaoPayApproval kakaoPayApprove(String pg_token, Long orderId) {
-
-        RestTemplate restTemplate = new RestTemplate();
+    public KakaoPayApproval approveKakaoPay(String pg_token, Long orderId) {
 
         Order order = orderService.findOrderById(orderId);
 
@@ -109,10 +101,7 @@ public class KaKaoPayService {
             order.setPayStatus(PayStatus.COMPLETE);
             return kakaoPayApproval;
 
-        } catch (RestClientException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
+        } catch (RestClientException | URISyntaxException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -120,9 +109,7 @@ public class KaKaoPayService {
         return null;
     }
 
-    public KakaoPayCancel kakaoPayCancel(Long orderId) {
-
-        RestTemplate restTemplate = new RestTemplate();
+    public KakaoPayCancel cancelKakaoPay(Long orderId) {
 
         Order order = orderService.findOrderById(orderId);
 
@@ -144,10 +131,7 @@ public class KaKaoPayService {
         try {
             kakaoPayCancel = restTemplate.postForObject(new URI(HOST + "/v1/payment/cancel"), body, KakaoPayCancel.class);
             return kakaoPayCancel;
-        } catch (RestClientException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
+        } catch (RestClientException | URISyntaxException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
