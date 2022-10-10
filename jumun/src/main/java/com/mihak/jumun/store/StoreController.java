@@ -27,7 +27,7 @@ public class StoreController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/admin/store")
     public String afterLoginRouter (Principal principal) {
-        Owner owner = ownerService.findByOwnerId(principal.getName());
+        Owner owner = ownerService.findById(principal.getName());
         Optional<Store> findStore = storeService.findByOwner(owner);
 
         if (findStore.isEmpty()) {
@@ -59,7 +59,7 @@ public class StoreController {
             return "store/create_form";
         }
 
-        Owner owner = ownerService.findByOwnerId(principal.getName());
+        Owner owner = ownerService.findById(principal.getName());
 
         Store store = storeService.saveStore(createFormDto, owner);
         return "redirect:/" + store.getSerialNumber() + "/admin/store";
