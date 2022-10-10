@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface StoreRepository extends JpaRepository<Store, Long> {
-    Store findByserialNumber(String storeSN);
+    Store findBySerialNumber(String storeSN);
 
-    Optional<Store> findByowner(Owner owner);
+    Optional<Store> findByOwner(Owner owner);
 }
