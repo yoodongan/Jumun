@@ -76,7 +76,7 @@ public class CategoryController {
     }
 
     @PostMapping("/{storeSN}/admin/store/category/modify/{id}")
-    public String modify(@PathVariable String storeSN, @Valid CategoryForm categoryForm,BindingResult bindingResult ,Model model , @PathVariable Long id) {
+    public String modify(@PathVariable String storeSN, @Valid CategoryForm categoryForm,BindingResult bindingResult , @PathVariable Long id) {
         if (bindingResult.hasErrors()) {
             return "category/cate_modify";
         }

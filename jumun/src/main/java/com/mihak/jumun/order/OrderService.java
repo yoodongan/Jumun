@@ -6,7 +6,6 @@ import com.mihak.jumun.cart.dto.CartDto;
 import com.mihak.jumun.entity.Order;
 import com.mihak.jumun.entity.OrderStatus;
 import com.mihak.jumun.entity.PayStatus;
-import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.exception.OrderNotFoundException;
 import com.mihak.jumun.order.dto.OrderDtoFromCart;
 import com.mihak.jumun.order.dto.OrderFormDto;
@@ -16,7 +15,6 @@ import com.mihak.jumun.storeMgmt.dto.FindListFormDto;
 import com.mihak.jumun.pay.dto.PaySuccessDto;
 
 import lombok.RequiredArgsConstructor;
-import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +29,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final CartService cartService;
 
-    public Order saveOrder(OrderDtoFromCart orderDtoFromCart, OrderFormDto orderFormDto) {
+    public Order save(OrderDtoFromCart orderDtoFromCart, OrderFormDto orderFormDto) {
 
         Order order = Order.builder()
                 .userNickName(orderDtoFromCart.getUserNickName())
@@ -59,15 +57,6 @@ public class OrderService {
         return findOrder.get();
     }
 
-    public Order findOrderByUserNickName(String userNickName) {
-        Optional<Order> findOrder = orderRepository.findByUserNickName(userNickName);
-
-        if (findOrder.isEmpty()) {
-            throw new OrderNotFoundException("해당 주문을 찾을 수 없습니다.");
-        }
-
-        return findOrder.get();
-    }
 
     @Transactional
     public void cancelOrderByPayFail(Long orderId) {
@@ -101,7 +90,7 @@ public class OrderService {
                 .build();
     }
     
-    public List<Order> findAllbyStoreId(String storeSN) {
+    public List<Order> findAllOrderByStoreId(String storeSN) {
         List<Order> li = orderRepository.findAll();
         List<Order> findList = new ArrayList<>();
         for (Order list : li) {
@@ -116,22 +105,22 @@ public class OrderService {
         return findList;
     }
 
-    public List<FindListFormDto> findAllbyPriceDaily(String storeSN) {
+    public List<FindListFormDto> getFindListFormDtoListByPriceDaily(String storeSN) {
         List<FindListFormDto> findList = orderRepository.findByPriceDaily(storeSN);
         return findList;
     }
 
-    public List<FindByUserDailyDto> findAllbyUserDaily(String storeSN) {
+    public List<FindByUserDailyDto> getFindByUserDailyDtoListByUserDaily(String storeSN) {
         List<FindByUserDailyDto> findList = orderRepository.findByUserDaily(storeSN);
         return findList;
     }
 
 // 같은 날짜(key)를 갖는다면 value를 합산
-    public Map<String, Long> sum(List<FindListFormDto> list) {
+    public Map<String, Long> calculateSumByDay(List<FindListFormDto> list) {
         return list.stream().collect(Collectors.toMap(e -> e.getChangeOrderedAt(), e -> e.getTotalPrice(), Long::sum));
     }
 
-    public Map<String, Long> sumByUser(List<FindByUserDailyDto> list) {
+    public Map<String, Long> calculateSumByUser(List<FindByUserDailyDto> list) {
         return list.stream().collect(Collectors.toMap(e -> e.getChangeOrderedAt(), e -> e.getUserNickName(), Long::sum));
     }
 }

@@ -3,7 +3,6 @@ package com.mihak.jumun.cartAndOption;
 import com.mihak.jumun.entity.Cart;
 import com.mihak.jumun.entity.CartAndOption;
 import com.mihak.jumun.entity.Option;
-import com.mihak.jumun.option.OptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +34,7 @@ public class CartAndOptionService {
         return cartAndOptions;
     }
 
-    public List<CartAndOption> getOptionsByCart(Cart cart) {
+    public List<CartAndOption> findAllCartAndOptionsByCart(Cart cart) {
         return cartAndOptionRepository.findByCart(cart);
     }
 

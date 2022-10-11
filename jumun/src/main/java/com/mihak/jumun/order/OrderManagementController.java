@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class OrderManagementController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/order/list")
-    public String orderHome(Model model , @PathVariable String storeSN){
+    public String showOrderList(Model model , @PathVariable String storeSN){
         model.addAttribute("storeSN" , storeSN);
         List<Order> orderList = orderManagementService.findAllByStoreSN(storeSN);
         model.addAttribute("orderList",orderList);
@@ -32,8 +33,8 @@ public class OrderManagementController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/order/detail/{orderId}")
-    public String orderList(Model model , @PathVariable String storeSN,@PathVariable Long orderId){
-        Order order = orderManagementService.findbyOrderId(orderId);
+    public String showOrderDetail(Model model , @PathVariable String storeSN,@PathVariable Long orderId){
+        Order order = orderManagementService.findByOrderId(orderId);
         CartListDto cartListDto = orderManagementService.getCartList(order.getUserNickName());
         model.addAttribute("cartListDto",cartListDto);
         model.addAttribute("order" , order);
@@ -41,12 +42,12 @@ public class OrderManagementController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/{storeSN}/admin/store/order/modify/{orderId}")
-    public String modifyOrderStatus(Model model , @PathVariable String storeSN,@PathVariable Long orderId
+    @PostMapping("/{storeSN}/admin/store/order/modify/{orderId}")
+    public String modify(@PathVariable String storeSN,@PathVariable Long orderId
     , OrderStatus orderStatus){
-        Order order = orderManagementService.findbyOrderId(orderId);
+        Order order = orderManagementService.findByOrderId(orderId);
         order.setOrderStatus(orderStatus);
-        orderManagementService.update(order);
+        orderManagementService.modifyOrder(order);
         return "redirect:/%s/admin/store/order/list".formatted(storeSN);
     }
 

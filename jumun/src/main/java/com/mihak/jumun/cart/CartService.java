@@ -141,7 +141,7 @@ public class CartService {
         int menuTotalPrice = 0;
         int price = cart.getMenu().getPrice();
         // 장바구니_옵션 테이블에서 장바구니를 통해 옵션정보들을 가져온다.
-        List<CartAndOption> cartAndOptions = cartAndOptionService.getOptionsByCart(cart);
+        List<CartAndOption> cartAndOptions = cartAndOptionService.findAllCartAndOptionsByCart(cart);
         for (CartAndOption cartAndOption : cartAndOptions) {
             price += cartAndOption.getOptions().getPrice();
         }
