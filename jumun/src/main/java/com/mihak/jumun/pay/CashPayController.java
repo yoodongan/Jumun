@@ -21,7 +21,7 @@ public class CashPayController {
     private final CartService cartService;
 
     @GetMapping("/cashPaySuccess/{orderId}")
-    public String cashPaySuccess(@PathVariable Long orderId, Model model) {
+    public String showCashPayHistory(@PathVariable Long orderId, Model model) {
 
         Order order = orderService.findOrderById(orderId);
         cartService.changeIsOrdered(order);
@@ -32,11 +32,10 @@ public class CashPayController {
     }
 
     @GetMapping("/{storeSN}/cashpay/cancel/{orderId}")
-    public String kakaoPayCancel(@PathVariable String storeSN, @PathVariable Long orderId,
-                                 @CookieValue("customerLogin") String customerKey) {
+    public String cancelCashPay(@PathVariable String storeSN, @PathVariable Long orderId) {
 
         orderService.cancelOrderByUser(orderId);
-        return "redirect:/" + storeSN + "/cart";
+        return "redirect:/%s/cart".formatted(storeSN);
     }
 
     @GetMapping("/cashpay/status/{orderId}")
