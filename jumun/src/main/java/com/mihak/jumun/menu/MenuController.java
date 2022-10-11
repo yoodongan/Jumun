@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -88,19 +89,6 @@ public class MenuController {
     }
     /*기본, 관리자가 카테고리를 눌렀을 때*/
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/{storeSN}/admin/store/menuList")
-    @ResponseBody
-    public String changeMenuViewByCategory(@RequestParam Long categoryId, @PathVariable("storeSN") String storeSN, Model model) {
-        Store store = storeService.findBySerialNumber(storeSN);
-        List<Category> categoryList = scService.findAllbyStoreId(store.getId());
-        model.addAttribute("categoryList", categoryList);
-        List<Menu> menuList = menuService.findByCategoryId(categoryId);
-        model.addAttribute("menuList" , menuList);
-        model.addAttribute("storeSN", storeSN);
-
-        return "redirect:/" +storeSN+ "/admin/store/menu_list"+categoryId;
-    }
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/menuList/{categoryId}")
     public String menuView(@PathVariable("storeSN") String storeSN, @PathVariable("categoryId") Long categoryId, Model model) {
         Store store = storeService.findBySerialNumber(storeSN);
@@ -112,19 +100,6 @@ public class MenuController {
         model.addAttribute("storeSN", storeSN);
 
         return "menu/menu_list";
-    }
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/{storeSN}/admin/store/menuList/{categoryId}")
-    @ResponseBody
-    public String changeMenuViewByAnotherCategory(@PathVariable("categoryId") Long categoryId, @PathVariable("storeSN") String storeSN, Model model) {
-        Store store = storeService.findBySerialNumber(storeSN);
-        List<Category> categoryList = scService.findAllbyStoreId(store.getId());
-        model.addAttribute("categoryList", categoryList);
-        List<Menu> menuList = menuService.findByCategoryId(categoryId);
-        model.addAttribute("menuList" , menuList);
-        model.addAttribute("storeSN", storeSN);
-
-        return "redirect:/" +storeSN+ "/admin/store/menu_list"+categoryId;
     }
 
     /* 메뉴 수정 */
