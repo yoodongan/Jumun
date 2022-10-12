@@ -30,7 +30,7 @@ public class OptionService {
         return option.get();
     }
 
-    public Option createOption(OptionFormDto optionFormDto, Store store) {
+    public Option save(OptionFormDto optionFormDto, Store store) {
         Option option = Option.builder()
                 .name(optionFormDto.getName())
                 .price(optionFormDto.getPrice())
@@ -39,11 +39,6 @@ public class OptionService {
         optionRepository.save(option);
         return option;
     }
-
-    public List<Option> findAll() {
-        return optionRepository.findAll();
-    }
-
 
     public List<Option> findAllByStore(Store store) {
         return optionRepository.findAllByStore(store);
@@ -60,7 +55,7 @@ public class OptionService {
 
     /* 수정 */
     // 수정폼 보여주기
-    public OptionFormDto getOptionFormDto(Option option) {
+    public OptionFormDto getOptionFormDtoByOption(Option option) {
         OptionFormDto optionFormDto = OptionFormDto.builder()
                 .name(option.getName())
                 .price(option.getPrice())
@@ -69,13 +64,13 @@ public class OptionService {
         return optionFormDto;
     }
 
-    public void modifyOption(Long optionId, OptionFormDto optionFormDto) {
+    public void modify(Long optionId, OptionFormDto optionFormDto) {
         Option option = optionRepository.findById(optionId).get();
         option.changeOption(optionFormDto.getName(), optionFormDto.getPrice());
         optionRepository.save(option);
     }
 
-    public void remove(Long optionId) {
+    public void deleteById(Long optionId) {
         optionRepository.deleteById(optionId);
     }
 }

@@ -1,7 +1,6 @@
 package com.mihak.jumun.option;
 
 import com.mihak.jumun.entity.Option;
-import com.mihak.jumun.entity.OptionGroup;
 import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.option.form.OptionFormDto;
 import com.mihak.jumun.optionAndOptionGroup.OptionAndOptionGroupService;
@@ -28,19 +27,19 @@ public class OptionController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/option")
-    public String createOptionForm(@PathVariable String storeSN, Model model) {
+    public String showCreateForm(@PathVariable String storeSN, Model model) {
         model.addAttribute("optionForm", new OptionFormDto());
         return "option/create_option";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{storeSN}/admin/store/option")
-    public String createOption(@PathVariable String storeSN, @Valid OptionFormDto optionFormDto, BindingResult bindingResult) {
+    public String create(@PathVariable String storeSN, @Valid OptionFormDto optionFormDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "option/create_option";
         }
         Store store = storeService.findBySerialNumber(storeSN);
-        optionService.createOption(optionFormDto, store);
+        optionService.save(optionFormDto, store);
 
         return "redirect:/%s/admin/store/optionList".formatted(storeSN);
     }
@@ -48,7 +47,7 @@ public class OptionController {
     /* 옵션 관리 */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/optionList")
-    public String manageOption(@PathVariable String storeSN, Model model) {
+    public String showOptionList(@PathVariable String storeSN, Model model) {
         Store store = storeService.findBySerialNumber(storeSN);
         List<Option> options = optionService.findAllByStore(store);
         model.addAttribute("storeSN", storeSN);
@@ -59,24 +58,24 @@ public class OptionController {
     /* 옵션 수정 */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/option/modify/{optionId}")
-    public String modifyOptionForm(@PathVariable String storeSN, @PathVariable Long optionId, Model model) {
+    public String showModifyForm(@PathVariable String storeSN, @PathVariable Long optionId, Model model) {
         Option option = optionService.findById(optionId);
 
-        OptionFormDto optionFormDto = optionService.getOptionFormDto(option);
+        OptionFormDto optionFormDto = optionService.getOptionFormDtoByOption(option);
         model.addAttribute("optionForm", optionFormDto);
         return "option/modify_option";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{storeSN}/admin/store/option/modify/{optionId}")
-    public String modifyOption(@PathVariable String storeSN,
-                               @PathVariable Long optionId,
-                               @Valid OptionFormDto optionFormDto,
-                               BindingResult bindingResult) {
+    public String modify(@PathVariable String storeSN,
+                         @PathVariable Long optionId,
+                         @Valid OptionFormDto optionFormDto,
+                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "option/modify_option";
         }
-        optionService.modifyOption(optionId, optionFormDto);
+        optionService.modify(optionId, optionFormDto);
         return "redirect:/%s/admin/store/optionList".formatted(storeSN);
     }
 
@@ -84,10 +83,10 @@ public class OptionController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/option/delete/{optionId}")
     @Transactional
-    public String deleteOption(@PathVariable String storeSN,
-                               @PathVariable Long optionId) {
+    public String delete(@PathVariable String storeSN,
+                         @PathVariable Long optionId) {
         optionAndOptionGroupService.remove(optionId);
-        optionService.remove(optionId);
+        optionService.deleteById(optionId);
         return "redirect:/%s/admin/store/optionList".formatted(storeSN);
     }
 
