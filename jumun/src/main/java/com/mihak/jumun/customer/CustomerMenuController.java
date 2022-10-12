@@ -1,23 +1,19 @@
 package com.mihak.jumun.customer;
 
 import com.mihak.jumun.cart.CartService;
-import com.mihak.jumun.cart.dto.CartFormDto;
 import com.mihak.jumun.cartAndOption.CartAndOptionService;
 import com.mihak.jumun.customer.form.CustomerMenuForm;
 import com.mihak.jumun.entity.*;
 import com.mihak.jumun.menu.MenuService;
-import com.mihak.jumun.optionAndOptionGroup.OptionAndOptionGroupService;
 import com.mihak.jumun.store.StoreService;
 import com.mihak.jumun.storeCategory.SCService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -50,7 +46,7 @@ public class CustomerMenuController {
         Store store = storeService.findBySerialNumber(storeSN);
         List<Category> categoryList = scService.findAllbyStoreId(store.getId());
         model.addAttribute("categoryList", categoryList);
-        List<Menu> menuList = menuService.findByCategoryId(categoryId);
+        List<Menu> menuList = menuService.findAllByCategoryId(categoryId);
         model.addAttribute("menuList" , menuList);
         model.addAttribute("storeSN", storeSN);
 
@@ -62,7 +58,7 @@ public class CustomerMenuController {
         Store store = storeService.findBySerialNumber(storeSN);
         List<Category> categoryList = scService.findAllbyStoreId(store.getId());
         model.addAttribute("categoryList", categoryList);
-        List<Menu> menuList = menuService.findByCategoryId(categoryId);
+        List<Menu> menuList = menuService.findAllByCategoryId(categoryId);
         model.addAttribute("categoryId" , categoryId);
         model.addAttribute("menuList" , menuList);
         model.addAttribute("storeSN", storeSN);
@@ -75,7 +71,7 @@ public class CustomerMenuController {
         Store store = storeService.findBySerialNumber(storeSN);
         List<Category> categoryList = scService.findAllbyStoreId(store.getId());
         model.addAttribute("categoryList", categoryList);
-        List<Menu> menuList = menuService.findByCategoryId(categoryId);
+        List<Menu> menuList = menuService.findAllByCategoryId(categoryId);
         model.addAttribute("menuList" , menuList);
         model.addAttribute("storeSN", storeSN);
 

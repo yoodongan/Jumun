@@ -1,11 +1,9 @@
 package com.mihak.jumun.customer;
 
-import com.mihak.jumun.cart.CartRepository;
 import com.mihak.jumun.cart.dto.CartFormDto;
 import com.mihak.jumun.customer.form.CustomerMenuForm;
 import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.menu.MenuService;
-import com.mihak.jumun.option.OptionService;
 import com.mihak.jumun.optionGroup.OptionGroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,7 @@ public class CustomerMenuService {
                 .imgUrl(menu.getImgUrl())
                 .description(menu.getDescription())
                 .price(menu.getPrice())
-                .optionGroups(optionGroupService.getOptionGroupByMenu(menu))
+                .optionGroups(optionGroupService.getOptionGroupsByMenu(menu))
                 .checkOptions(new ArrayList<>())
                 .build();
 
@@ -39,7 +37,7 @@ public class CustomerMenuService {
                     .imgUrl(customerMenuForm.getImgUrl())
                     .description(customerMenuForm.getDescription())
                     .price(customerMenuForm.getPrice())
-                    .optionGroups(optionGroupService.getOptionGroupByMenu(menu))
+                    .optionGroups(optionGroupService.getOptionGroupsByMenu(menu))
                 .checkOptions(customerMenuForm.getCheckOptions())
                 .build();
 
