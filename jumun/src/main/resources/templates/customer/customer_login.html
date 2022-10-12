@@ -6,7 +6,7 @@
     <div>
         <h4 class="customer-page-name">고객 로그인</h4>
     </div>
-    <form th:action th:object="${customerCreateForm}" method="post">
+    <form th:action th:object="${createFormDto}" method="post">
         <div class="mb-3">
             <label for="nickname" class="form-label customer-label-name">닉네임 입력</label>
             <input type="text" th:field="*{nickname}" class="form-control" placeholder="닉네임을 입력해주세요.">

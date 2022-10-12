@@ -23,7 +23,7 @@ public class MenuService {
     private final SCService scService;
 
 
-    public Long saveMenu(MenuForm menuForm) {
+    public Long save(MenuForm menuForm) {
         Category category = null;
         if(menuForm.getCategoryId() == null) {
             category = null;
@@ -41,18 +41,18 @@ public class MenuService {
         if(!(findMenu.isPresent())) throw new MenuNotFoundException("수정할 메뉴가 없습니다!");
         return findMenu.get();
     }
-    public List<Menu> findByCategoryId(Long id) {
+    public List<Menu> findAllByCategoryId(Long id) {
         List<Menu> findMenu = menuRepository.findByCategoryId(id);
         return findMenu;
     }
 
-    public List<Menu> findByCategoryAndStore(Long categoryId, Store store) {
+    public List<Menu> findAllByCategoryAndStore(Long categoryId, Store store) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException());
 
         return menuRepository.findByCategoryAndStore(category, store);
     }
 
-    public void remove(Menu menu) {
+    public void deleteByMenu(Menu menu) {
         menuRepository.delete(menu);
     }
 
@@ -62,7 +62,7 @@ public class MenuService {
         return menuRepository.findByStore(store);
     }
 
-    public void changeMenu(Long menuId, MenuForm menuForm) {
+    public void modify(Long menuId, MenuForm menuForm) {
         Optional<Menu> oMenu = menuRepository.findById(menuId);
         Optional<Category> oCategory = categoryRepository.findById((menuForm.getCategoryId()));
         Category category = oCategory.get();
