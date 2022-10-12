@@ -111,7 +111,7 @@ public class StoreMgmtController {
                 model.addAttribute("findList", treeMap);
                 break;
             case "user":
-                List<FindByUserDailyDto> findList2 = orderService.getFindByUserDailyDtoListByUserDaily(storeSN);
+                List<FindByUserDailyDto> findList2 = orderService.getFindByUserDailyDtoListForUserDaily(storeSN);
                 //맵으로 정렬
                 Map<String, Long> findList3 = orderService.calculateSumByUser(findList2);
                 //최신순 정렬
