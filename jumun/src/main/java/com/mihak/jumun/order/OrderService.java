@@ -117,11 +117,11 @@ public class OrderService {
 
 // 같은 날짜(key)를 갖는다면 value를 합산
 
-    public Map<String, Long> calculateSumByDay(List<FindListFormDto> list) {
+    public Map<String, Long> calculateSumForDay(List<FindListFormDto> list) {
         return list.stream().collect(Collectors.toMap(e -> e.getChangeOrderedAt(), e -> e.getTotalPrice(), Long::sum));
     }
 
-    public Map<String, Long> calculateSumByUser(List<FindByUserDailyDto> list) {
+    public Map<String, Long> calculateSumForUser(List<FindByUserDailyDto> list) {
         return list.stream().collect(Collectors.toMap(e -> e.getChangeOrderedAt(), e -> e.getUserNickName(), Long::sum));
 
     }
