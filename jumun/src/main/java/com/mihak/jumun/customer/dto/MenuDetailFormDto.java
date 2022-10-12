@@ -1,4 +1,4 @@
-package com.mihak.jumun.customer.form;
+package com.mihak.jumun.customer.dto;
 
 import com.mihak.jumun.entity.Option;
 import com.mihak.jumun.entity.OptionGroup;
@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerMenuForm {
+public class MenuDetailFormDto {
     private String category;
     private String name;
     private String imgUrl;

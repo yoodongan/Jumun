@@ -5,7 +5,7 @@ import com.mihak.jumun.cart.dto.CartDto;
 import com.mihak.jumun.cart.dto.CartFormDto;
 import com.mihak.jumun.cart.dto.CartListDto;
 import com.mihak.jumun.cartAndOption.CartAndOptionService;
-import com.mihak.jumun.customer.form.CustomerMenuForm;
+import com.mihak.jumun.customer.dto.MenuDetailFormDto;
 import com.mihak.jumun.entity.*;
 import com.mihak.jumun.exception.CartNotFoundException;
 import com.mihak.jumun.option.OptionService;
@@ -29,7 +29,7 @@ public class CartService {
 
 
 
-    public Cart saveCart(CartFormDto cartFormDto, String userNickName, Menu menu) {
+    public Cart save(CartFormDto cartFormDto, String userNickName, Menu menu) {
         Cart cart = Cart.builder().
                 userNickName(userNickName)
                 .count(cartFormDto.getCount())
@@ -40,9 +40,9 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
-    public List<CartDto> getCartByUserNickName(String userNickname, boolean isOrdered) {
+    public List<CartDto> getCartDtoListByNickname(String nickname, boolean isOrdered) {
 
-        List<Cart> carts = cartRepository.findByUserNickNameAndIsOrdered(userNickname, isOrdered);
+        List<Cart> carts = cartRepository.findByNicknameAndIsOrdered(nickname, isOrdered);
         List<CartDto> cartDtoList = new ArrayList<>();
 
         for (Cart cart : carts) {
@@ -51,7 +51,7 @@ public class CartService {
                     .menu(cart.getMenu())
                     .count(cart.getCount())
                     .options(optionService.getOptionsByCart(cart))
-                    .eachMenuTotalPrice(getEachMenuTotalPrice(cart))
+                    .eachMenuTotalPrice(calculateEachMenuTotalPrice(cart))
                     .build();
             cartDtoList.add(cartDto);
         }
@@ -97,33 +97,33 @@ public class CartService {
         return cartFormDto;
     }
 
-    public CartListDto getCartListBy(String userNickname) {
+    public CartListDto getCartListByNickname(String nickname) {
 
-        List<CartDto> cartDtos = getCartByUserNickName(userNickname, false);
+        List<CartDto> cartDtos = getCartDtoListByNickname(nickname, false);
 
         CartListDto cartListDto = CartListDto.builder()
                 .cartDtos(cartDtos)
                 .orderType(null)
-                .totalPrice(getTotalPrice(cartDtos))
+                .totalPrice(calculateTotalPrice(cartDtos))
                 .build();
 
         return cartListDto;
     }
 
-    public CartListDto getCartListForOrder(String userNickname) {
+    public CartListDto getCartListForOrder(String nickname) {
 
-        List<CartDto> cartDtos = getCartByUserNickName(userNickname, true);
+        List<CartDto> cartDtos = getCartDtoListByNickname(nickname, true);
 
         CartListDto cartListDto = CartListDto.builder()
                 .cartDtos(cartDtos)
                 .orderType(null)
-                .totalPrice(getTotalPrice(cartDtos))
+                .totalPrice(calculateTotalPrice(cartDtos))
                 .build();
 
         return cartListDto;
     }
 
-    private int getTotalPrice(List<CartDto> cartDtos) {
+    private int calculateTotalPrice(List<CartDto> cartDtos) {
         int totalPrice = 0;
 
         for (CartDto cartDto : cartDtos) {
@@ -137,7 +137,7 @@ public class CartService {
         return totalPrice;
     }
 
-    public int getEachMenuTotalPrice(Cart cart) {
+    public int calculateEachMenuTotalPrice(Cart cart) {
         int menuTotalPrice = 0;
         int price = cart.getMenu().getPrice();
         // 장바구니_옵션 테이블에서 장바구니를 통해 옵션정보들을 가져온다.
@@ -154,7 +154,7 @@ public class CartService {
     }
 
     @Transactional
-    public void modifyCart(Long cartId, CartFormDto cartFormDto) {
+    public void modify(Long cartId, CartFormDto cartFormDto) {
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new CartNotFoundException("해당 장바구니는 존재하지 않습니다."));
         cart.setCount(cartFormDto.getCount());
 
@@ -164,10 +164,10 @@ public class CartService {
         cart.updateCartAndOptions(cartAndOptions);
     }
 
-    public Cart addToCart(CustomerMenuForm customerMenuForm, String userNickname, Menu menu) {
+    public Cart save(MenuDetailFormDto menuDetailFormDto, String userNickname, Menu menu) {
         Cart cart = Cart.builder().
                 userNickName(userNickname)
-                .count(customerMenuForm.getCount())
+                .count(menuDetailFormDto.getCount())
                 .isOrdered(false)
                 .menu(menu)
                 .build();
@@ -177,7 +177,7 @@ public class CartService {
 
     @Transactional
     public void cancelOrder(String userNickName) {
-        List<Cart> cartList= cartRepository.findByUserNickNameAndIsOrdered(userNickName, true);
+        List<Cart> cartList= cartRepository.findByNicknameAndIsOrdered(userNickName, true);
 
         for (Cart cart : cartList) {
             cart.setOrdered(false);
@@ -185,10 +185,10 @@ public class CartService {
     }
 
     @Transactional
-    public void changeIsOrdered(Order order) {
+    public void modifyIsOrdered(Order order) {
 
         String userNickName = order.getUserNickName();
-        List<Cart> carts = cartRepository.findByUserNickNameAndIsOrdered(userNickName, false);
+        List<Cart> carts = cartRepository.findByNicknameAndIsOrdered(userNickName, false);
 
         for (Cart cart : carts) {
             cart.setOrdered(true);

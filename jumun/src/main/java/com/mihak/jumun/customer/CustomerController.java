@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.mihak.jumun.customer.dto.CreateFormDto;
 import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.store.StoreService;
-import com.mihak.jumun.customer.form.CustomerCreateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -30,8 +30,8 @@ public class CustomerController {
 
     /*사용자에게 보여지는 첫 화면*/
     @GetMapping("/{storeSN}/customer")
-    public String signup(@PathVariable String storeSN, Model model) {
-        model.addAttribute("customerCreateForm", new CustomerCreateForm());
+    public String showCreateForm(Model model) {
+        model.addAttribute("customerCreateForm", new CreateFormDto());
         return "customer/customer_login";
     }
 
@@ -39,14 +39,14 @@ public class CustomerController {
     /*확인버튼을 눌렀을 때 닉네임 중복을 체크*/
 
     @PostMapping("/{storeSN}/customer")
-    private String signup(@PathVariable String storeSN, @Valid CustomerCreateForm customerCreateForm, BindingResult bindingResult,HttpServletRequest request, HttpServletResponse response) {
+    private String save(@PathVariable String storeSN, @Valid CreateFormDto createFormDto, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
 
         if (bindingResult.hasErrors()) {
             return "customer/customer_login";
         }
 
         try {
-            customerService.create(customerCreateForm.getNickname());
+            customerService.save(createFormDto.getNickname());
         }catch(DataIntegrityViolationException e) { //이미 DB에 동일한 닉네임이 있다면 오류 발생
             e.printStackTrace();
             /*reject로는 먹지 않고, rejectValue에 field값을 명시해줘야 먹힌다.*/
@@ -64,7 +64,7 @@ public class CustomerController {
         response.addCookie(cookie);
 
         HttpSession session = request.getSession(true);
-        session.setAttribute(uuid.toString(), customerCreateForm.getNickname());
+        session.setAttribute(uuid.toString(), createFormDto.getNickname());
 
         Store store = storeService.findBySerialNumber(storeSN);
 
