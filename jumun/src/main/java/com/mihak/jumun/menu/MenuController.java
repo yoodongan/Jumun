@@ -26,7 +26,6 @@ import java.util.List;
 public class MenuController {
 
     private final MenuService menuService;
-    private final CategoryService categoryService;
     private final StoreService storeService;
     private final OptionGroupService optionGroupService;
     private final MenuAndOptionGroupService menuAndOptionGroupService;
@@ -196,7 +195,7 @@ public class MenuController {
     /* 메뉴 삭제 */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/menu/delete/{menuId}")
-    public String delete(@PathVariable("storeSN") String storeSN, @PathVariable Long menuId) {
+    public String delete(@PathVariable Long menuId) {
         Menu menu = menuService.findById(menuId);
         Store store = menu.getStore();
         menuAndOptionGroupService.deleteByMenu(menu);
