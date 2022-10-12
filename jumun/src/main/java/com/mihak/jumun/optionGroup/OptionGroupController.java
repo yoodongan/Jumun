@@ -31,7 +31,7 @@ public class OptionGroupController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/optionGroup")
-    public String showCreateForm(@PathVariable String storeSN, Model model) {
+    public String showCreateForm(Model model) {
         model.addAttribute("optionGroupFormDto", new OptionGroupFormDto());
         return "optionGroup/create_optionGroup";
     }
@@ -62,7 +62,7 @@ public class OptionGroupController {
     @GetMapping("/{storeSN}/admin/store/optionGroupDetail/{optionGroupId}")
     public String showOptionGroupDetail(@PathVariable String storeSN,
                                         @PathVariable Long optionGroupId,
-                                        Model model) throws Exception {
+                                        Model model){
         Store store = storeService.findBySerialNumber(storeSN);
         OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, store);
         model.addAttribute("optionGroupName", optionGroup.getName());
