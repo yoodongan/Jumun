@@ -142,7 +142,7 @@ public class OptionGroupController {
                                     @PathVariable Long optionGroupId) {
         OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, storeService.findBySerialNumber(storeSN));
         optionAndOptionGroupService.deleteAllByOptionGroup(optionGroup);
-        menuAndOptionGroupService.removeByOptionGroup(optionGroup);
+        menuAndOptionGroupService.deleteByOptionGroup(optionGroup);
         optionGroupService.removeOptionGroup(optionGroup);
 
         return "redirect:/%s/admin/store/optionGroupList".formatted(storeSN, optionGroupId);

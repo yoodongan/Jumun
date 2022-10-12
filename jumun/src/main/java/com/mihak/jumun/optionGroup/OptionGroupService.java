@@ -20,7 +20,7 @@ public class OptionGroupService {
     private final OptionAndOptionGroupService optionAndOptionGroupService;
 
     public List<OptionGroup> getOptionGroupByMenu(Menu menu) {
-        List<MenuAndOptionGroup> menuAndOptionGroupByMenu = menuAndOptionGroupService.getMenuAndOptionGroupByMenu(menu);
+        List<MenuAndOptionGroup> menuAndOptionGroupByMenu = menuAndOptionGroupService.findAllByMenu(menu);
         List<OptionGroup> optionGroups = new ArrayList<>();
 
         for (MenuAndOptionGroup menuAndOptionGroup : menuAndOptionGroupByMenu) {
