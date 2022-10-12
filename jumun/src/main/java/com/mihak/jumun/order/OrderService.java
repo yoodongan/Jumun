@@ -90,7 +90,7 @@ public class OrderService {
                 .build();
     }
     
-    public List<Order> findAllOrderByStoreId(String storeSN) {
+    public List<Order> findAllOrderByStoreSN(String storeSN) {
         List<Order> li = orderRepository.findAll();
         List<Order> findList = new ArrayList<>();
         for (Order list : li) {
