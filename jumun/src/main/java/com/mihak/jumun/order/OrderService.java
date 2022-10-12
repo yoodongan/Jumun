@@ -105,24 +105,24 @@ public class OrderService {
         return findList;
     }
 
-    public List<FindListFormDto> getFindListFormDtoListByPriceDaily(String storeSN) {
+    public List<FindListFormDto> getFindListFormDtoListForPriceDaily(String storeSN) {
         List<FindListFormDto> findList = orderRepository.findByPriceDaily(storeSN);
         return findList;
     }
 
-    public List<FindByUserDailyDto> getFindByUserDailyDtoListByUserDaily(String storeSN) {
+    public List<FindByUserDailyDto> getFindByUserDailyDtoListForUserDaily(String storeSN) {
+
         List<FindByUserDailyDto> findList = orderRepository.findByUserDaily(storeSN);
         return findList;
     }
 
 // 같은 날짜(key)를 갖는다면 value를 합산
-
     public Map<String, Long> calculateSumForDay(List<FindListFormDto> list) {
-        return list.stream().collect(Collectors.toMap(e -> e.getChangeOrderedAt(), e -> e.getTotalPrice(), Long::sum));
+        return list.stream().collect(Collectors.toMap(e -> e.calculateOrderedAtDaily(), e -> e.calculateTotalPrice(), Long::sum));
     }
 
     public Map<String, Long> calculateSumForUser(List<FindByUserDailyDto> list) {
-        return list.stream().collect(Collectors.toMap(e -> e.getChangeOrderedAt(), e -> e.getUserNickName(), Long::sum));
+        return list.stream().collect(Collectors.toMap(e -> e.calculateOrderedAtDaily(), e -> e.findByNickname(), Long::sum));
 
     }
 }
