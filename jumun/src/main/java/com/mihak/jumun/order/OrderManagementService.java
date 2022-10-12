@@ -2,8 +2,6 @@ package com.mihak.jumun.order;
 
 import com.mihak.jumun.cart.CartService;
 import com.mihak.jumun.cart.dto.CartListDto;
-import com.mihak.jumun.entity.Cart;
-import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.entity.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,15 +26,14 @@ public class OrderManagementService {
         return listInStore;
         }
 
-    public Order findbyOrderId(Long orderId){
+    public Order findByOrderId(Long orderId){
         Optional<Order> order = orderRepository.findById(orderId);
         return order.orElseThrow(() -> new RuntimeException("등록된 주문이 없음"));
     }
 
-    public void update(Order order) {
+    public void modifyOrder(Order order) {
         orderRepository.save(order);
     }
-
 
     public CartListDto getCartList(String userNickName) {
         return cartService.getCartListForOrder(userNickName);

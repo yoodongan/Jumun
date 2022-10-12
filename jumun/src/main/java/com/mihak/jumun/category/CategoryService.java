@@ -4,6 +4,7 @@ import com.mihak.jumun.category.form.CategoryForm;
 import com.mihak.jumun.entity.Category;
 import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.entity.Owner;
+import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.menu.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final MenuRepository menuRepository;
 
-    public void create(CategoryForm categoryForm, Owner owner) {
+    public void save(CategoryForm categoryForm, Owner owner) {
         Category newCate = new Category();
         newCate.setName(categoryForm.getName());
         newCate.setOwner(owner);
@@ -32,7 +33,7 @@ public class CategoryService {
         return categoryRepository.findById(id).orElseThrow(()->new RuntimeException("해당 객체 없음"));
     }
 
-    public void modify(Category cate , String name){
+    public void modifyCategory(Category cate , String name){
         cate.setName(name);
         categoryRepository.save(cate);
     }
@@ -41,7 +42,7 @@ public class CategoryService {
         return categoryRepository.findByName(name);
     }
 
-    public void remove(Long id) {
+    public void deleteById(Long id) {
         List<Menu> menuList = menuRepository.findByCategoryId(id);
         for (Menu menu : menuList) {
             menu.setCategory(null);
@@ -51,5 +52,11 @@ public class CategoryService {
 
     public Optional<Category> findByNameAndOwner(String name , Owner owner) {
         return categoryRepository.findByNameAndOwner(name,owner);
+    }
+
+    public Owner getOwnerBySerialNumber(String storeSN) {
+        Store store = categoryRepository.findBySerialNumber(storeSN);
+        Owner owner = store.getOwner();
+        return owner;
     }
 }

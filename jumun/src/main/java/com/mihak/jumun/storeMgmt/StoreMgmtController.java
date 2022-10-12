@@ -54,7 +54,7 @@ public class StoreMgmtController {
         model.addAttribute("store", store);
         model.addAttribute("storeSN" , storeSN);
         /*스토어넘버로 모든 주문 내역을 가져온다.*/
-        List<Order> orderLists = orderService.findAllbyStoreId(storeSN);
+        List<Order> orderLists = orderService.findAllOrderByStoreSN(storeSN);
         model.addAttribute("orderLists", orderLists);
         return "storeMgmt/orderList";
     }
@@ -79,7 +79,7 @@ public class StoreMgmtController {
         model.addAttribute("store", store);
         model.addAttribute("storeSN" , storeSN);
         /*스토어넘버로 모든 주문 내역을 가져온다. order 테이블의 모든 것을 조회하기 위해 객체를 가져옴*/
-        List<Order> orderLists = orderService.findAllbyStoreId(storeSN);
+        List<Order> orderLists = orderService.findAllOrderByStoreId(storeSN);
         model.addAttribute("orderLists", orderLists);
         return "storeMgmt/revenueList";
     }
@@ -102,18 +102,18 @@ public class StoreMgmtController {
         /*정렬방법에 따라 SQL로 원하는 값을 가져온다.*/
         switch (orderBy) {
             case "price":
-                List<FindListFormDto> findList1 = orderService.findAllbyPriceDaily(storeSN);
+                List<FindListFormDto> findList1 = orderService.getFindListFormDtoListForPriceDaily(storeSN);
                 //맵으로 정렬
-                Map<String, Long> findList = orderService.sum(findList1);
+                Map<String, Long> findList = orderService.calculateSumByDay(findList1);
                 //최신순 정렬
                 Map<String, Long> treeMap = new TreeMap<>(Collections.reverseOrder());
                 treeMap.putAll(findList);
                 model.addAttribute("findList", treeMap);
                 break;
             case "user":
-                List<FindByUserDailyDto> findList2 = orderService.findAllbyUserDaily(storeSN);
+                List<FindByUserDailyDto> findList2 = orderService.getFindByUserDailyDtoListForUserDaily(storeSN);
                 //맵으로 정렬
-                Map<String, Long> findList3 = orderService.sumByUser(findList2);
+                Map<String, Long> findList3 = orderService.calculateSumByUser(findList2);
                 //최신순 정렬
                 Map<String, Long> treeMap2 = new TreeMap<>(Collections.reverseOrder());
                 treeMap2.putAll(findList3);

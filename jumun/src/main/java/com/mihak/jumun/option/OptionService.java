@@ -45,7 +45,7 @@ public class OptionService {
     }
 
     public List<Option> getOptionsByCart(Cart cart) {
-        List<CartAndOption> cartAndOptions = cartAndOptionService.getOptionsByCart(cart);
+        List<CartAndOption> cartAndOptions = cartAndOptionService.findAllCartAndOptionsByCart(cart);
         List<Option> options = new ArrayList<>();
         for (CartAndOption cartAndOption : cartAndOptions) {
             options.add(cartAndOption.getOptions());

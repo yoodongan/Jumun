@@ -6,7 +6,6 @@ import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.order.dao.OrderDao;
 import com.mihak.jumun.order.dto.OrderDtoFromCart;
 import com.mihak.jumun.order.dto.OrderFormDto;
-import com.mihak.jumun.pay.KaKaoPayService;
 import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,10 +22,9 @@ public class OrderController {
     private final OrderService orderService;
     private final StoreService storeService;
     private final OrderDao orderDao;
-    private final KaKaoPayService kaKaoPayService;
 
     @PostMapping("/{storeSN}/order")
-    public String order(@PathVariable String storeSN,
+    public String createOrderDtoFormCart(@PathVariable String storeSN,
                         HttpServletRequest request, @CookieValue("customerLogin") String customerKey,
                         @ModelAttribute OrderDtoFromCart orderDtoFromCart) {
         HttpSession session = request.getSession(true);
@@ -71,7 +69,7 @@ public class OrderController {
         String userNickname = session.getAttribute(customerKey).toString();
 
         OrderDtoFromCart orderDtoFromCart = orderDao.getOrderDtoFromCart(userNickname);
-        Order order = orderService.saveOrder(orderDtoFromCart, orderFormDto);
+        Order order = orderService.save(orderDtoFromCart, orderFormDto);
 
         // 간편 결제 호출
         if (order.getPayType().equals(PayType.KAKAOPAY)) {
