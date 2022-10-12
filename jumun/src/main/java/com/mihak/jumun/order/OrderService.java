@@ -57,15 +57,6 @@ public class OrderService {
         return findOrder.get();
     }
 
-    public Order findOrderByUserNickName(String userNickName) {
-        Optional<Order> findOrder = orderRepository.findByUserNickName(userNickName);
-
-        if (findOrder.isEmpty()) {
-            throw new OrderNotFoundException("해당 주문을 찾을 수 없습니다.");
-        }
-
-        return findOrder.get();
-    }
 
     @Transactional
     public void cancelOrderByPayFail(Long orderId) {
@@ -120,6 +111,7 @@ public class OrderService {
     }
 
     public List<FindByUserDailyDto> getFindByUserDailyDtoListForUserDaily(String storeSN) {
+
         List<FindByUserDailyDto> findList = orderRepository.findByUserDaily(storeSN);
         return findList;
     }
@@ -131,5 +123,6 @@ public class OrderService {
 
     public Map<String, Long> calculateSumForUser(List<FindByUserDailyDto> list) {
         return list.stream().collect(Collectors.toMap(e -> e.calculateOrderedAtDaily(), e -> e.findByNickname(), Long::sum));
+
     }
 }
