@@ -54,7 +54,7 @@ public class StoreMgmtController {
         model.addAttribute("store", store);
         model.addAttribute("storeSN" , storeSN);
         /*스토어넘버로 모든 주문 내역을 가져온다.*/
-        List<Order> orderLists = orderService.findAllOrderByStoreId(storeSN);
+        List<Order> orderLists = orderService.findAllOrderByStoreSN(storeSN);
         model.addAttribute("orderLists", orderLists);
         return "storeMgmt/orderList";
     }
