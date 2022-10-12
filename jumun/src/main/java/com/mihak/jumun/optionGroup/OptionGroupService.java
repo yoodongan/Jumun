@@ -1,12 +1,10 @@
 package com.mihak.jumun.optionGroup;
 import com.mihak.jumun.entity.*;
-import com.mihak.jumun.exception.OptionGroupNotFoundException;
 import com.mihak.jumun.menuAndOptionGroup.MenuAndOptionGroupService;
 import com.mihak.jumun.optionAndOptionGroup.OptionAndOptionGroupService;
 import com.mihak.jumun.optionGroup.form.OptionGroupFormDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +17,8 @@ public class OptionGroupService {
     private final MenuAndOptionGroupService menuAndOptionGroupService;
     private final OptionAndOptionGroupService optionAndOptionGroupService;
 
-    public List<OptionGroup> getOptionGroupByMenu(Menu menu) {
-        List<MenuAndOptionGroup> menuAndOptionGroupByMenu = menuAndOptionGroupService.getMenuAndOptionGroupByMenu(menu);
+    public List<OptionGroup> getOptionGroupsByMenu(Menu menu) {
+        List<MenuAndOptionGroup> menuAndOptionGroupByMenu = menuAndOptionGroupService.findAllByMenu(menu);
         List<OptionGroup> optionGroups = new ArrayList<>();
 
         for (MenuAndOptionGroup menuAndOptionGroup : menuAndOptionGroupByMenu) {
@@ -31,7 +29,7 @@ public class OptionGroupService {
 
     }
 
-    public void createOptionGroup(OptionGroupFormDto optionGroupFormDto) {
+    public void save(OptionGroupFormDto optionGroupFormDto) {
         OptionGroup optionGroup = OptionGroup.builder()
                 .name(optionGroupFormDto.getName())
                 .isMultiple(optionGroupFormDto.getIsMultiple())
@@ -51,13 +49,8 @@ public class OptionGroupService {
 
     }
 
-    // 옵션 그룹에 속하는 모든 옵션들 리스팅으로 가져오기.
-    public List<Option> findAllByOptionGroup(OptionGroup optionGroup) {
-        return optionAndOptionGroupService.findAllByOptionGroup(optionGroup);
-    }
-
     // 옵션그룹 수정
-    public OptionGroupFormDto getOptionGroupFormDtd(OptionGroup optionGroup) {
+    public OptionGroupFormDto getOptionGroupFormDtoByOptionGroup(OptionGroup optionGroup) {
         OptionGroupFormDto optionGroupFormDto = OptionGroupFormDto.builder()
                 .name(optionGroup.getName())
                 .isMultiple(optionGroup.isMultiple())
@@ -67,20 +60,15 @@ public class OptionGroupService {
     }
 
 
-    public void modifyOptionGroup(Long optionGroupId, OptionGroupFormDto optionGroupFormDto) {
+    public void modify(Long optionGroupId, OptionGroupFormDto optionGroupFormDto) {
         OptionGroup optionGroup = optionGroupRepository.findById(optionGroupId).get();
         optionGroup.changeOptionGroup(optionGroupFormDto.getName(), optionGroupFormDto.getIsMultiple());
         optionGroupRepository.save(optionGroup);
     }
 
-    // 옵션그룹 삭제
-    public void remove(Long optionGroupId) {
-        optionGroupRepository.deleteById(optionGroupId);
-    }
     // 옵션그룹 삭제 (옵션가지고 있을 시)
-    public void removeOptionGroup(OptionGroup optionGroup) {
-        remove(optionGroup.getId());
-        optionAndOptionGroupService.deleteAllByOptionGroup(optionGroup);
-
+    public void deleteByOptionGroup(OptionGroup optionGroup) {
+        optionGroupRepository.deleteById(optionGroup.getId());
+        optionAndOptionGroupService.deleteByOptionGroup(optionGroup);
     }
 }

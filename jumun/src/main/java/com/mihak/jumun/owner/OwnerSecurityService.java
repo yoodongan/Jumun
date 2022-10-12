@@ -24,7 +24,7 @@ public class OwnerSecurityService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<Owner> loginOwner = ownerRepository.findByloginId(username);
+        Optional<Owner> loginOwner = ownerRepository.findByLoginId(username);
 
         if (loginOwner.isEmpty()) {
             throw new AdminNotFoundException("관리자를 찾을 수 없습니다.");

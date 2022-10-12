@@ -20,31 +20,30 @@ public class KakaoPayController {
     private final CartService cartService;
 
     @GetMapping("/kakaopay/{orderId}")
-    public String kakaoPay(@PathVariable Long orderId) {
+    public String doKakaoPay(@PathVariable Long orderId) {
 
-        return "redirect:" + kaKaoPayService.kakaoPayReady(orderId);
+        return "redirect:" + kaKaoPayService.doKakaoPay(orderId);
     }
 
     @GetMapping("/kakaoPaySuccess/{orderId}")
-    public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model,
-                                  @PathVariable Long orderId) {
+    public String showKakaoPayHistory(@RequestParam("pg_token") String pg_token, Model model,
+                                      @PathVariable Long orderId) {
 
         Order order = orderService.findOrderById(orderId);
         cartService.modifyIsOrdered(order);
 
-        kaKaoPayService.kakaoPayApprove(pg_token, orderId);
+        kaKaoPayService.approveKakaoPay(pg_token, orderId);
         PaySuccessDto paySuccessDto = orderService.getPaySuccessDto(order);
         model.addAttribute("paySuccessDto", paySuccessDto);
         return "pay/kakaoPaySuccess";
     }
 
     @GetMapping("/{storeSN}/kakaopay/cancel/{orderId}")
-    public String kakaoPayCancel(@PathVariable String storeSN, @PathVariable Long orderId,
-                              @CookieValue("customerLogin") String customerKey) {
+    public String cancelKakaoPay(@PathVariable String storeSN, @PathVariable Long orderId) {
 
-        kaKaoPayService.kakaoPayCancel(orderId);
+        kaKaoPayService.cancelKakaoPay(orderId);
         orderService.cancelOrderByUser(orderId);
-        return "redirect:/" + storeSN + "/cart";
+        return "redirect:/%s/cart".formatted(storeSN);
     }
 
     @GetMapping("/kakaopay/status/{orderId}")
@@ -59,21 +58,27 @@ public class KakaoPayController {
     }
 
 
+    /**
+     *  사용하지 않는 컨트롤러 - 카카오페이 실패 로직 추가 후 사용할 예정
+    */
     @GetMapping("/kakaoPayCancel/{orderId}")
     public String kakaoPayCancelFail(@RequestParam("pg_token") String pg_token, Model model,
                                  @PathVariable Long orderId) {
 
         orderService.cancelOrderByUser(orderId);
-        model.addAttribute("info", kaKaoPayService.kakaoPayApprove(pg_token, orderId));
+        model.addAttribute("info", kaKaoPayService.approveKakaoPay(pg_token, orderId));
         return "pay/kakaoPayFail";
     }
 
+    /**
+     *  사용하지 않는 컨트롤러 - 카카오페이 실패 로직 추가 후 사용할 예정
+     */
     @GetMapping("/kakaoPaySuccessFail/{orderId}")
     public String kakaoPaySuccessFail(@RequestParam("pg_token") String pg_token, Model model,
                                   @PathVariable Long orderId) {
 
         orderService.cancelOrderByPayFail(orderId);
-        model.addAttribute("info", kaKaoPayService.kakaoPayApprove(pg_token, orderId));
+        model.addAttribute("info", kaKaoPayService.approveKakaoPay(pg_token, orderId));
         return "pay/kakaoPayFail";
     }
 }

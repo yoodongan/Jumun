@@ -3,9 +3,8 @@ package com.mihak.jumun.store;
 import com.mihak.jumun.entity.Owner;
 import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.owner.OwnerService;
-import com.mihak.jumun.store.dto.form.CreateFormDto;
+import com.mihak.jumun.store.dto.CreateFormDto;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +17,6 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class StoreController {
 
     private final StoreService storeService;
@@ -26,19 +24,19 @@ public class StoreController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/admin/store")
-    public String afterLoginRouter (Principal principal) {
-        Owner owner = ownerService.findByOwnerId(principal.getName());
+    public String redirectStore(Principal principal) {
+        Owner owner = ownerService.findById(principal.getName());
         Optional<Store> findStore = storeService.findByOwner(owner);
 
         if (findStore.isEmpty()) {
             return "redirect:/admin/store/new";
         }
-        return "redirect:/" + findStore.get().getSerialNumber() + "/admin/store";
+        return "redirect:/%s/admin/store".formatted(findStore.get().getSerialNumber());
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store")
-    public String showIndex(@PathVariable(required = false) String storeSN, Model model) {
+    public String showStoreIndex(@PathVariable(required = false) String storeSN, Model model) {
         Store store = storeService.findBySerialNumber(storeSN);
         model.addAttribute("store", store);
         return "store/store_index";
@@ -59,9 +57,9 @@ public class StoreController {
             return "store/create_form";
         }
 
-        Owner owner = ownerService.findByOwnerId(principal.getName());
+        Owner owner = ownerService.findById(principal.getName());
 
-        Store store = storeService.saveStore(createFormDto, owner);
-        return "redirect:/" + store.getSerialNumber() + "/admin/store";
+        Store store = storeService.save(createFormDto, owner);
+        return "redirect:/%s/admin/store".formatted(store.getSerialNumber());
     }
 }

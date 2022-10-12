@@ -1,4 +1,4 @@
-package com.mihak.jumun.store.dto.form;
+package com.mihak.jumun.store.dto;
 
 import lombok.Getter;
 import lombok.Setter;

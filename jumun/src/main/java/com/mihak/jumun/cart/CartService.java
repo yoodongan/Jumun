@@ -72,7 +72,7 @@ public class CartService {
                 .imgUrl(menu.getImgUrl())
                 .description(menu.getDescription())
                 .price(menu.getPrice())
-                .optionGroups(optionGroupService.getOptionGroupByMenu(menu))
+                .optionGroups(optionGroupService.getOptionGroupsByMenu(menu))
                 .checkOptions(optionService.getOptionsByCart(cart))
                 .count(cart.getCount())
                 .build();
@@ -90,7 +90,7 @@ public class CartService {
                 .description(menu.getDescription())
                 .price(menu.getPrice())
                 .count(cart.getCount())
-                .optionGroups(optionGroupService.getOptionGroupByMenu(menu))
+                .optionGroups(optionGroupService.getOptionGroupsByMenu(menu))
                 .checkOptions(optionService.getOptionsByCart(cart))
                 .build();
 

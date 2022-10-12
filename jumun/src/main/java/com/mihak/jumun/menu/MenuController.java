@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -27,7 +26,6 @@ import java.util.List;
 public class MenuController {
 
     private final MenuService menuService;
-    private final CategoryService categoryService;
     private final StoreService storeService;
     private final OptionGroupService optionGroupService;
     private final MenuAndOptionGroupService menuAndOptionGroupService;
@@ -38,7 +36,7 @@ public class MenuController {
     /* 메뉴 생성폼 */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/menu")
-    public String menuForm(@PathVariable String storeSN, Model model) {
+    public String showCreateForm(@PathVariable String storeSN, Model model) {
         Store store = storeService.findBySerialNumber(storeSN);
         List<Category> categoryList = scService.findAllbyStoreId(store.getId());
         model.addAttribute("categoryList", categoryList);
@@ -70,14 +68,14 @@ public class MenuController {
         }else
             menuForm.setImgUrl("https://jumun-bucket.s3.ap-northeast-2.amazonaws.com/readyForMenu.png");
 
-        menuService.saveMenu(menuForm);
+        menuService.save(menuForm);
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
     }
 
     // 관리자 메뉴 화면 보여주기 .
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/menuList")
-    public String menuList(@PathVariable String storeSN, Model model) {
+    public String showMenuList(@PathVariable String storeSN, Model model) {
         Store store = storeService.findBySerialNumber(storeSN);
         List<Category> categoryList = scService.findAllbyStoreId(store.getId());
         model.addAttribute("categoryList", categoryList);
@@ -89,23 +87,49 @@ public class MenuController {
     }
     /*기본, 관리자가 카테고리를 눌렀을 때*/
     @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{storeSN}/admin/store/menuList")
+    @ResponseBody
+    public String changeMenuViewByCategory(@RequestParam Long categoryId, @PathVariable("storeSN") String storeSN, Model model) {
+        Store store = storeService.findBySerialNumber(storeSN);
+        List<Category> categoryList = scService.findAllbyStoreId(store.getId());
+        model.addAttribute("categoryList", categoryList);
+        List<Menu> menuList = menuService.findAllByCategoryId(categoryId);
+        model.addAttribute("menuList" , menuList);
+        model.addAttribute("storeSN", storeSN);
+
+        return "redirect:/" +storeSN+ "/admin/store/menu_list"+categoryId;
+    }
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/menuList/{categoryId}")
     public String menuView(@PathVariable("storeSN") String storeSN, @PathVariable("categoryId") Long categoryId, Model model) {
         Store store = storeService.findBySerialNumber(storeSN);
         List<Category> categoryList = scService.findAllbyStoreId(store.getId());
         model.addAttribute("categoryList", categoryList);
-        List<Menu> menuList = menuService.findByCategoryAndStore(categoryId, store);
+        List<Menu> menuList = menuService.findAllByCategoryAndStore(categoryId, store);
         model.addAttribute("categoryId" , categoryId);
         model.addAttribute("menuList" , menuList);
         model.addAttribute("storeSN", storeSN);
 
         return "menu/menu_list";
     }
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{storeSN}/admin/store/menuList/{categoryId}")
+    @ResponseBody
+    public String changeMenuViewByAnotherCategory(@PathVariable("categoryId") Long categoryId, @PathVariable("storeSN") String storeSN, Model model) {
+        Store store = storeService.findBySerialNumber(storeSN);
+        List<Category> categoryList = scService.findAllbyStoreId(store.getId());
+        model.addAttribute("categoryList", categoryList);
+        List<Menu> menuList = menuService.findAllByCategoryId(categoryId);
+        model.addAttribute("menuList" , menuList);
+        model.addAttribute("storeSN", storeSN);
+
+        return "redirect:/" +storeSN+ "/admin/store/menu_list"+categoryId;
+    }
 
     /* 메뉴 수정 */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/menu/modify/{menuId}")
-    public String modifyMenuForm(@PathVariable String storeSN, @PathVariable Long menuId, Model model) {
+    public String showModifyForm(@PathVariable String storeSN, @PathVariable Long menuId, Model model) {
         Store store = storeService.findBySerialNumber(storeSN);
         List<Category> categoryList = scService.findAllbyStoreId(store.getId());
         model.addAttribute("categoryList", categoryList);
@@ -129,11 +153,11 @@ public class MenuController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{storeSN}/admin/store/menu/modify/{menuId}")
-    public String modifyMenu(@PathVariable("storeSN") String storeSN,
-                             @PathVariable Long menuId,
-                             @Valid MenuForm menuForm,
-                             BindingResult result,
-                             MultipartFile file) throws IOException {
+    public String modify(@PathVariable("storeSN") String storeSN,
+                         @PathVariable Long menuId,
+                         @Valid MenuForm menuForm,
+                         BindingResult result,
+                         MultipartFile file) throws IOException {
         // 메뉴명 Null 값, 가격 Null 값 예외 체크
         if (result.hasErrors()) {
             return "menu/modify_menu";
@@ -158,11 +182,11 @@ public class MenuController {
         }else
             menuForm.setImgUrl(findMenu.getImgUrl());
 
-        menuService.changeMenu(menuId, menuForm);
+        menuService.modify(menuId, menuForm);
 
         OptionGroup optionGroup = optionGroupService.findByIdAndStore(menuForm.getOptionGroupId(), store);
         if(!(optionGroup == null)) {
-            menuAndOptionGroupService.addMenuOptionGroup(menuService.findById(menuId), optionGroup);
+            menuAndOptionGroupService.save(menuService.findById(menuId), optionGroup);
         }
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
 
@@ -171,11 +195,11 @@ public class MenuController {
     /* 메뉴 삭제 */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/menu/delete/{menuId}")
-    public String deleteMenu(@PathVariable("storeSN") String storeSN, @PathVariable Long menuId) {
+    public String delete(@PathVariable Long menuId) {
         Menu menu = menuService.findById(menuId);
         Store store = menu.getStore();
-        menuAndOptionGroupService.removeAllOptionGroup(menu);
-        menuService.remove(menu);
+        menuAndOptionGroupService.deleteByMenu(menu);
+        menuService.deleteByMenu(menu);
 
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menuList";
     }
@@ -188,7 +212,7 @@ public class MenuController {
         Menu menu = menuService.findById(menuId);
         OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, store);
 
-        menuAndOptionGroupService.removeOptionGroup(menu, optionGroup);
+        menuAndOptionGroupService.deleteByMenuAndOptionGroup(menu, optionGroup);
         return "redirect:/" + store.getSerialNumber() + "/admin/store/menu/modify/" + menu.getId();
     }
 

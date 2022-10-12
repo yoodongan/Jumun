@@ -29,7 +29,7 @@ public class OptionAndOptionGroupService {
         optionAndOptionGroupRepository.save(optionAndOptionGroup);
     }
 
-    public List<Option> findAllByOptionGroup(OptionGroup optionGroup) {
+    public List<Option> getOptionsByOptionGroup(OptionGroup optionGroup) {
         List<OptionAndOptionGroup> allByOptionGroup = optionAndOptionGroupRepository.findAllByOptionGroup(optionGroup);
         List<Option> options = new ArrayList<>();
         for(OptionAndOptionGroup optionAndOptionGroup : allByOptionGroup) {
@@ -38,17 +38,17 @@ public class OptionAndOptionGroupService {
         return options;
     }
 
-    public void remove(Long optionId) {
+    public void deleteByOptionId(Long optionId) {
         Option option = optionService.findById(optionId);
         optionAndOptionGroupRepository.deleteAllByOption(option);
     }
 
     @Transactional
-    public void deleteAllByOptionGroup(OptionGroup optionGroup) {
+    public void deleteByOptionGroup(OptionGroup optionGroup) {
         optionAndOptionGroupRepository.deleteAllByOptionGroup(optionGroup);
     }
 
-    public void deleteAllByOption(Option option) {
+    public void deleteByOption(Option option) {
         optionAndOptionGroupRepository.deleteAllByOption(option);
     }
 }
