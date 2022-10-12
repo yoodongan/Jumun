@@ -73,7 +73,7 @@ public class OptionGroupController {
         model.addAttribute("options", options);
 
         // 옵션그룹에 속하는 옵션들 리스팅 형태로 보여주기.
-        List<Option> allByOptionGroup = optionAndOptionGroupService.findAllByOptionGroup(optionGroup);
+        List<Option> allByOptionGroup = optionAndOptionGroupService.getOptionsByOptionGroup(optionGroup);
         model.addAttribute("optionList", allByOptionGroup);
 
         return "optionGroup/optionGroup_detail";
@@ -102,7 +102,7 @@ public class OptionGroupController {
                                Model model) {
         model.addAttribute("optionId", optionId);
         Option option = optionService.findById(optionId);
-        optionAndOptionGroupService.deleteAllByOption(option);
+        optionAndOptionGroupService.deleteByOption(option);
         return "redirect:/%s/admin/store/optionGroupDetail/%s".formatted(storeSN, optionGroupId);
     }
 
@@ -141,7 +141,7 @@ public class OptionGroupController {
     public String delete(@PathVariable String storeSN,
                          @PathVariable Long optionGroupId) {
         OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, storeService.findBySerialNumber(storeSN));
-        optionAndOptionGroupService.deleteAllByOptionGroup(optionGroup);
+        optionAndOptionGroupService.deleteByOptionGroup(optionGroup);
         menuAndOptionGroupService.deleteByOptionGroup(optionGroup);
         optionGroupService.deleteByOptionGroup(optionGroup);
 

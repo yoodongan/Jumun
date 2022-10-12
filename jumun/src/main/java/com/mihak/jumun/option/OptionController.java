@@ -85,7 +85,7 @@ public class OptionController {
     @Transactional
     public String delete(@PathVariable String storeSN,
                          @PathVariable Long optionId) {
-        optionAndOptionGroupService.remove(optionId);
+        optionAndOptionGroupService.deleteByOptionId(optionId);
         optionService.deleteById(optionId);
         return "redirect:/%s/admin/store/optionList".formatted(storeSN);
     }

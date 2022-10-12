@@ -69,6 +69,6 @@ public class OptionGroupService {
     // 옵션그룹 삭제 (옵션가지고 있을 시)
     public void deleteByOptionGroup(OptionGroup optionGroup) {
         optionGroupRepository.deleteById(optionGroup.getId());
-        optionAndOptionGroupService.deleteAllByOptionGroup(optionGroup);
+        optionAndOptionGroupService.deleteByOptionGroup(optionGroup);
     }
 }
