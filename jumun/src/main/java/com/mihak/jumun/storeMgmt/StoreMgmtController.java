@@ -102,7 +102,7 @@ public class StoreMgmtController {
         /*정렬방법에 따라 SQL로 원하는 값을 가져온다.*/
         switch (orderBy) {
             case "price":
-                List<FindListFormDto> findList1 = orderService.getFindListFormDtoListByPriceDaily(storeSN);
+                List<FindListFormDto> findList1 = orderService.getFindListFormDtoListForPriceDaily(storeSN);
                 //맵으로 정렬
                 Map<String, Long> findList = orderService.calculateSumByDay(findList1);
                 //최신순 정렬
