@@ -4,7 +4,6 @@ package com.mihak.jumun.customer;
 import com.mihak.jumun.entity.Customer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 import java.time.LocalDateTime;
 
@@ -15,7 +14,7 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     /*중복검사+생성까지 여기 서비스에서 처리.*/
-    public Customer create(String nickname) {
+    public Customer save(String nickname) {
         Customer customer = new Customer();
         customer.setNickname(nickname);
         customer.setVisitedAt(LocalDateTime.now());

@@ -14,27 +14,14 @@ public class MenuAndOptionGroupService {
 
     private final MenuAndOptionGroupRepository menuAndOptionGroupRepository;
 
-    public List<MenuAndOptionGroup> getMenuAndOptionGroupByMenu(Menu menu) {
+    public List<MenuAndOptionGroup> findAllByMenu(Menu menu) {
         return menuAndOptionGroupRepository.findByMenu(menu);
     }
 
-//    public void addMenuOptionGroups(Menu menu, OptionGroup... optionGroups) {
-//        MenuAndOptionGroup menuAndOptionGroup = new MenuAndOptionGroup();
-//        for (OptionGroup optionGroup : optionGroups) {
-//            menuAndOptionGroup.addMenuAndOptionGroup(menu, optionGroup);
-//            menuAndOptionGroupRepository.save(menuAndOptionGroup);
-//        }
-//    }
-
-    public void addMenuOptionGroup(Menu menu, OptionGroup optionGroup) {
+    public void save(Menu menu, OptionGroup optionGroup) {
         MenuAndOptionGroup menuAndOptionGroup = new MenuAndOptionGroup();
         menuAndOptionGroup.addMenuAndOptionGroup(menu, optionGroup);
         menuAndOptionGroupRepository.save(menuAndOptionGroup);
-    }
-
-
-    public List<MenuAndOptionGroup> findAllByMenu(Menu menu) {
-        return menuAndOptionGroupRepository.findByMenu(menu);
     }
 
     public List<OptionGroup> getOptionGroupsByMenu(Menu menu) {
@@ -46,16 +33,15 @@ public class MenuAndOptionGroupService {
         return optionGroups;
     }
 
-    public void removeOptionGroup(Menu menu, OptionGroup optionGroup) {
+    public void deleteByMenuAndOptionGroup(Menu menu, OptionGroup optionGroup) {
         menuAndOptionGroupRepository.deleteByMenuAndOptionGroup(menu, optionGroup);
-
     }
 
-    public void removeByOptionGroup(OptionGroup optionGroup) {
+    public void deleteByOptionGroup(OptionGroup optionGroup) {
         menuAndOptionGroupRepository.deleteAllByOptionGroup(optionGroup);
     }
 
-    public void removeAllOptionGroup(Menu menu) {
+    public void deleteByMenu(Menu menu) {
         menuAndOptionGroupRepository.deleteAllByMenu(menu);
     }
 }

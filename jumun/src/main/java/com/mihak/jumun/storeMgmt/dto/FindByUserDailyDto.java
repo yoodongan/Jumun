@@ -11,19 +11,19 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FindByUserDailyDto {
     private LocalDateTime orderedAt;
-    private long userNickName;
+    private long nickname;
 
-    public FindByUserDailyDto(LocalDateTime orderedAt, long userNickName) {
+    public FindByUserDailyDto(LocalDateTime orderedAt, long nickname) {
         this.orderedAt =  orderedAt;
-        this.userNickName = userNickName;
+        this.nickname = nickname;
     }
-    public String getChangeOrderedAt(){
+    public String calculateOrderedAtDaily(){
         // 날짜포맷에서 시간초를 제외
         String orderedAtDaily = orderedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         return orderedAtDaily;
     }
-    public long getUserNickName(){
-        return userNickName;
+    public long findByNickname(){
+        return nickname;
     }
     //Unable to locate appropriate constructor on class Expected arguments are: int, long
     //오류는 타입 재정의로 해결.

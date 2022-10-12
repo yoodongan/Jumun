@@ -40,7 +40,7 @@ public class StoreMgmtController {
     }
     /*매장관리 라우팅페이지*/
     @GetMapping("/{storeSN}/admin/store/management")
-    public String mgmtHome(Model model , @PathVariable String storeSN){
+    public String showHomeMgmt(Model model , @PathVariable String storeSN){
         Store store = storeService.findBySerialNumber(storeSN);
         model.addAttribute("store", store);
         model.addAttribute("storeSN" , storeSN);
@@ -49,7 +49,7 @@ public class StoreMgmtController {
 
     /*주문내역 페이지*/
     @GetMapping("/{storeSN}/admin/store/management/order")
-    public String totalOrderList(Model model , @PathVariable String storeSN){
+    public String showTotalOrderList(Model model , @PathVariable String storeSN){
         Store store = storeService.findBySerialNumber(storeSN);
         model.addAttribute("store", store);
         model.addAttribute("storeSN" , storeSN);
@@ -62,7 +62,7 @@ public class StoreMgmtController {
 
     /*주문내역 상세 페이지*/
     @GetMapping("/{storeSN}/admin/store/management/order/{orderId}")
-    public String totalOrderDetail(Model model , @PathVariable String storeSN, @PathVariable Long orderId){
+    public String showTotalOrderDetail(Model model , @PathVariable String storeSN, @PathVariable Long orderId){
         Store store = storeService.findBySerialNumber(storeSN);
         model.addAttribute("store", store);
         model.addAttribute("storeSN" , storeSN);
@@ -74,7 +74,7 @@ public class StoreMgmtController {
 
     /*매출관리 페이지*/
     @GetMapping("/{storeSN}/admin/store/management/revenue")
-    public String totalSalesList(Model model , @PathVariable String storeSN){
+    public String showTotalSalesList(Model model , @PathVariable String storeSN){
         Store store = storeService.findBySerialNumber(storeSN);
         model.addAttribute("store", store);
         model.addAttribute("storeSN" , storeSN);
@@ -86,7 +86,7 @@ public class StoreMgmtController {
 
     /* 메뉴관리 페이지 */
     @GetMapping("/{storeSN}/admin/store/management/menu")
-    public String mgmtMenu(Model model , @PathVariable String storeSN) {
+    public String showMenuMgmt(Model model , @PathVariable String storeSN) {
         Store store = storeService.findBySerialNumber(storeSN);
         model.addAttribute("store", store);
         return "storeMgmt/mgmtMenu";
@@ -94,7 +94,7 @@ public class StoreMgmtController {
 
     /*매출관리 정렬 페이지*/
     @GetMapping("/{storeSN}/admin/store/management/revenue/{orderBy}")
-    public String totalSalesListByX(Model model , @PathVariable String storeSN, @PathVariable String orderBy){
+    public String showTotalSalesList(Model model , @PathVariable String storeSN, @PathVariable String orderBy){
         Store store = storeService.findBySerialNumber(storeSN);
         model.addAttribute("store", store);
         model.addAttribute("storeSN" , storeSN);

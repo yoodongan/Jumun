@@ -78,7 +78,7 @@ public class OrderService {
 
     public PaySuccessDto getPaySuccessDto(Order order) {
 
-        List<CartDto> orderHistory = cartService.getCartByUserNickName(order.getUserNickName(), true);
+        List<CartDto> orderHistory = cartService.getCartDtoListByNickname(order.getUserNickName(), true);
 
         return PaySuccessDto.builder()
                 .userNickName(order.getUserNickName())
@@ -116,11 +116,13 @@ public class OrderService {
     }
 
 // 같은 날짜(key)를 갖는다면 value를 합산
+
     public Map<String, Long> calculateSumByDay(List<FindListFormDto> list) {
         return list.stream().collect(Collectors.toMap(e -> e.getChangeOrderedAt(), e -> e.getTotalPrice(), Long::sum));
     }
 
     public Map<String, Long> calculateSumByUser(List<FindByUserDailyDto> list) {
         return list.stream().collect(Collectors.toMap(e -> e.getChangeOrderedAt(), e -> e.getUserNickName(), Long::sum));
+
     }
 }
