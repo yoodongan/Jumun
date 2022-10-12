@@ -27,7 +27,7 @@ public class OptionController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/option")
-    public String showCreateForm(@PathVariable String storeSN, Model model) {
+    public String showCreateForm(Model model) {
         model.addAttribute("optionForm", new OptionFormDto());
         return "option/create_option";
     }
@@ -58,7 +58,7 @@ public class OptionController {
     /* 옵션 수정 */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/option/modify/{optionId}")
-    public String showModifyForm(@PathVariable String storeSN, @PathVariable Long optionId, Model model) {
+    public String showModifyForm(@PathVariable Long optionId, Model model) {
         Option option = optionService.findById(optionId);
 
         OptionFormDto optionFormDto = optionService.getOptionFormDtoByOption(option);
