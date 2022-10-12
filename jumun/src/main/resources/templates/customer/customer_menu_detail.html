@@ -19,7 +19,7 @@
 </head>
 <body>
 <div th:replace ="customer_navbar :: customer_navbarFragment" style="background-attachment:scroll;" ></div>
-<form th:action th:object="${customerMenuForm}" method="post">
+<form th:action th:object="${menuDetailFormDto}" method="post">
     <div class="card">
         <img th:src= "*{imgUrl}" class="card-img-top border p-1" alt="card-grid-image">
         <div class="g-2">

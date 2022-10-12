@@ -30,7 +30,7 @@ public class KakaoPayController {
                                       @PathVariable Long orderId) {
 
         Order order = orderService.findOrderById(orderId);
-        cartService.changeIsOrdered(order);
+        cartService.modifyIsOrdered(order);
 
         kaKaoPayService.approveKakaoPay(pg_token, orderId);
         PaySuccessDto paySuccessDto = orderService.getPaySuccessDto(order);

@@ -24,7 +24,7 @@ public class CashPayController {
     public String showCashPayHistory(@PathVariable Long orderId, Model model) {
 
         Order order = orderService.findOrderById(orderId);
-        cartService.changeIsOrdered(order);
+        cartService.modifyIsOrdered(order);
 
         PaySuccessDto paySuccessDto = orderService.getPaySuccessDto(order);
         model.addAttribute("paySuccessDto", paySuccessDto);

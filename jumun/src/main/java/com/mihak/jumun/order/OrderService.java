@@ -6,7 +6,6 @@ import com.mihak.jumun.cart.dto.CartDto;
 import com.mihak.jumun.entity.Order;
 import com.mihak.jumun.entity.OrderStatus;
 import com.mihak.jumun.entity.PayStatus;
-import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.exception.OrderNotFoundException;
 import com.mihak.jumun.order.dto.OrderDtoFromCart;
 import com.mihak.jumun.order.dto.OrderFormDto;
@@ -16,7 +15,6 @@ import com.mihak.jumun.storeMgmt.dto.FindListFormDto;
 import com.mihak.jumun.pay.dto.PaySuccessDto;
 
 import lombok.RequiredArgsConstructor;
-import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,7 +87,7 @@ public class OrderService {
 
     public PaySuccessDto getPaySuccessDto(Order order) {
 
-        List<CartDto> orderHistory = cartService.getCartByUserNickName(order.getUserNickName(), true);
+        List<CartDto> orderHistory = cartService.getCartDtoListByNickname(order.getUserNickName(), true);
 
         return PaySuccessDto.builder()
                 .userNickName(order.getUserNickName())
@@ -128,10 +126,10 @@ public class OrderService {
 
 // 같은 날짜(key)를 갖는다면 value를 합산
     public Map<String, Long> sum(List<FindListFormDto> list) {
-        return list.stream().collect(Collectors.toMap(e -> e.getChangeOrderedAt(), e -> e.getTotalPrice(), Long::sum));
+        return list.stream().collect(Collectors.toMap(e -> e.calculateOrderedAtDaily(), e -> e.calculateTotalPrice(), Long::sum));
     }
 
     public Map<String, Long> sumByUser(List<FindByUserDailyDto> list) {
-        return list.stream().collect(Collectors.toMap(e -> e.getChangeOrderedAt(), e -> e.getUserNickName(), Long::sum));
+        return list.stream().collect(Collectors.toMap(e -> e.calculateOrderedAtDaily(), e -> e.findByNickname(), Long::sum));
     }
 }
