@@ -31,26 +31,26 @@ public class OptionGroupController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/optionGroup")
-    public String optionGroupForm(@PathVariable String storeSN, Model model) {
+    public String showCreateForm(@PathVariable String storeSN, Model model) {
         model.addAttribute("optionGroupFormDto", new OptionGroupFormDto());
         return "optionGroup/create_optionGroup";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{storeSN}/admin/store/optionGroup")
-    public String createOptionGroup(@PathVariable String storeSN, @Valid OptionGroupFormDto optionGroupFormDto, BindingResult bindingResult) {
+    public String save(@PathVariable String storeSN, @Valid OptionGroupFormDto optionGroupFormDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "optionGroup/create_optionGroup";
         }
         optionGroupFormDto.setStore(storeService.findBySerialNumber(storeSN));
-        optionGroupService.createOptionGroup(optionGroupFormDto);
+        optionGroupService.save(optionGroupFormDto);
         return "redirect:/%s/admin/store/optionGroupList".formatted(storeSN);
     }
 
     /* 옵션 그룹 관리 */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/optionGroupList")
-    public String manageOptionGroup(@PathVariable String storeSN, Model model) {
+    public String showOptionGroupList(@PathVariable String storeSN, Model model) {
         Store store = storeService.findBySerialNumber(storeSN);
         List<OptionGroup> optionGroups = optionGroupService.findAllByStore(store);
         model.addAttribute("optionGroups", optionGroups);
@@ -60,9 +60,9 @@ public class OptionGroupController {
     /* 옵션 그룹 상세 페이지 */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/optionGroupDetail/{optionGroupId}")
-    public String optionGroupDetail(@PathVariable String storeSN,
-                                    @PathVariable Long optionGroupId,
-                                    Model model) throws Exception {
+    public String showOptionGroupDetail(@PathVariable String storeSN,
+                                        @PathVariable Long optionGroupId,
+                                        Model model) throws Exception {
         Store store = storeService.findBySerialNumber(storeSN);
         OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, store);
         model.addAttribute("optionGroupName", optionGroup.getName());
@@ -81,9 +81,9 @@ public class OptionGroupController {
     // 옵션 그룹 상세페이지에서 옵션 추가하기.
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{storeSN}/admin/store/optionGroupDetail/{optionGroupId}")
-    public String addOptionToOptionGroup(@PathVariable String storeSN,
-                                    @PathVariable Long optionGroupId,
-                                    @ModelAttribute OptionGroupDetailDto optionGroupDetailDto
+    public String addOption(@PathVariable String storeSN,
+                            @PathVariable Long optionGroupId,
+                            @ModelAttribute OptionGroupDetailDto optionGroupDetailDto
                                     ) {
         Store store = storeService.findBySerialNumber(storeSN);
         OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, store);
@@ -110,10 +110,10 @@ public class OptionGroupController {
     /* 옵션 그룹 수정 */
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/optionGroup/modify/{optionGroupId}")
-    public String optionGroupModifyForm(@PathVariable String storeSN, @PathVariable Long optionGroupId, Model model) {
+    public String showModifyForm(@PathVariable String storeSN, @PathVariable Long optionGroupId, Model model) {
         Store store = storeService.findBySerialNumber(storeSN);
         OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, store);
-        OptionGroupFormDto optionGroupFormDto = optionGroupService.getOptionGroupFormDtd(optionGroup);
+        OptionGroupFormDto optionGroupFormDto = optionGroupService.getOptionGroupFormDtoByOptionGroup(optionGroup);
         model.addAttribute("optionGroupFormDto", optionGroupFormDto);
 
         return "optionGroup/optionGroup_modify";
@@ -121,15 +121,15 @@ public class OptionGroupController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{storeSN}/admin/store/optionGroup/modify/{optionGroupId}")
-    public String optionGroupModify(@PathVariable String storeSN,
-                                    @PathVariable Long optionGroupId,
-                                    @Valid OptionGroupFormDto optionGroupFormDto,
-                                    Model model,
-                                    BindingResult bindingResult) {
+    public String modify(@PathVariable String storeSN,
+                         @PathVariable Long optionGroupId,
+                         @Valid OptionGroupFormDto optionGroupFormDto,
+                         Model model,
+                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "optionGroup/optionGroup_modify";
         }
-        optionGroupService.modifyOptionGroup(optionGroupId, optionGroupFormDto);
+        optionGroupService.modify(optionGroupId, optionGroupFormDto);
 
         return "redirect:/%s/admin/store/optionGroupList".formatted(storeSN, optionGroupId);
     }
@@ -138,12 +138,12 @@ public class OptionGroupController {
     @Transactional
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/optionGroup/delete/{optionGroupId}")
-    public String deleteOptionGroup(@PathVariable String storeSN,
-                                    @PathVariable Long optionGroupId) {
+    public String delete(@PathVariable String storeSN,
+                         @PathVariable Long optionGroupId) {
         OptionGroup optionGroup = optionGroupService.findByIdAndStore(optionGroupId, storeService.findBySerialNumber(storeSN));
         optionAndOptionGroupService.deleteAllByOptionGroup(optionGroup);
         menuAndOptionGroupService.deleteByOptionGroup(optionGroup);
-        optionGroupService.removeOptionGroup(optionGroup);
+        optionGroupService.deleteByOptionGroup(optionGroup);
 
         return "redirect:/%s/admin/store/optionGroupList".formatted(storeSN, optionGroupId);
     }
