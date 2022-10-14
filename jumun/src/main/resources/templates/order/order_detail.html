@@ -20,7 +20,7 @@
             <div style="border-top-color: rgba(0,0,0,0.5); border-top: 1px solid"></div>
         </div>
 
-        <form class="detail_status" method="GET" th:action="@{|/${order.storeSerialNumber}/admin/store/order/modify/${order.id}|}">
+        <form class="detail_status" method="POST" th:action="@{|/${order.storeSerialNumber}/admin/store/order/modify/${order.id}|}">
             <div class="form-check">
                 <input class="choice" type="radio" name="orderStatus" value="BEFOREORDER"><span class="font">주문접수전</span>
                 <input class="choice" type="radio" name="orderStatus" value="ACCEPTIONORDER"><span class="font">주문접수중</span>

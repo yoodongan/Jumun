@@ -60,7 +60,7 @@ public class CustomerMenuController {
         model.addAttribute("id", id);
 
         MenuDetailFormDto menuDetailFormDto = customerMenuService.getMenuFormById(id);
-        model.addAttribute("customerMenuForm", menuDetailFormDto);
+        model.addAttribute("menuDetailFormDto", menuDetailFormDto);
 
         return "customer/customer_menu_detail";
     }
