@@ -1,4 +1,4 @@
-package com.mihak.jumun.menu.form;
+package com.mihak.jumun.menu.dto;
 import com.mihak.jumun.entity.Store;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class MenuForm {
+public class MenuFormDto {
 
     @Nullable
     private Long categoryId;

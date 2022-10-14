@@ -1,9 +1,8 @@
 package com.mihak.jumun.menu;
 
-import com.mihak.jumun.category.CategoryService;
 import com.mihak.jumun.entity.*;
 import com.mihak.jumun.gallery.S3Service;
-import com.mihak.jumun.menu.form.MenuForm;
+import com.mihak.jumun.menu.dto.MenuFormDto;
 import com.mihak.jumun.menuAndOptionGroup.MenuAndOptionGroupService;
 import com.mihak.jumun.optionGroup.OptionGroupService;
 import com.mihak.jumun.store.StoreService;
@@ -40,13 +39,13 @@ public class MenuController {
         Store store = storeService.findBySerialNumber(storeSN);
         List<Category> categoryList = scService.findAllbyStoreId(store.getId());
         model.addAttribute("categoryList", categoryList);
-        model.addAttribute("menuForm", new MenuForm());
+        model.addAttribute("menuFormDto", new MenuFormDto());
         return "menu/create_menu";
     }
     /* 메뉴 생성 */
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{storeSN}/admin/store/menu")
-    public String create(@PathVariable("storeSN") String storeSN, @Valid MenuForm menuForm, BindingResult result, MultipartFile file) throws IOException {
+    public String create(@PathVariable("storeSN") String storeSN, @Valid MenuFormDto menuForm, BindingResult result, MultipartFile file) throws IOException {
         // 메뉴명 Null 값, 가격 Null 값 예외 체크
         if (result.hasErrors()) {
             return "menu/create_menu";
@@ -139,15 +138,15 @@ public class MenuController {
 
         model.addAttribute("optionGroups", optionGroups);
         Menu findMenu = menuService.findById(menuId);
-        MenuForm menuForm = new MenuForm();
+        MenuFormDto menuFormDto = new MenuFormDto();
         Category category = findMenu.getCategory();
         Long categoryId = null;
         if(category == null) categoryId = null;
         else categoryId = category.getId();
 
-        menuForm.setMenuInfo(categoryId, findMenu.getName(), findMenu.getPrice(), findMenu.getImgUrl(), findMenu.getDescription(), findMenu.getStore());
+        menuFormDto.setMenuInfo(categoryId, findMenu.getName(), findMenu.getPrice(), findMenu.getImgUrl(), findMenu.getDescription(), findMenu.getStore());
 
-        model.addAttribute("menuForm", menuForm);
+        model.addAttribute("menuFormDto", menuFormDto);
         return "menu/modify_menu";
     }
 
@@ -155,7 +154,7 @@ public class MenuController {
     @PostMapping("/{storeSN}/admin/store/menu/modify/{menuId}")
     public String modify(@PathVariable("storeSN") String storeSN,
                          @PathVariable Long menuId,
-                         @Valid MenuForm menuForm,
+                         @Valid MenuFormDto menuformDto,
                          BindingResult result,
                          MultipartFile file) throws IOException {
         // 메뉴명 Null 값, 가격 Null 값 예외 체크
@@ -164,8 +163,8 @@ public class MenuController {
         }
         // 메뉴명 중복 체크.
         Store store = storeService.findBySerialNumber(storeSN);
-        menuForm.setStore(store);
-        boolean isMenuDuplicatedAndDifferentId = menuService.isMenuDuplicatedAndDifferentId(menuForm.getName(), menuForm.getStore(), menuId);
+        menuformDto.setStore(store);
+        boolean isMenuDuplicatedAndDifferentId = menuService.isMenuDuplicatedAndDifferentId(menuformDto.getName(), menuformDto.getStore(), menuId);
         if (isMenuDuplicatedAndDifferentId) {
             result.rejectValue("name", "duplicatedMenu", "이미 똑같은 메뉴가 있습니다.");
             return "menu/modify_menu";
@@ -176,15 +175,15 @@ public class MenuController {
             /*S3 컨트롤러 부분*/
             String imgPath = s3Service.upload(file);
             /*menuForm의 변수에 S3처리 후 리턴된 Url을 넣어주는 코드*/
-            menuForm.setImgUrl(imgPath);
+            menuformDto.setImgUrl(imgPath);
         }else if (file.isEmpty() && findMenu.getImgUrl().equals("https://jumun-bucket.s3.ap-northeast-2.amazonaws.com/readyForMenu.png") ) {
-            menuForm.setImgUrl("https://jumun-bucket.s3.ap-northeast-2.amazonaws.com/readyForMenu.png");
+            menuformDto.setImgUrl("https://jumun-bucket.s3.ap-northeast-2.amazonaws.com/readyForMenu.png");
         }else
-            menuForm.setImgUrl(findMenu.getImgUrl());
+            menuformDto.setImgUrl(findMenu.getImgUrl());
 
-        menuService.modify(menuId, menuForm);
+        menuService.modify(menuId, menuformDto);
 
-        OptionGroup optionGroup = optionGroupService.findByIdAndStore(menuForm.getOptionGroupId(), store);
+        OptionGroup optionGroup = optionGroupService.findByIdAndStore(menuformDto.getOptionGroupId(), store);
         if(!(optionGroup == null)) {
             menuAndOptionGroupService.save(menuService.findById(menuId), optionGroup);
         }

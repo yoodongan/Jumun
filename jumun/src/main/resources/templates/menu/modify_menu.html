@@ -4,7 +4,7 @@
     <div class="page-name-head">
         <h2 class="admin-page-name">메뉴 수정</h2>
     </div>
-    <form th:action th:object="${menuForm}" method="post" enctype="multipart/form-data">
+    <form th:action th:object="${menuFormDto}" method="post" enctype="multipart/form-data">
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
@@ -29,7 +29,7 @@
         <div class="mb-3 row">
             <label for="imageUrl" class="form-label admin-label-name">메뉴이미지</label>
             <input type="file" name="file" th:onclick="hiddenImg()" onchange="readURL(this);">
-            <img th:src= "@{${menuForm.imgUrl}}" class="modify-img" alt="card-grid-image" id="dis">
+            <img th:src= "@{${menuFormDto.imgUrl}}" class="modify-img" alt="card-grid-image" id="dis">
             <img id="preview" style="border:0;">
         </div>
         <script>

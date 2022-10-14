@@ -1,15 +1,14 @@
-package com.mihak.jumun.category.form;
+package com.mihak.jumun.category.dto;
 
 import com.mihak.jumun.entity.Owner;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+
 @Setter
 @Getter
-public class CategoryForm {
+public class CategoryFormDto {
 
     @NotEmpty(message = "카테고리명은 필수항목입니다.")
     private String name;

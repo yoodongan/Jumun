@@ -1,6 +1,6 @@
 package com.mihak.jumun.category;
 
-import com.mihak.jumun.category.form.CategoryForm;
+import com.mihak.jumun.category.dto.CategoryFormDto;
 import com.mihak.jumun.entity.Category;
 import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.entity.Owner;
@@ -18,9 +18,9 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final MenuRepository menuRepository;
 
-    public void save(CategoryForm categoryForm, Owner owner) {
+    public void save(CategoryFormDto categoryFormDto, Owner owner) {
         Category newCate = new Category();
-        newCate.setName(categoryForm.getName());
+        newCate.setName(categoryFormDto.getName());
         newCate.setOwner(owner);
         categoryRepository.save(newCate);
     }

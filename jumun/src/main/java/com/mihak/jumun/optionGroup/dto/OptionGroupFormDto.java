@@ -1,4 +1,4 @@
-package com.mihak.jumun.optionGroup.form;
+package com.mihak.jumun.optionGroup.dto;
 
 import com.mihak.jumun.entity.Store;
 import lombok.*;
