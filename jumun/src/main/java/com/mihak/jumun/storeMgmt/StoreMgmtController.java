@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -67,7 +66,7 @@ public class StoreMgmtController {
         model.addAttribute("store", store);
         model.addAttribute("storeSN" , storeSN);
         /*해당 id의 order 객체만을 가져옴*/
-        Order findOrder = orderService.findOrderById(orderId);
+        Order findOrder = orderService.findById(orderId);
         model.addAttribute("findOrder", findOrder);
         return "storeMgmt/orderDetail";
     }

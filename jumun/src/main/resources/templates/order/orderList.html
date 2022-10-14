@@ -8,7 +8,7 @@
         <div class="status">주문 접수 전</div>
         <div class="ad" th:each="o : ${orderList}">
             <div th:if="${o.orderStatus.toString().equals('BEFOREORDER')}" class="order_box">
-                <a class="order_font" th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><div class="h4 py-3" th:text="${o.userNickName}+'님의 주문'"></div></a>
+                <a class="order_font" th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><div class="h4 py-3" th:text="${o.userNickname}+'님의 주문'"></div></a>
             </div>
         </div>
     </div>
@@ -17,7 +17,7 @@
         <div class="status">주문 접수 중</div>
         <div class="ad" th:each="o : ${orderList}">
             <div th:if="${o.orderStatus.toString().equals('ACCEPTIONORDER')}" class="order_box">
-                <a class="order_font" th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><div class="h4 py-3" th:text="${o.userNickName}+'님의 주문'"></div></a>
+                <a class="order_font" th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><div class="h4 py-3" th:text="${o.userNickname}+'님의 주문'"></div></a>
             </div>
         </div>
     </div>
@@ -26,7 +26,7 @@
         <div class="status">조리중</div>
         <div th:each="o : ${orderList}">
             <div th:if="${o.orderStatus.toString().equals('COOKING')}" class="order_box">
-                <a class="order_font" th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><div class="h4 py-3" th:text="${o.userNickName}+'님의 주문'"></div></a>
+                <a class="order_font" th:href="@{|/${storeSN}/admin/store/order/detail/${o.id}|}"><div class="h4 py-3" th:text="${o.userNickname}+'님의 주문'"></div></a>
             </div>
         </div>
     </div>

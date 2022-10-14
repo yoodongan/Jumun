@@ -21,7 +21,7 @@ import java.util.UUID;
 
 
 @Controller
-@RequiredArgsConstructor //final을 붙인 건 자동으로 생성자 생성 >>Service
+@RequiredArgsConstructor
 @Slf4j
 public class CustomerController {
 
@@ -30,8 +30,8 @@ public class CustomerController {
 
     /*사용자에게 보여지는 첫 화면*/
     @GetMapping("/{storeSN}/customer")
-    public String showCreateForm(Model model) {
-        model.addAttribute("customerCreateForm", new CreateFormDto());
+    public String showCreateForm(Model model, @PathVariable String storeSN) {
+        model.addAttribute("createFormDto", new CreateFormDto());
         return "customer/customer_login";
     }
 
@@ -47,13 +47,10 @@ public class CustomerController {
 
         try {
             customerService.save(createFormDto.getNickname());
-        }catch(DataIntegrityViolationException e) { //이미 DB에 동일한 닉네임이 있다면 오류 발생
-            e.printStackTrace();
-            /*reject로는 먹지 않고, rejectValue에 field값을 명시해줘야 먹힌다.*/
+        }catch(DataIntegrityViolationException e) {
             bindingResult.rejectValue("nickname","signupFailed", "이미 등록된 닉네임입니다.");
             return "customer/customer_login";
         }catch(Exception e) {
-            e.printStackTrace();
             bindingResult.reject("signupFailed", e.getMessage());
             return "customer/customer_login";
         }

@@ -187,7 +187,7 @@ public class CartService {
     @Transactional
     public void modifyIsOrdered(Order order) {
 
-        String userNickName = order.getUserNickName();
+        String userNickName = order.getUserNickname();
         List<Cart> carts = cartRepository.findByUserNicknameAndIsOrdered(userNickName, false);
 
         for (Cart cart : carts) {

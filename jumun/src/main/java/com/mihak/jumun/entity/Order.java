@@ -1,6 +1,5 @@
 package com.mihak.jumun.entity;
 
-import com.mihak.jumun.order.dto.OrderFormDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,7 +35,7 @@ public class Order extends BaseEntity {
     @Lob
     private String requests;
 
-    private String userNickName;
+    private String userNickname;
     private String storeSerialNumber;
 
     public void setOrderStatus(OrderStatus orderStatus) {

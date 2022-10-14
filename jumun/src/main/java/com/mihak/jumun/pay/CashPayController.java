@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -23,7 +22,7 @@ public class CashPayController {
     @GetMapping("/cashPaySuccess/{orderId}")
     public String showCashPayHistory(@PathVariable Long orderId, Model model) {
 
-        Order order = orderService.findOrderById(orderId);
+        Order order = orderService.findById(orderId);
         cartService.modifyIsOrdered(order);
 
         PaySuccessDto paySuccessDto = orderService.getPaySuccessDto(order);
@@ -41,9 +40,9 @@ public class CashPayController {
     @GetMapping("/cashpay/status/{orderId}")
     public String getOrderStatus(@PathVariable Long orderId, Model model) {
 
-        Order order = orderService.findOrderById(orderId);
+        Order order = orderService.findById(orderId);
         model.addAttribute("orderId", order.getId());
-        model.addAttribute("userNickName", order.getUserNickName());
+        model.addAttribute("userNickName", order.getUserNickname());
         model.addAttribute("orderStatus", order.getOrderStatus());
         model.addAttribute("storeSN", order.getStoreSerialNumber());
         return "pay/orderStatusByCashPay";
