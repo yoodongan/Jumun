@@ -30,8 +30,8 @@ public class CartService {
 
 
     public Cart save(CartFormDto cartFormDto, String userNickName, Menu menu) {
-        Cart cart = Cart.builder().
-                userNickName(userNickName)
+        Cart cart = Cart.builder()
+                .userNickname(userNickName)
                 .count(cartFormDto.getCount())
                 .isOrdered(false)
                 .menu(menu)
@@ -42,7 +42,7 @@ public class CartService {
 
     public List<CartDto> getCartDtoListByNickname(String nickname, boolean isOrdered) {
 
-        List<Cart> carts = cartRepository.findByNicknameAndIsOrdered(nickname, isOrdered);
+        List<Cart> carts = cartRepository.findByUserNicknameAndIsOrdered(nickname, isOrdered);
         List<CartDto> cartDtoList = new ArrayList<>();
 
         for (Cart cart : carts) {
@@ -166,7 +166,7 @@ public class CartService {
 
     public Cart save(MenuDetailFormDto menuDetailFormDto, String userNickname, Menu menu) {
         Cart cart = Cart.builder().
-                userNickName(userNickname)
+                userNickname(userNickname)
                 .count(menuDetailFormDto.getCount())
                 .isOrdered(false)
                 .menu(menu)
@@ -177,7 +177,7 @@ public class CartService {
 
     @Transactional
     public void cancelOrder(String userNickName) {
-        List<Cart> cartList= cartRepository.findByNicknameAndIsOrdered(userNickName, true);
+        List<Cart> cartList= cartRepository.findByUserNicknameAndIsOrdered(userNickName, true);
 
         for (Cart cart : cartList) {
             cart.setOrdered(false);
@@ -188,7 +188,7 @@ public class CartService {
     public void modifyIsOrdered(Order order) {
 
         String userNickName = order.getUserNickName();
-        List<Cart> carts = cartRepository.findByNicknameAndIsOrdered(userNickName, false);
+        List<Cart> carts = cartRepository.findByUserNicknameAndIsOrdered(userNickName, false);
 
         for (Cart cart : carts) {
             cart.setOrdered(true);

@@ -1,8 +1,6 @@
 package com.mihak.jumun.order;
 
-import com.mihak.jumun.cart.CartService;
 import com.mihak.jumun.cart.dto.CartListDto;
-import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.entity.Order;
 import com.mihak.jumun.entity.OrderStatus;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,6 @@ import java.util.List;
 public class OrderManagementController {
 
     private final OrderManagementService orderManagementService;
-
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/order/list")

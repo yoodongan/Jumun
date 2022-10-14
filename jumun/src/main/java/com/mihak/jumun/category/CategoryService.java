@@ -6,6 +6,7 @@ import com.mihak.jumun.entity.Menu;
 import com.mihak.jumun.entity.Owner;
 import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.menu.MenuRepository;
+import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final MenuRepository menuRepository;
+    private final StoreService storeService;
 
     public void save(CategoryFormDto categoryFormDto, Owner owner) {
         Category newCate = new Category();
@@ -55,7 +57,7 @@ public class CategoryService {
     }
 
     public Owner getOwnerBySerialNumber(String storeSN) {
-        Store store = categoryRepository.findBySerialNumber(storeSN);
+        Store store = storeService.findBySerialNumber(storeSN);
         Owner owner = store.getOwner();
         return owner;
     }
