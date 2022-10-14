@@ -17,22 +17,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderManagementController {
 
-    private final OrderManagementService orderManagementService;
+    private final OrderService orderService;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/order/list")
     public String showOrderList(Model model , @PathVariable String storeSN){
-        model.addAttribute("storeSN" , storeSN);
-        List<Order> orderList = orderManagementService.findAllByStoreSN(storeSN);
-        model.addAttribute("orderList",orderList);
+        model.addAttribute("storeSN", storeSN);
+        List<Order> orderList = orderService.findAllOrderByStoreSN(storeSN);
+        model.addAttribute("orderList", orderList);
         return "order/orderList";
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{storeSN}/admin/store/order/detail/{orderId}")
-    public String showOrderDetail(Model model , @PathVariable String storeSN,@PathVariable Long orderId){
-        Order order = orderManagementService.findByOrderId(orderId);
-        CartListDto cartListDto = orderManagementService.getCartList(order.getUserNickName());
+    public String showOrderDetail(Model model, @PathVariable String storeSN, @PathVariable Long orderId){
+        Order order = orderService.findById(orderId);
+        CartListDto cartListDto = orderService.getCartListDto(order.getUserNickname());
         model.addAttribute("cartListDto",cartListDto);
         model.addAttribute("order" , order);
         return "order/order_detail";
@@ -40,11 +40,8 @@ public class OrderManagementController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{storeSN}/admin/store/order/modify/{orderId}")
-    public String modify(@PathVariable String storeSN,@PathVariable Long orderId
-    , OrderStatus orderStatus){
-        Order order = orderManagementService.findByOrderId(orderId);
-        order.setOrderStatus(orderStatus);
-        orderManagementService.modifyOrder(order);
+    public String modify(@PathVariable String storeSN,@PathVariable Long orderId, OrderStatus orderStatus){
+        orderService.changeOrderStatus(orderId, orderStatus);
         return "redirect:/%s/admin/store/order/list".formatted(storeSN);
     }
 
