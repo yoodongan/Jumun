@@ -6,7 +6,7 @@ import com.mihak.jumun.entity.CartAndOption;
 import com.mihak.jumun.entity.Option;
 import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.exception.OptionNotFoundException;
-import com.mihak.jumun.option.form.OptionFormDto;
+import com.mihak.jumun.option.dto.OptionFormDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

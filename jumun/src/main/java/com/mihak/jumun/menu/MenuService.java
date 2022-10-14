@@ -4,7 +4,7 @@ import com.mihak.jumun.category.CategoryRepository;
 import com.mihak.jumun.entity.*;
 import com.mihak.jumun.exception.CategoryNotFoundException;
 import com.mihak.jumun.exception.MenuNotFoundException;
-import com.mihak.jumun.menu.form.MenuForm;
+import com.mihak.jumun.menu.dto.MenuFormDto;
 import com.mihak.jumun.store.StoreService;
 import com.mihak.jumun.storeCategory.SCService;
 import lombok.RequiredArgsConstructor;
@@ -23,15 +23,15 @@ public class MenuService {
     private final SCService scService;
 
 
-    public Long save(MenuForm menuForm) {
+    public Long save(MenuFormDto menuformDto) {
         Category category = null;
-        if(menuForm.getCategoryId() == null) {
+        if(menuformDto.getCategoryId() == null) {
             category = null;
         } else {
-            Optional<Category> oCategory = categoryRepository.findById((menuForm.getCategoryId()));
+            Optional<Category> oCategory = categoryRepository.findById((menuformDto.getCategoryId()));
             category = oCategory.get();
         }
-        Menu newMenu = Menu.createMenu(menuForm.getName(), menuForm.getPrice(), menuForm.getDescription(), menuForm.getImgUrl(), category, menuForm.getStore());
+        Menu newMenu = Menu.createMenu(menuformDto.getName(), menuformDto.getPrice(), menuformDto.getDescription(), menuformDto.getImgUrl(), category, menuformDto.getStore());
         menuRepository.save(newMenu);
         return newMenu.getId();
     }
@@ -62,12 +62,12 @@ public class MenuService {
         return menuRepository.findByStore(store);
     }
 
-    public void modify(Long menuId, MenuForm menuForm) {
+    public void modify(Long menuId, MenuFormDto menuformDto) {
         Optional<Menu> oMenu = menuRepository.findById(menuId);
-        Optional<Category> oCategory = categoryRepository.findById((menuForm.getCategoryId()));
+        Optional<Category> oCategory = categoryRepository.findById((menuformDto.getCategoryId()));
         Category category = oCategory.get();
         Menu menu = oMenu.get();
-        menu.changeInfo(category, menuForm.getName(), menuForm.getPrice(), menuForm.getImgUrl(), menuForm.getDescription(), menuForm.getStore());
+        menu.changeInfo(category, menuformDto.getName(), menuformDto.getPrice(), menuformDto.getImgUrl(), menuformDto.getDescription(), menuformDto.getStore());
         menuRepository.save(menu);
     }
 

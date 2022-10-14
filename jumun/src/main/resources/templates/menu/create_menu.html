@@ -4,7 +4,7 @@
     <div class="page-name-head">
         <h2 class="admin-page-name">메뉴 추가</h2>
     </div>
-    <form th:action th:object="${menuForm}" method="post" enctype="multipart/form-data">
+    <form th:action th:object="${menuFormDto}" method="post" enctype="multipart/form-data">
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>

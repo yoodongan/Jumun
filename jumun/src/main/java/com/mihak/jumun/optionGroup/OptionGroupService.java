@@ -2,7 +2,7 @@ package com.mihak.jumun.optionGroup;
 import com.mihak.jumun.entity.*;
 import com.mihak.jumun.menuAndOptionGroup.MenuAndOptionGroupService;
 import com.mihak.jumun.optionAndOptionGroup.OptionAndOptionGroupService;
-import com.mihak.jumun.optionGroup.form.OptionGroupFormDto;
+import com.mihak.jumun.optionGroup.dto.OptionGroupFormDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

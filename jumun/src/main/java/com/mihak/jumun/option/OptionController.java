@@ -2,7 +2,7 @@ package com.mihak.jumun.option;
 
 import com.mihak.jumun.entity.Option;
 import com.mihak.jumun.entity.Store;
-import com.mihak.jumun.option.form.OptionFormDto;
+import com.mihak.jumun.option.dto.OptionFormDto;
 import com.mihak.jumun.optionAndOptionGroup.OptionAndOptionGroupService;
 import com.mihak.jumun.store.StoreService;
 import lombok.RequiredArgsConstructor;

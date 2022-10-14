@@ -1,6 +1,6 @@
 package com.mihak.jumun.category;
 
-import com.mihak.jumun.category.form.CategoryForm;
+import com.mihak.jumun.category.dto.CategoryFormDto;
 import com.mihak.jumun.entity.Owner;
 import com.mihak.jumun.entity.Store;
 import com.mihak.jumun.store.StoreService;
@@ -26,7 +26,7 @@ public class CategoryController {
 
 
     @GetMapping("{storeSN}/admin/store/category")
-    public String showCreateCategoryForm(Model model, @ModelAttribute CategoryForm categoryForm , @PathVariable String storeSN){
+    public String showCreateCategoryForm(Model model, @ModelAttribute CategoryFormDto categoryFormDto , @PathVariable String storeSN){
         Store store = storeService.findBySerialNumber(storeSN);
 
         model.addAttribute("store",store);
@@ -34,22 +34,22 @@ public class CategoryController {
     }
 
     @PostMapping("/{storeSN}/admin/store/category")
-    public String save(@Valid CategoryForm categoryForm, BindingResult bindingResult, @PathVariable String storeSN) {
+    public String save(@Valid CategoryFormDto categoryFormDto, BindingResult bindingResult, @PathVariable String storeSN) {
 
         if(bindingResult.hasErrors()){
             return "category/create_category";
         }
 
         Owner owner = categoryService.getOwnerBySerialNumber(storeSN);
-        Optional<Category> cate = categoryService.findByNameAndOwner(categoryForm.getName(),owner);
+        Optional<Category> cate = categoryService.findByNameAndOwner(categoryFormDto.getName(),owner);
 
         if(cate.isPresent()){
             //cateform은 자동으로 모델에 담김
                 bindingResult.rejectValue("name", "duplicate", "중복됨");
                 return "category/create_category";
         }
-        categoryService.save(categoryForm,owner);
-        Optional<Category> newCategory = categoryService.findByNameAndOwner(categoryForm.getName(),owner);
+        categoryService.save(categoryFormDto,owner);
+        Optional<Category> newCategory = categoryService.findByNameAndOwner(categoryFormDto.getName(),owner);
         scService.save(storeSN , newCategory.get().getId());
 
         return "redirect:/%s/admin/store/categoryList".formatted(storeSN);
@@ -68,27 +68,27 @@ public class CategoryController {
 
 
     @GetMapping("/{storeSN}/admin/store/category/modify/{id}")
-    public String showModifyCategoryForm(CategoryForm categoryForm, @PathVariable Long id,@PathVariable String storeSN){
+    public String showModifyCategoryForm(CategoryFormDto categoryFormDto, @PathVariable Long id, @PathVariable String storeSN){
         Category cate = categoryService.findById(id);
 
-        categoryForm.setName(cate.getName());
+        categoryFormDto.setName(cate.getName());
         return "category/cate_modify";
     }
 
     @PostMapping("/{storeSN}/admin/store/category/modify/{id}")
-    public String modify(@PathVariable String storeSN, @Valid CategoryForm categoryForm,BindingResult bindingResult , @PathVariable Long id) {
+    public String modify(@PathVariable String storeSN, @Valid CategoryFormDto categoryFormDto, BindingResult bindingResult , @PathVariable Long id) {
         if (bindingResult.hasErrors()) {
             return "category/cate_modify";
         }
         Owner owner = categoryService.getOwnerBySerialNumber(storeSN);
         Category beforeModifyCate = categoryService.findById(id);
-        Optional<Category> wantModifyCate = categoryService.findByNameAndOwner(categoryForm.getName(),owner);
+        Optional<Category> wantModifyCate = categoryService.findByNameAndOwner(categoryFormDto.getName(),owner);
 
         if(wantModifyCate.isPresent()){
             bindingResult.rejectValue("name", "duplicate", "중복임");
             return "category/cate_modify";
         }
-        categoryService.modifyCategory(beforeModifyCate, categoryForm.getName());
+        categoryService.modifyCategory(beforeModifyCate, categoryFormDto.getName());
         return "redirect:/%s/admin/store/categoryList".formatted(storeSN);
 
 
