@@ -3,6 +3,7 @@ package com.mihak.jumun.order;
 import com.mihak.jumun.cart.CartService;
 import com.mihak.jumun.cart.dto.CartDto;
 
+import com.mihak.jumun.cart.dto.CartListDto;
 import com.mihak.jumun.entity.Order;
 import com.mihak.jumun.entity.OrderStatus;
 import com.mihak.jumun.entity.PayStatus;
@@ -32,7 +33,7 @@ public class OrderService {
     public Order save(OrderDtoFromCart orderDtoFromCart, OrderFormDto orderFormDto) {
 
         Order order = Order.builder()
-                .userNickName(orderDtoFromCart.getUserNickName())
+                .userNickname(orderDtoFromCart.getUserNickname())
                 .storeSerialNumber(orderDtoFromCart.getStoreSerialNumber())
                 .totalPrice(orderDtoFromCart.getTotalPrice())
                 .orderType(orderDtoFromCart.getOrderType())
@@ -47,7 +48,7 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Order findOrderById(Long id) {
+    public Order findById(Long id) {
         Optional<Order> findOrder = orderRepository.findById(id);
 
         if (findOrder.isEmpty()) {
@@ -57,10 +58,13 @@ public class OrderService {
         return findOrder.get();
     }
 
+    public CartListDto getCartListDto(String userNickname) {
+        return cartService.getCartListForOrder(userNickname);
+    }
 
     @Transactional
     public void cancelOrderByPayFail(Long orderId) {
-        Order order = findOrderById(orderId);
+        Order order = findById(orderId);
 
         order.setOrderStatus(OrderStatus.CANCEL);
         order.setPayStatus(PayStatus.REFUSE);
@@ -68,20 +72,20 @@ public class OrderService {
 
     @Transactional
     public void cancelOrderByUser(Long orderId) {
-        Order order = findOrderById(orderId);
+        Order order = findById(orderId);
 
         order.setOrderStatus(OrderStatus.CANCEL);
         order.setPayStatus(PayStatus.REFUND);
 
-        cartService.cancelOrder(order.getUserNickName());
+        cartService.cancelOrder(order.getUserNickname());
     }
 
     public PaySuccessDto getPaySuccessDto(Order order) {
 
-        List<CartDto> orderHistory = cartService.getCartDtoListByNickname(order.getUserNickName(), true);
+        List<CartDto> orderHistory = cartService.getCartDtoListByNickname(order.getUserNickname(), true);
 
         return PaySuccessDto.builder()
-                .userNickName(order.getUserNickName())
+                .userNickName(order.getUserNickname())
                 .orderId(order.getId())
                 .orderHistory(orderHistory)
                 .orderStatus(order.getOrderStatus())
@@ -89,20 +93,13 @@ public class OrderService {
                 .storeSN(order.getStoreSerialNumber())
                 .build();
     }
+
+    public List<Order> findAllByStoreSN(String storeSN) {
+        return orderRepository.findAllByStoreSerialNumber(storeSN);
+    }
     
     public List<Order> findAllOrderByStoreSN(String storeSN) {
-        List<Order> li = orderRepository.findAll();
-        List<Order> findList = new ArrayList<>();
-        for (Order list : li) {
-            if (list.getStoreSerialNumber().equals(storeSN)) {
-                findList.add(list);
-            }
-        }
-            //최신순 정렬
-        Comparator<Order> comparator = Comparator.comparing(Order::getOrderedAt);
-        Collections.sort(findList, comparator.reversed());
-
-        return findList;
+        return orderRepository.findAllByStoreSerialNumberOrderByOrderedAtAsc(storeSN);
     }
 
     public List<FindListFormDto> getFindListFormDtoListForPriceDaily(String storeSN) {
@@ -124,5 +121,11 @@ public class OrderService {
     public Map<String, Long> calculateSumForUser(List<FindByUserDailyDto> list) {
         return list.stream().collect(Collectors.toMap(e -> e.calculateOrderedAtDaily(), e -> e.findByNickname(), Long::sum));
 
+    }
+
+    @Transactional
+    public void changeOrderStatus(Long orderId, OrderStatus orderStatus) {
+        Order order = findById(orderId);
+        order.setOrderStatus(orderStatus);
     }
 }

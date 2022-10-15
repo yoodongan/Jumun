@@ -29,7 +29,7 @@ public class KakaoPayController {
     public String showKakaoPayHistory(@RequestParam("pg_token") String pg_token, Model model,
                                       @PathVariable Long orderId) {
 
-        Order order = orderService.findOrderById(orderId);
+        Order order = orderService.findById(orderId);
         cartService.modifyIsOrdered(order);
 
         kaKaoPayService.approveKakaoPay(pg_token, orderId);
@@ -49,8 +49,8 @@ public class KakaoPayController {
     @GetMapping("/kakaopay/status/{orderId}")
     public String getOrderStatus(@PathVariable Long orderId, Model model) {
 
-        Order order = orderService.findOrderById(orderId);
-        model.addAttribute("userNickName", order.getUserNickName());
+        Order order = orderService.findById(orderId);
+        model.addAttribute("userNickName", order.getUserNickname());
         model.addAttribute("orderId", order.getId());
         model.addAttribute("orderStatus", order.getOrderStatus());
         model.addAttribute("storeSN", order.getStoreSerialNumber());

@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDtoFromCart implements Serializable {
-    private String userNickName;
+    private String userNickname;
     private OrderType orderType;
     private int totalPrice;
     private String storeSerialNumber;

@@ -30,7 +30,7 @@ public class OrderController {
         HttpSession session = request.getSession(true);
         String userNickname = session.getAttribute(customerKey).toString();
 
-        orderDtoFromCart.setUserNickName(userNickname);
+        orderDtoFromCart.setUserNickname(userNickname);
         orderDtoFromCart.setStoreSerialNumber(storeSN);
 
         orderDao.addOrderDtoFromCart(orderDtoFromCart, userNickname);
@@ -62,8 +62,7 @@ public class OrderController {
 
     @PostMapping("/{storeSN}/pay")
     public String doOrder(@PathVariable String storeSN, HttpServletRequest request,
-                          @CookieValue("customerLogin") String customerKey, @ModelAttribute OrderFormDto orderFormDto,
-                          Model model) {
+                          @CookieValue("customerLogin") String customerKey, @ModelAttribute OrderFormDto orderFormDto) {
 
         HttpSession session = request.getSession(true);
         String userNickname = session.getAttribute(customerKey).toString();
@@ -71,7 +70,6 @@ public class OrderController {
         OrderDtoFromCart orderDtoFromCart = orderDao.getOrderDtoFromCart(userNickname);
         Order order = orderService.save(orderDtoFromCart, orderFormDto);
 
-        // 간편 결제 호출
         if (order.getPayType().equals(PayType.KAKAOPAY)) {
             return "redirect:/kakaopay/" + order.getId();
         } else if (order.getPayType().equals(PayType.CASH)) {

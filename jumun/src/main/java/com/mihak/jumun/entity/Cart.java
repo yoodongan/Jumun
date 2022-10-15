@@ -19,7 +19,7 @@ public class Cart extends BaseEntity {
     @Column(name = "CART_ID")
     private Long id;
 
-    private String userNickName;
+    private String userNickname;
     private int count;
     private boolean isOrdered;
 

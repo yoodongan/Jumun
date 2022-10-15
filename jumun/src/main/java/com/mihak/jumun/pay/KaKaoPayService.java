@@ -40,7 +40,7 @@ public class KaKaoPayService {
 
     public String doKakaoPay(Long orderId) {
 
-        Order order = orderService.findOrderById(orderId);
+        Order order = orderService.findById(orderId);
 
         // 서버로 요청할 Header
         HttpHeaders headers = new HttpHeaders();
@@ -52,8 +52,8 @@ public class KaKaoPayService {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("cid", "TC0ONETIME");
         params.add("partner_order_id", String.valueOf(order.getId()));
-        params.add("partner_user_id", order.getUserNickName());
-        params.add("item_name", order.getUserNickName() + "님의 주문하신 음식");
+        params.add("partner_user_id", order.getUserNickname());
+        params.add("item_name", order.getUserNickname() + "님의 주문하신 음식");
         params.add("quantity", "1");
         params.add("total_amount", String.valueOf(order.getTotalPrice()));
         params.add("tax_free_amount", "0");
@@ -76,7 +76,7 @@ public class KaKaoPayService {
     @Transactional
     public KakaoPayApproval approveKakaoPay(String pg_token, Long orderId) {
 
-        Order order = orderService.findOrderById(orderId);
+        Order order = orderService.findById(orderId);
 
         // 서버로 요청할 Header
         HttpHeaders headers = new HttpHeaders();
@@ -90,7 +90,7 @@ public class KaKaoPayService {
         params.add("tid", kakaoPayResponse.getTid());
         log.info("KakaoPayApproval tid : {}", kakaoPayResponse.getTid());
         params.add("partner_order_id", String.valueOf(order.getId()));
-        params.add("partner_user_id", order.getUserNickName());
+        params.add("partner_user_id", order.getUserNickname());
         params.add("pg_token", pg_token);
         params.add("total_amount", String.valueOf(Math.round(order.getTotalPrice())));
 
@@ -111,7 +111,7 @@ public class KaKaoPayService {
 
     public KakaoPayCancel cancelKakaoPay(Long orderId) {
 
-        Order order = orderService.findOrderById(orderId);
+        Order order = orderService.findById(orderId);
 
         // 서버로 요청할 Header
         HttpHeaders headers = new HttpHeaders();

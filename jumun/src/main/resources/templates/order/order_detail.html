@@ -5,7 +5,7 @@
         <h2 class="admin-page-name">주문 내역 상세</h2>
     </div>
     <div class="order_main_box">
-        <div class="menu_number h3" th:text="${order.userNickName}+'님 주문'"></div>
+        <div class="menu_number h3" th:text="${order.getUserNickname}+'님 주문'"></div>
 
         <div th:each="cart : ${cartListDto.cartDtos}">
             <div class="my-2">
@@ -20,7 +20,7 @@
             <div style="border-top-color: rgba(0,0,0,0.5); border-top: 1px solid"></div>
         </div>
 
-        <form class="detail_status" method="GET" th:action="@{|/${order.storeSerialNumber}/admin/store/order/modify/${order.id}|}">
+        <form class="detail_status" method="POST" th:action="@{|/${order.storeSerialNumber}/admin/store/order/modify/${order.id}|}">
             <div class="form-check">
                 <input class="choice" type="radio" name="orderStatus" value="BEFOREORDER"><span class="font">주문접수전</span>
                 <input class="choice" type="radio" name="orderStatus" value="ACCEPTIONORDER"><span class="font">주문접수중</span>
