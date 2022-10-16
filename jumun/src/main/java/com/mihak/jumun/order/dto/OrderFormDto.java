@@ -1,6 +1,6 @@
 package com.mihak.jumun.order.dto;
 
-import com.mihak.jumun.entity.PayType;
+import com.mihak.jumun.pay.entity.enumuration.PayType;
 import lombok.*;
 
 @Getter

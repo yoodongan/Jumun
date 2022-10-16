@@ -1,7 +1,7 @@
 package com.mihak.jumun.customer.dto;
 
-import com.mihak.jumun.entity.Option;
-import com.mihak.jumun.entity.OptionGroup;
+import com.mihak.jumun.option.entity.Option;
+import com.mihak.jumun.optionGroup.entity.OptionGroup;
 import lombok.*;
 
 import java.util.List;
