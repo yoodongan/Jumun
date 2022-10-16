@@ -1,7 +1,7 @@
 package com.mihak.jumun.menu.controller;
 
 import com.mihak.jumun.category.entity.Category;
-import com.mihak.jumun.global.config.aws.S3Service;
+import com.mihak.jumun.global.aws.S3Service;
 import com.mihak.jumun.menu.entity.Menu;
 import com.mihak.jumun.menu.service.MenuService;
 import com.mihak.jumun.menu.dto.MenuFormDto;
@@ -18,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 
 import javax.validation.Valid;
 import java.io.IOException;
