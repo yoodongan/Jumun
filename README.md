@@ -1,3 +1,12 @@
+<div align="center">
+<img src="https://user-images.githubusercontent.com/53210680/196109460-cbe2fb60-0e15-42e3-90c9-9f79a91649a0.png" width="300"></img><br>
+QR코드로 이뤄지는 웹 간편결제<br>
+주문의 미학 (Jumunui-Miihak)<br>
+<img src="https://img.shields.io/badge/Notion-0018A8?style=flat-square&logo=Notion&logoColor=white"/>
+<img src="https://img.shields.io/badge/Retrospec-FF7200?style=flat-square&logo=dev.to&logoColor=white"/>
+<img src="https://img.shields.io/badge/Weekly-E34F26?style=flat-square&logo=dev.to&logoColor=white"/>
+</div>
+
 # Jumunui_Mihak
 아이디어 4팀, 주문의 미학
 
