@@ -1,6 +1,6 @@
 package com.mihak.jumun.order.dto;
 
-import com.mihak.jumun.entity.OrderType;
+import com.mihak.jumun.order.entity.enumuration.OrderType;
 import lombok.*;
 
 import java.io.Serializable;

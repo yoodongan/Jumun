@@ -1,7 +1,7 @@
 package com.mihak.jumun.pay.dto;
 
 import com.mihak.jumun.cart.dto.CartDto;
-import com.mihak.jumun.entity.OrderStatus;
+import com.mihak.jumun.order.entity.enumuration.OrderStatus;
 import lombok.*;
 
 import java.util.List;

@@ -1,5 +1,5 @@
 package com.mihak.jumun.menu.dto;
-import com.mihak.jumun.entity.Store;
+import com.mihak.jumun.store.entity.Store;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.lang.Nullable;

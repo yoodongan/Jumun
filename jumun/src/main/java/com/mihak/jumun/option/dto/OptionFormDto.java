@@ -1,6 +1,6 @@
 package com.mihak.jumun.option.dto;
 
-import com.mihak.jumun.entity.Store;
+import com.mihak.jumun.store.entity.Store;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;

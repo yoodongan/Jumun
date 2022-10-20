@@ -1,6 +1,6 @@
 package com.mihak.jumun.category.dto;
 
-import com.mihak.jumun.entity.Owner;
+import com.mihak.jumun.owner.entity.Owner;
 import lombok.Getter;
 import lombok.Setter;
 
