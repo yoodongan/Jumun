@@ -1,6 +1,7 @@
 package com.mihak.jumun.pay.controller;
 
 import com.mihak.jumun.cart.service.CartService;
+import com.mihak.jumun.order.dao.OrderHashMapCache;
 import com.mihak.jumun.order.entity.Order;
 import com.mihak.jumun.order.service.OrderService;
 import com.mihak.jumun.pay.service.KaKaoPayService;
@@ -19,6 +20,7 @@ public class KakaoPayController {
     private final KaKaoPayService kaKaoPayService;
     private final OrderService orderService;
     private final CartService cartService;
+    private final OrderHashMapCache orderHashMapCache;
 
     @GetMapping("/kakaopay/{orderId}")
     public String doKakaoPay(@PathVariable Long orderId) {
@@ -35,6 +37,8 @@ public class KakaoPayController {
 
         kaKaoPayService.approveKakaoPay(pg_token, orderId);
         PaySuccessDto paySuccessDto = orderService.getPaySuccessDto(order);
+        orderHashMapCache.removeOrderDtoFromCart(paySuccessDto.getUserNickName());
+
         model.addAttribute("paySuccessDto", paySuccessDto);
         return "pay/kakaoPaySuccess";
     }

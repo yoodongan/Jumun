@@ -1,10 +1,10 @@
 package com.mihak.jumun.order.controller;
 
+import com.mihak.jumun.order.dao.OrderHashMapCache;
 import com.mihak.jumun.order.entity.Order;
 import com.mihak.jumun.pay.entity.enumuration.PayType;
 import com.mihak.jumun.store.entity.Store;
 import com.mihak.jumun.order.service.OrderService;
-import com.mihak.jumun.order.dao.OrderDao;
 import com.mihak.jumun.order.dto.OrderDtoFromCart;
 import com.mihak.jumun.order.dto.OrderFormDto;
 import com.mihak.jumun.store.service.StoreService;
@@ -22,7 +22,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final StoreService storeService;
-    private final OrderDao orderDao;
+    private final OrderHashMapCache orderHashMapCache;
 
     @PostMapping("/{storeSN}/order")
     public String createOrderDtoFormCart(@PathVariable String storeSN,
@@ -34,7 +34,7 @@ public class OrderController {
         orderDtoFromCart.setUserNickname(userNickname);
         orderDtoFromCart.setStoreSerialNumber(storeSN);
 
-        orderDao.addOrderDtoFromCart(orderDtoFromCart, userNickname);
+        orderHashMapCache.putOrderDtoFromCart(orderDtoFromCart, userNickname);
         return "redirect:/" + storeSN + "/pay";
     }
 
@@ -52,7 +52,7 @@ public class OrderController {
         String userNickname = session.getAttribute(customerKey).toString();
         Store store = storeService.findBySerialNumber(storeSN);
 
-        OrderDtoFromCart dto = orderDao.getOrderDtoFromCart(userNickname);
+        OrderDtoFromCart dto = orderHashMapCache.getOrderDtoFromCart(userNickname);
 
         model.addAttribute("orderFormDto", new OrderFormDto());
         model.addAttribute("storeName", store.getName());
@@ -68,7 +68,7 @@ public class OrderController {
         HttpSession session = request.getSession(true);
         String userNickname = session.getAttribute(customerKey).toString();
 
-        OrderDtoFromCart orderDtoFromCart = orderDao.getOrderDtoFromCart(userNickname);
+        OrderDtoFromCart orderDtoFromCart = orderHashMapCache.getOrderDtoFromCart(userNickname);
         Order order = orderService.save(orderDtoFromCart, orderFormDto);
 
         if (order.getPayType().equals(PayType.KAKAOPAY)) {
