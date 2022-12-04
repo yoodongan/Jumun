@@ -2,6 +2,8 @@ plugins {
 	id 'org.springframework.boot' version '2.7.2'
 	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
 	id 'java'
+	id 'jacoco'
+	id "org.sonarqube" version "3.3"
 }
 
 group = 'com.mihak'
@@ -41,4 +43,95 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+jacoco {
+	toolVersion = '0.8.7'
+}
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		html.enabled true
+		xml.enabled true
+		csv.enabled true
+	}
+
+	def Qdomains = []
+	for (qPattern in '**/QA'..'**/QZ') {
+		Qdomains.add(qPattern + '*')
+	}
+
+	afterEvaluate {
+		classDirectories.setFrom(
+				files(classDirectories.files.collect {
+					fileTree(dir: it, excludes: [
+							'**/BlogApplication*',
+							'**/*Request*',
+							'**/*Response*',
+							'**/*Dto*',
+							'**/*OAuthClient*',
+							'**/*Interceptor*',
+							'**/*Exception*',
+							'**/*Storage*',
+							'**/*BaseDate*',
+							'**/*PageController*'
+					] + Qdomains)
+				})
+		)
+	}
+	finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+	def Qdomains = []
+	for (qPattern in '*.QA'..'*.QZ') {
+		Qdomains.add(qPattern + '*')
+	}
+
+	violationRules {
+		rule {
+			element = 'CLASS'
+			enabled = true
+
+//			limit {
+//				counter = 'LINE'
+//				value = 'COVEREDRATIO'
+//				minimum = 0.60
+//			}
+//
+//			limit {
+//				counter = 'METHOD'
+//				value = 'COVEREDRATIO'
+//				minimum = 0.60
+//			}
+
+			excludes = [
+					'**.*BlogApplication*',
+					'**.*Request*',
+					'**.*Response*',
+					'**.*Dto*',
+					'**.*OAuthClient*',
+					'**.*Interceptor*',
+					'**.*Exception*',
+					'**.*Storage*',
+					'**.*BaseDate*',
+					'**.*PageController*',
+			] + Qdomains
+		}
+	}
+}
+
+sonarqube {
+	properties {
+		property "sonar.projectName" , "jumun"
+		property "sonar.sources", "src"
+		property "sonar.language", "java"
+		property "sonar.sourceEncoding", "UTF-8"
+		property "sonar.profile", "Sonar way"
+		property "sonar.java.binaries", "${buildDir}/classes"
+		property "sonar.test.inclusions", "**/*Test.java"
+		property "sonar.exclusions", "**/resources/static/**, **/Q*.class, **/test/**"
+		property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+	}
 }
