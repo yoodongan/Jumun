@@ -1,6 +1,7 @@
 package com.mihak.jumun.pay.controller;
 
 import com.mihak.jumun.cart.service.CartService;
+import com.mihak.jumun.order.dao.OrderHashMapCache;
 import com.mihak.jumun.order.entity.Order;
 import com.mihak.jumun.order.service.OrderService;
 import com.mihak.jumun.pay.dto.PaySuccessDto;
@@ -18,6 +19,7 @@ public class CashPayController {
 
     private final OrderService orderService;
     private final CartService cartService;
+    private final OrderHashMapCache orderHashMapCache;
 
     @GetMapping("/cashPaySuccess/{orderId}")
     public String showCashPayHistory(@PathVariable Long orderId, Model model) {
@@ -26,6 +28,8 @@ public class CashPayController {
         cartService.modifyIsOrdered(order);
 
         PaySuccessDto paySuccessDto = orderService.getPaySuccessDto(order);
+
+        orderHashMapCache.removeOrderDtoFromCart(paySuccessDto.getUserNickName());
         model.addAttribute("paySuccessDto", paySuccessDto);
         return "pay/cashPaySuccess";
     }
