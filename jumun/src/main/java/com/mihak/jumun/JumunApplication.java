@@ -8,6 +8,7 @@ public class JumunApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(JumunApplication.class, args);
+		// test
 	}
 
 }
