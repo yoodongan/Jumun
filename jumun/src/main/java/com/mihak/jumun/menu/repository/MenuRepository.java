@@ -4,6 +4,8 @@ import com.mihak.jumun.category.entity.Category;
 import com.mihak.jumun.menu.entity.Menu;
 import com.mihak.jumun.store.entity.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +20,16 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 
     Optional<Menu> findByNameAndIdNot(String name, Long menuId);
 
-    List<Menu> findByCategoryId(Long categoryId);
+    @Query("select m from Menu m " +
+            "join fetch m.category c " +
+            "where m.category.id = :id"
+    )
+    List<Menu> findByCategoryId(@Param("id") Long categoryId);
 
-    List<Menu> findByCategoryAndStore(Category category, Store store);
+    @Query("select m from Menu m " +
+            "join fetch m.category c " +
+            "join fetch m.store s " +
+            "where m.store = :store and m.category = :category"
+    )
+    List<Menu> findByCategoryAndStore(@Param("category") Category category, @Param("store") Store store);
 }
