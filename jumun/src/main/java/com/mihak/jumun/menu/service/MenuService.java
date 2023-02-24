@@ -60,8 +60,7 @@ public class MenuService {
     }
 
 
-    public List<Menu> findAllByStore(String storeSN) {
-        Store store = storeService.findBySerialNumber(storeSN);
+    public List<Menu> findAllByStore(Store store) {
         return menuRepository.findByStore(store);
     }
 
