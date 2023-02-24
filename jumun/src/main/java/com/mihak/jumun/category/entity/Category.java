@@ -1,5 +1,6 @@
 package com.mihak.jumun.category.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mihak.jumun.global.domain.BaseEntity;
 import com.mihak.jumun.owner.entity.Owner;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class Category extends BaseEntity {
     @Column
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Owner owner;
 }
