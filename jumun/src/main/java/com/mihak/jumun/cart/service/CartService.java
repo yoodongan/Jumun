@@ -134,9 +134,7 @@ public class CartService {
         for (CartDto cartDto : cartDtos) {
             int price = cartDto.getMenu().getPrice();
 
-            for (Option option : cartDto.getOptions()) {
-                price += option.getPrice();
-            }
+            price += cartDto.getOptions().stream().mapToInt(Option::getPrice).sum();
             totalPrice += (price * cartDto.getCount());
         }
         return totalPrice;
@@ -147,9 +145,7 @@ public class CartService {
         int price = cart.getMenu().getPrice();
         // 장바구니_옵션 테이블에서 장바구니를 통해 옵션정보들을 가져온다.
         List<CartAndOption> cartAndOptions = cartAndOptionService.findAllCartAndOptionsByCart(cart);
-        for (CartAndOption cartAndOption : cartAndOptions) {
-            price += cartAndOption.getOptions().getPrice();
-        }
+        price += cartAndOptions.stream().mapToInt(co -> co.getOptions().getPrice()).sum();
         menuTotalPrice += price;
         return menuTotalPrice;
     }
@@ -184,9 +180,7 @@ public class CartService {
     public void cancelOrder(String userNickName) {
         List<Cart> cartList= cartRepository.findByUserNicknameAndIsOrdered(userNickName, true);
 
-        for (Cart cart : cartList) {
-            cart.setOrdered(false);
-        }
+        cartList.forEach(cart -> cart.setOrdered(false));
     }
 
     @Transactional
@@ -195,8 +189,6 @@ public class CartService {
         String userNickName = order.getUserNickname();
         List<Cart> carts = cartRepository.findByUserNicknameAndIsOrdered(userNickName, false);
 
-        for (Cart cart : carts) {
-            cart.setOrdered(true);
-        }
+        carts.forEach(cart -> cart.setOrdered(true));
     }
 }

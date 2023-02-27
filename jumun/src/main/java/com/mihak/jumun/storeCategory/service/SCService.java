@@ -1,17 +1,17 @@
 package com.mihak.jumun.storeCategory.service;
 
-import com.mihak.jumun.category.service.CategoryService;
 import com.mihak.jumun.category.entity.Category;
+import com.mihak.jumun.category.service.CategoryService;
 import com.mihak.jumun.store.entity.Store;
-import com.mihak.jumun.storeCategory.entity.StoreAndCategory;
 import com.mihak.jumun.store.service.StoreService;
+import com.mihak.jumun.storeCategory.entity.StoreAndCategory;
 import com.mihak.jumun.storeCategory.repository.SCRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,12 +35,10 @@ public class SCService {
     public List<Category> findAllbyStoreId(Long id) {
         List<StoreAndCategory> li = scRepository.findAll();
 
-        List<Category> cList = new ArrayList<>();
-        for (StoreAndCategory sc : li) {
-            if (sc.getStore().getId() == id) {
-                cList.add(sc.getCategory());
-            }
-        }
+        List<Category> cList = li.stream()
+                .filter(sc -> sc.getStore().getId() == id)
+                .map(StoreAndCategory::getCategory)
+                .collect(Collectors.toList());
         return cList;
     }
 

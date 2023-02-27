@@ -1,20 +1,21 @@
 package com.mihak.jumun.optionAndOptionGroup.service;
 
 import com.mihak.jumun.option.entity.Option;
-import com.mihak.jumun.optionAndOptionGroup.entity.OptionAndOptionGroup;
-import com.mihak.jumun.optionGroup.entity.OptionGroup;
 import com.mihak.jumun.option.service.OptionService;
+import com.mihak.jumun.optionAndOptionGroup.entity.OptionAndOptionGroup;
 import com.mihak.jumun.optionAndOptionGroup.repository.OptionAndOptionGroupRepository;
+import com.mihak.jumun.optionGroup.entity.OptionGroup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class OptionAndOptionGroupService {
     private final OptionAndOptionGroupRepository optionAndOptionGroupRepository;
     private final OptionService optionService;
@@ -32,10 +33,9 @@ public class OptionAndOptionGroupService {
 
     public List<Option> getOptionsByOptionGroup(OptionGroup optionGroup) {
         List<OptionAndOptionGroup> allByOptionGroup = optionAndOptionGroupRepository.findAllByOptionGroup(optionGroup);
-        List<Option> options = new ArrayList<>();
-        for(OptionAndOptionGroup optionAndOptionGroup : allByOptionGroup) {
-            options.add(optionAndOptionGroup.getOption());
-        }
+        List<Option> options = allByOptionGroup.stream()
+                .map(OptionAndOptionGroup::getOption)
+                .collect(Collectors.toList());
         return options;
     }
 
@@ -51,5 +51,14 @@ public class OptionAndOptionGroupService {
 
     public void deleteByOption(Option option) {
         optionAndOptionGroupRepository.deleteAllByOption(option);
+    }
+
+    public List<OptionAndOptionGroup> findAll() {
+        List<OptionAndOptionGroup> all = optionAndOptionGroupRepository.findAll();
+        all.stream().forEach(oog -> {
+            oog.getOptionGroup().getName();
+            oog.getOptionGroup().getName();
+        });
+        return all;
     }
 }

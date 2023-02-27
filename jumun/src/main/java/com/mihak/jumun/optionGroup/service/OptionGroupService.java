@@ -1,4 +1,5 @@
 package com.mihak.jumun.optionGroup.service;
+
 import com.mihak.jumun.menu.entity.Menu;
 import com.mihak.jumun.menuAndOptionGroup.entity.MenuAndOptionGroup;
 import com.mihak.jumun.menuAndOptionGroup.service.MenuAndOptionGroupService;
@@ -10,9 +11,9 @@ import com.mihak.jumun.store.entity.Store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,12 +24,10 @@ public class OptionGroupService {
 
     public List<OptionGroup> getOptionGroupsByMenu(Menu menu) {
         List<MenuAndOptionGroup> menuAndOptionGroupByMenu = menuAndOptionGroupService.findAllByMenu(menu);
-        List<OptionGroup> optionGroups = new ArrayList<>();
+        List<OptionGroup> optionGroups = menuAndOptionGroupByMenu.stream()
+                .map(MenuAndOptionGroup::getOptionGroup)
+                .collect(Collectors.toList());
 
-        for (MenuAndOptionGroup menuAndOptionGroup : menuAndOptionGroupByMenu) {
-            OptionGroup optionGroup = menuAndOptionGroup.getOptionGroup();
-            optionGroups.add(optionGroup);
-        }
         return optionGroups;
 
     }

@@ -47,9 +47,7 @@ public class CategoryService {
 
     public void deleteById(Long id) {
         List<Menu> menuList = menuRepository.findByCategoryId(id);
-        for (Menu menu : menuList) {
-            menu.setCategory(null);
-        }
+        menuList.forEach(menu -> menu.setCategory(null));
         categoryRepository.deleteById(id);
     }
 
