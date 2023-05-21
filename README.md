@@ -76,6 +76,8 @@ Feat : 관신지역 알림 ON/OFF 기능 추가(#1)
 ## [ 아키텍처 ]
 <img width="1151" alt="image" src="https://user-images.githubusercontent.com/90627763/224014280-7adfc47c-4348-4ae7-bd84-18bca53e0534.png">
 
+- 기존에는 Redis 를 통해 주문 정보들을 pay 계층에 넘겨주는 방식으로 구성했지만, 카트(장바구니)에 담긴 주문 정보들은 일시적으로만 사용하기 때문에, HashMap 을 통한 구현이 훨씬 간단하고 효율적이라 판단해 Redis를 제거했다.
+
 
 ## [ 고민 사항 && 트러블 슈팅 ]
 ### 유저를 식별할 수 있는 방법에 대한 고민
