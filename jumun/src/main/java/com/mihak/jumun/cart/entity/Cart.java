@@ -30,6 +30,7 @@ public class Cart extends BaseEntity {
     @JoinColumn(name = "MENU_ID")
     private Menu menu;
 
+    @Builder.Default
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartAndOption> cartAndOptions = new ArrayList<>();
 

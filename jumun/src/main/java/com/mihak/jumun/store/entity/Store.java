@@ -33,6 +33,7 @@ public class Store {
     private Owner owner;
 
     // 새롭게 추가한 내용.
+    @Builder.Default
     @OneToMany(mappedBy = "store")     // 음식점 url 식별번호로 해당 음식점 메뉴들을 조회할 수 있다.
     private List<Menu> menus = new ArrayList<>();
 

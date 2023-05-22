@@ -29,6 +29,7 @@ public class OptionGroup {
     @JoinColumn(name = "STORE_ID")
     private Store store;
 
+    @Builder.Default
     @OneToMany(mappedBy = "optionGroup", cascade = CascadeType.ALL)
     private List<OptionAndOptionGroup> optionAndOptionGroups = new ArrayList<>();
 
